@@ -1,0 +1,86 @@
+/* ===== RESET & ROOT ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+:root{
+  --sidebar-width:80px;
+  --sidebar-width-expanded:220px;
+  --navbar-height:60px;
+  --toggle-size:28px;
+  --blue:#00008B;
+}
+body{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(255,255,0,.07), transparent 60%),
+    radial-gradient(900px 500px at 120% 10%, rgba(30,144,255,.06), transparent 55%),
+    #f9fafb;
+  color:#111;
+}
+
+/* ===== PAGE WRAPPER ===== */
+.content-wrapper{margin-left:var(--sidebar-width);padding:0 1rem 1.25rem 1rem;padding-top:var(--navbar-height);transition:margin-left .25s ease}
+body.sidebar-expanded{--sidebar-width:var(--sidebar-width-expanded)}
+body.sidebar-expanded .pill-nav{left:var(--sidebar-width);width:calc(100% - var(--sidebar-width))}
+body.sidebar-expanded .content-wrapper{margin-left:var(--sidebar-width)}
+
+/* ===== Requests hero (same grid as directory hero, but without chips) ===== */
+.requests-hero{
+  display:grid;grid-template-columns:1.2fr .8fr;gap:1rem;
+  background:#fff;border-radius:12px;padding:1.25rem;margin:1rem 0;
+  box-shadow:0 8px 20px rgba(10,42,139,.06);
+  align-items:end; /* bottom-align both sides */
+}
+.requests-hero h1{font-size:1.6rem;margin-bottom:.25rem}
+.requests-hero p{color:#4b5563;margin-bottom:.75rem}
+.requests-hero__right{display:flex;flex-direction:column;justify-content:flex-end}
+
+/* Search (keeps original size) */
+.search-bar{display:grid;grid-template-columns:1fr auto;gap:.5rem}
+.search-bar input{border:1px solid #e5e7eb;border-radius:10px;padding:.6rem .8rem;font-size:.95rem}
+.search-bar button{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;padding:.6rem .9rem;font-weight:600;cursor:pointer}
+
+/* ===== Applications table ===== */
+.applications-table-container{
+  background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;
+  box-shadow:0 8px 20px rgba(10,42,139,.06)
+}
+.app-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:10px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb}
+.app-tab{padding:10px 14px;border:none;border-radius:999px;background:#f3f4f6;color:#111;cursor:pointer;font-weight:700}
+.app-tab:hover{background:#eef2ff;color:#00008B}
+.app-tab.active{background:#e0e7ff;color:#00008B}
+
+.applications-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.applications-table thead th{background:#f8fafc;color:#111;text-align:left;padding:12px;font-size:.92rem;font-weight:700}
+.applications-table tbody td{padding:12px;border-top:1px solid #e5e7eb;vertical-align:middle;font-size:.95rem}
+.applications-table tbody tr:hover{background:#fafafa}
+
+/* Status pills */
+.status{display:inline-block;padding:.28em .65em;border-radius:999px;font-size:.85em;font-weight:700}
+.status-approved{background:#d4edda;color:#155724}
+.status-rejected{background:#ffe7e7;color:#dc3545}
+.status-pending {background:#fff9db;color:#8a6d3b}
+
+/* Actions */
+.action{padding:.38rem .7rem;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:.85rem}
+.action-approve{background:#d4edda;color:#155724}
+.action-reject {background:#ffe7e7;color:#dc3545}
+.action-revoke {background:#e5e7eb;color:#374151}
+.action:not(:last-child){margin-right:6px}
+
+/* Logout modal */
+#logoutConfirmOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);justify-content:center;align-items:center;z-index:2000}
+#logoutConfirmOverlay.active{display:flex}
+#logoutConfirmOverlay .modal-box{background:#fff;padding:1.25rem 1.5rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.20);width:92%;max-width:360px;text-align:center}
+#logoutConfirmOverlay h4{font-size:1.15rem;margin-bottom:1rem}
+#logoutConfirmOverlay .btns{display:flex;gap:.6rem;justify-content:center}
+#logoutConfirmOverlay .btn-no,#logoutConfirmOverlay .btn-yes{min-width:92px;padding:.6rem 1rem;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+#logoutConfirmOverlay .btn-no{background:#e5e7eb;color:#111}
+#logoutConfirmOverlay .btn-yes{background:#d9534f;color:#fff}
+
+/* Responsive */
+@media (max-width:1024px){
+  .requests-hero{grid-template-columns:1fr}
+  .search-bar{grid-template-columns:1fr}
+  .search-bar button{width:100%}
+}
+

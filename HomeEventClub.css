@@ -1,0 +1,439 @@
+/* ── RESET & BASE ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── LEFT SIDEBAR ── */
+.side-nav {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  background: #00008B;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 2rem;
+  z-index: 1000;
+}
+.side-nav__btn {
+  width: 48px;
+  height: 48px;
+  background: #FF0;
+  border: none;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+.side-nav__btn:hover {
+  transform: scale(1.05);
+}
+.side-nav__logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #FF0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ── PUSH CONTENT RIGHT OF SIDEBAR ── */
+.content-wrapper {
+  margin-left: 80px;   /* same width as .side-nav */
+  padding: 1rem;
+}
+
+/* ── PILL NAVBAR ── */
+.pill-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 2rem 0;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.pill-nav__links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 1.5rem;
+  flex: 1;           /* pushes icons to the right */
+}
+.pill-nav__item a {
+  text-decoration: none;
+  color: #000;
+  font-size: 1rem;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.pill-nav__arrow {
+  font-size: 0.7rem;
+  line-height: 1;
+}
+.pill-nav__icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.pill-nav__icon-btn {
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: #000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.pill-nav__icon-btn:hover {
+  opacity: 0.7;
+}
+/* ── EVENLY DISTRIBUTE THE LINKS ── */
+.pill-nav__links {
+  /* make the links container fill all the room between logo & icons */
+  flex: 1;
+
+  /* turn off any fixed gap… */
+  gap: 0;
+
+  /* …and spread its items evenly */
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.toggle-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
+  border-radius: 12px;
+  background: #f4f4f4;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.toggle-btn.active {
+  background: #ff0;
+  color: #000;
+}
+
+/* ── Latest Clubs News ── */
+.news-section {
+  padding: 1rem 0;
+}
+
+.news-section__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── TOGGLE TABS ── */
+.toggle-tabs {
+  margin: 1.5rem 0;
+  display: flex;
+  gap: 0.5rem;
+}
+.toggle-btn {
+  padding: 0.75rem 1.5rem;
+  background: #f4f4f4;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.toggle-btn.active {
+  background: #FF0;
+  color: #000;
+  font-weight: 600;
+}
+
+/* ── EVENTS HEADER ── */
+.events-header {
+  background: #232C7E;
+  color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.events-header h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.events-header p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* ── UPCOMING TITLE ── */
+.upcoming-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* ── GRID LAYOUT ── */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* ── EVENT CARD ── */
+.event-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* placeholder image area */
+.event-image {
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 aspect */
+  background: #1E90FF; /* blue placeholder */
+}
+
+/* date badge */
+.date-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #fff;
+  color: #232C7E;
+  padding: 0.5rem;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.date-badge strong {
+  display: block;
+  font-size: 1.25rem;
+}
+
+/* time & location meta */
+.event-meta {
+  padding: 0.75rem 1rem 0;
+  font-size: 0.9rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dot {
+  margin: 0 0.5rem;
+}
+
+/* title & description */
+.event-title {
+  margin: 0.5rem 1rem;
+  font-size: 1.1rem;
+  color: #232C7E;
+}
+.event-desc {
+  flex: 1;
+  margin: 0 1rem 1rem;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* club tag */
+.event-tag {
+  display: inline-block;
+  background: #2146C7;
+  color: #fff;
+  margin: 0 1rem 1rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+
+
+/*replace when adding a photo 
+.news-card__photo {
+  background: url('path/to/your.jpg') center/cover no-repeat;
+  padding-top: 56.25%;
+}
+
+*/
+
+/* ── DROPDOWN UNDER “Home” (fixed) ── */
+.pill-nav .dropdown {
+  position: relative;
+}
+
+.pill-nav .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;        /* sit flush below the pill */
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  list-style: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 160px;
+  z-index: 500;
+  /* margin-top removed! */
+}
+
+.pill-nav .dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #000;
+  font-size: 0.95rem;
+}
+.pill-nav .dropdown-menu li a:hover {
+  background: #f4f4f4;
+}
+
+/* show on hover of either toggle or the menu itself */
+.pill-nav .dropdown:hover .dropdown-menu,
+.pill-nav .dropdown .dropdown-menu:hover {
+  display: block;
+}
+
+/* optional arrow flip */
+.pill-nav .dropdown:hover .pill-nav__arrow {
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+
+/* ── LOGOUT CONFIRM MODAL ── */
+#logoutConfirmOverlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+#logoutConfirmOverlay.active {
+  display: flex;
+}
+#logoutConfirmOverlay .modal-box {
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+}
+#logoutConfirmOverlay .modal-box h4 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+#logoutConfirmOverlay .modal-box .btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+#logoutConfirmOverlay .modal-box button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+#logoutConfirmOverlay .modal-box .btn-no {
+  background: #ccc;
+  color: #333;
+}
+#logoutConfirmOverlay .modal-box .btn-yes {
+  background: #d9534f;
+  color: #fff;
+}
+
+/* ── TWEAKED LOGOUT CONFIRM STYLING ── */
+#logoutConfirmOverlay .modal-box {
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  transform: translateY(-10px);
+  transition: transform 0.2s ease;
+}
+#logoutConfirmOverlay.active .modal-box {
+  transform: translateY(0);
+}
+
+#logoutConfirmOverlay .modal-box h4 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+}
+
+#logoutConfirmOverlay .modal-box .btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+#logoutConfirmOverlay .modal-box .btn-no,
+#logoutConfirmOverlay .modal-box .btn-yes {
+  min-width: 80px;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+#logoutConfirmOverlay .modal-box .btn-no {
+  background: #e0e0e0;
+  color: #333;
+}
+#logoutConfirmOverlay .modal-box .btn-no:hover {
+  background: #d1d1d1;
+  transform: translateY(-1px);
+}
+
+#logoutConfirmOverlay .modal-box .btn-yes {
+  background: #d9534f;
+  color: #fff;
+}
+#logoutConfirmOverlay .modal-box .btn-yes:hover {
+  background: #c9302c;
+  transform: translateY(-1px);
+}
+
+/* slightly darken the overlay */
+#logoutConfirmOverlay {
+  background: rgba(0,0,0,0.45);
+}

@@ -1,0 +1,1203 @@
+  /* RESET & ROOT */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  :root{
+    --sidebar-width:80px;
+    --sidebar-width-expanded:220px;
+    --navbar-height:60px;
+    --toggle-size:28px;
+    --blue:#00008B;
+  }
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 20% -10%, rgba(255,255,0,.07), transparent 60%),
+      radial-gradient(900px 500px at 120% 10%, rgba(30,144,255,.06), transparent 55%),
+      #f9fafb;
+    color:#111;
+  }
+
+
+  /* PAGE WRAPPER */
+  .content-wrapper{margin-left:var(--sidebar-width);padding:0 1rem 1.25rem 1rem;padding-top:var(--navbar-height);transition:margin-left .25s ease}
+  body.sidebar-expanded{--sidebar-width:var(--sidebar-width-expanded)}
+  body.sidebar-expanded .pill-nav{left:var(--sidebar-width);width:calc(100% - var(--sidebar-width))}
+  body.sidebar-expanded .content-wrapper{margin-left:var(--sidebar-width)}
+
+  /* DIRECTORY HEADER */
+  .directory-hero{display:grid;grid-template-columns:1.2fr .8fr;gap:1rem;background:#fff;border-radius:12px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 8px 20px rgba(10,42,139,.06)}
+  .directory-hero h1{font-size:1.6rem;margin-bottom:.25rem}
+  .directory-hero p{color:#4b5563;margin-bottom:.75rem}
+  .metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+  .metric{background:#eef2fc;border-radius:10px;padding:.8rem .9rem;text-align:center}
+  .metric-label{font-size:.85rem;color:#6b7280;margin-bottom:.25rem}
+  .metric-value{font-weight:700;font-size:1.35rem;color:var(--blue)}
+  .directory-hero__right{display:flex;flex-direction:column;gap:.6rem;justify-content:center}
+  .search-bar{display:grid;grid-template-columns:1fr auto;gap:.5rem}
+  .search-bar input{border:1px solid #e5e7eb;border-radius:10px;padding:.6rem .8rem;font-size:.95rem}
+  .search-bar button{border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:10px;padding:.6rem .9rem;font-weight:600;cursor:pointer}
+  .quick-filters{display:flex;flex-wrap:wrap;gap:.4rem}
+  .chip{border:1px solid #e5e7eb;background:#fff;color:#111;border-radius:999px;padding:.35rem .7rem;cursor:pointer;font-weight:600;font-size:.85rem}
+  .chip.active{background:#111;color:#fff}
+
+  /* CARDS GRID (uniform thumbnails) */
+  .clubs-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+  .club-card{display:grid;gap:.75rem;grid-template-rows:auto auto auto 1fr auto;background:#fff;border:1px solid #eef2fc;border-radius:12px;padding:1rem;box-shadow:0 8px 20px rgba(10,42,139,.06);transition:transform .12s ease,box-shadow .12s ease}
+  .club-card:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(10,42,139,.10)}
+  .club-tag{display:inline-block;align-self:start;background:#eef2fc;color:var(--blue);border-radius:999px;padding:.3rem .6rem;font-size:.78rem;font-weight:700}
+  .club-head{display:flex;align-items:center;gap:.75rem}
+  .club-logo{
+    width:64px;height:64px;            /* uniform */
+    border-radius:10px;
+    background:#dbeafe center/cover no-repeat;
+    object-fit:cover;object-position:center; /* for <img>, if used */
+    flex-shrink:0;
+  }
+  .club-name{font-size:1.1rem;font-weight:700;color:#111}
+  .club-info{display:grid;gap:.35rem;color:#374151;font-size:.93rem}
+  .club-info strong{font-weight:700;color:#111}
+  .card-actions{display:flex;justify-content:flex-end}
+  .club-btn{background:var(--blue);color:#fff;border:1px solid var(--blue);padding:.5rem .9rem;border-radius:10px;cursor:pointer;font-weight:700}
+  .club-btn:hover{filter:brightness(.95)}
+
+  /* LOGOUT MODAL */
+  #logoutConfirmOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);justify-content:center;align-items:center;z-index:2000}
+  #logoutConfirmOverlay.active{display:flex}
+  #logoutConfirmOverlay .modal-box{background:#fff;padding:1.25rem 1.5rem;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.20);width:92%;max-width:360px;text-align:center}
+  #logoutConfirmOverlay .modal-icon{margin-bottom:.5rem}
+  #logoutConfirmOverlay h4{font-size:1.15rem;margin-bottom:1rem}
+  #logoutConfirmOverlay .btns{display:flex;gap:.6rem;justify-content:center}
+  #logoutConfirmOverlay .btn-no,#logoutConfirmOverlay .btn-yes{min-width:92px;padding:.6rem 1rem;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+  #logoutConfirmOverlay .btn-no{background:#e5e7eb;color:#111}
+  #logoutConfirmOverlay .btn-yes{background:#d9534f;color:#fff}
+
+  /* CLUB VIEW MODAL */
+  .modal-overlay#clubViewModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:3000}
+  .modal-overlay#clubViewModal.active{display:flex;align-items:center;justify-content:center}
+  .club-view-modal{display:flex;flex-direction:column;width:min(100vw - 24px, 980px);max-height:92vh;background:#fff;border-radius:12px;box-shadow:0 10px 24px rgba(0,0,0,.2);overflow:hidden}
+  .cvm-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e5e7eb}
+  .cvm-header h2{font-size:1.05rem;font-weight:600}
+  .cvm-header .close-btn{border:none;background:#f3f4f6;width:34px;height:34px;border-radius:8px;cursor:pointer;font-size:18px}
+  .cvm-header .close-btn:hover{background:#e5e7eb}
+
+  /* LAYOUT: Left = profile + adviser; Right = description fills column */
+  .cvm-content{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    padding:12px 16px 4px 16px;
+    align-items:start;
+    overflow:auto; /* allow vertical scroll if content is long */
+  }
+
+  /* LEFT column stack */
+  .cvm-left{display:grid;grid-template-rows:auto auto;gap:12px;align-content:start}
+  .cvm-cover{position:relative;background:#dbeafe center/cover no-repeat;width:100%;aspect-ratio:16/6;border-radius:10px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+  .edit-badge{position:absolute;right:10px;top:10px;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;border:none;background:rgba(255,255,255,.95);color:#111;box-shadow:0 4px 12px rgba(0,0,0,.12);opacity:0;transform:translateY(-2px);transition:opacity .15s ease,transform .15s ease;cursor:pointer}
+  .cvm-cover:hover .edit-badge{opacity:1;transform:none}
+  /* Show edit badges reliably (mobile has no :hover) and keep above scrim */
+@media (hover: none){
+  .club-view-modal .edit-badge{ opacity:1; }
+}
+.club-view-modal .cvm-cover .edit-badge{ z-index:2; }
+
+  .cvm-avatar{position:relative;width:76px;height:76px;border-radius:50%;background:#c7d2fe center/cover no-repeat;border:4px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+  .cvm-avatar .edit-badge{right:-6px;bottom:-6px;top:auto}
+  .cvm-avatar:hover .edit-badge{opacity:1;transform:none}
+  .cvm-avatar-wrap{display:flex;align-items:center;gap:12px;position:absolute;left:12px;bottom:12px}
+  .cvm-clubname{font-weight:700;font-size:1rem;color:#111;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+
+  /* Adviser card (now under profile) */
+  .cvm-card{width:100%;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;background:#fff}
+  .cvm-card-head{background:#f9fafb;font-weight:700;padding:10px 12px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between}
+  .icon-btn{border:none;background:#f3f4f6;border-radius:8px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+  .icon-btn:hover{background:#e5e7eb}
+  .cvm-adviser{display:flex;align-items:center;gap:12px;padding:12px}
+  .cvm-adviser-avatar{width:56px;height:56px;border-radius:50%;background:#e5e7eb center/cover no-repeat;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+  .cvm-adviser-name{font-weight:600}
+  .cvm-adviser-email{color:#6b7280;font-size:.9rem}
+
+  /* RIGHT column = description card fills column; long text handled nicely */
+  .cvm-right{display:block;min-height:100%}
+  .cvm-desc-body{padding:12px;max-height:calc(92vh - 240px);overflow:auto}
+  .cvm-desc-text{white-space:pre-wrap;line-height:1.6;color:#111}
+  .cvm-desc-editing textarea{width:100%;resize:vertical;border:1px solid #e5e7eb;border-radius:10px;padding:.6rem .75rem;font-size:.95rem;margin:0 0 .6rem}
+  .cvm-desc-actions{display:flex;gap:.6rem;justify-content:flex-end}
+
+  /* MEMBERS (unchanged) */
+  .cvm-members-card{display:flex;flex-direction:column;gap:0;margin:8px 16px 12px 16px;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;background:#fff;min-height:260px}
+  .cvm-members-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb}
+  .cvm-members-title{font-weight:700;font-size:.98rem;color:#111}
+  .cvm-head-controls{display:flex;align-items:center;gap:10px}
+  .cvm-search{display:flex;align-items:center;gap:8px}
+  .cvm-search input{width:260px;border:1px solid #e5e7eb;border-radius:10px;padding:.5rem .65rem}
+  .cvm-search button,#cvm-add-btn{border:1px solid #0a2a8b;background:#0a2a8b;color:#fff;border-radius:10px;padding:.48rem .75rem;font-weight:600;cursor:pointer}
+  .cvm-search button:hover,#cvm-add-btn:hover{filter:brightness(.95)}
+  .cvm-add-wrap{position:relative}
+  .cvm-add-pop{position:absolute;right:0;top:calc(100% + 8px);width:320px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 14px 28px rgba(0,0,0,.12);padding:10px;z-index:10}
+  .cvm-pop-row input{width:100%;border:1px solid #e5e7eb;border-radius:10px;padding:.5rem .65rem}
+  .cvm-pop-results{margin-top:8px;max-height:220px;overflow:auto;border:1px solid #f1f5f9;border-radius:10px}
+  .cvm-pop-item{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid #f1f5f9}
+  .cvm-pop-item:last-child{border-bottom:none}
+  .cvm-pop-item .meta{font-size:.92rem}
+  .cvm-pop-item .meta .id{color:#6b7280;font-size:.85rem}
+  .cvm-pop-item button{border:1px solid #0a2a8b;background:#0a2a8b;color:#fff;border-radius:8px;padding:.35rem .6rem;cursor:pointer;font-weight:600}
+  .cvm-pop-actions{display:flex;justify-content:flex-end;margin-top:8px}
+  .cvm-pop-actions .btn-secondary{border:1px solid #e5e7eb;background:#f3f4f6;border-radius:10px;padding:.45rem .7rem}
+
+  .cvm-table-wrap{padding:10px 12px;overflow:auto;flex:1}
+  .cvm-table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;min-width:620px}
+  .cvm-table thead th{background:#f9fafb;border-bottom:1px solid #e5e7eb;text-align:left;padding:10px 12px;font-weight:600}
+  .cvm-table tbody td{padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .cvm-table tbody tr:last-child td{border-bottom:none}
+  .cvm-table .btn-remove{border:1px solid #d9534f;background:#d9534f;color:#fff;border-radius:8px;padding:.35rem .6rem;cursor:pointer}
+  .cvm-table .btn-remove:hover{filter:brightness(.95)}
+  .cvm-empty td{text-align:center;color:#6b7280;padding:20px 12px}
+
+  /* Responsive */
+  @media (max-width:1024px){
+    .directory-hero{grid-template-columns:1fr}
+    .search-bar{grid-template-columns:1fr}
+    .search-bar button{width:100%}
+    .cvm-content{grid-template-columns:1fr}
+    .cvm-desc-body{max-height:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;animation:none !important}
+  }
+
+  /* Fix: search bar bottom-aligned with the pills (no extra gap) */
+  .directory-hero{
+    align-items: end; /* left & right share the same bottom baseline */
+  }
+
+  .directory-hero__right{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* override the current center */
+  }
+
+  /* Chips above, search at the bottom */
+  .directory-hero__right .quick-filters{ order: 1; }
+  .directory-hero__right .search-bar{
+    order: 2;
+    margin-top: auto;   /* pushes search to the bottom of the right column */
+    margin-bottom: 0;   /* ensures no space under it */
+  }
+
+  /* ==== Restore bottom scrim on the modal cover (no layout changes) ==== */
+  .club-view-modal .cvm-cover{ 
+    position: relative;            /* anchor pseudo-element */
+  }
+
+  /* If an older ::after scrim exists somewhere, neutralize it for this modal */
+  .club-view-modal .cvm-cover::after{
+    content: none !important;
+  }
+
+  /* Bottom-only gradient that sits behind avatar/name */
+  .club-view-modal .cvm-cover::before{
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 40%;                   /* adjust band height if needed */
+    background: linear-gradient(to top,
+      rgba(0,0,0,.45) 0%,
+      rgba(0,0,0,.25) 60%,
+      rgba(0,0,0,0)   100%);
+    pointer-events: none;
+    z-index: 1;                    /* below avatar/name */
+  }
+
+  /* Keep avatar + club name untouched (above the scrim) */
+  .club-view-modal .cvm-avatar-wrap,
+  .club-view-modal .cvm-clubname{
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ==== Restore WORKING scrim (bottom-only, cover-only) ==== */
+  .club-view-modal .cvm-cover{
+    position: relative; /* anchor the overlay inside the cover */
+  }
+
+  /* If a previous ::before scrim exists, neutralize it here */
+  .club-view-modal .cvm-cover::before{ content: none !important; }
+
+  /* Bottom scrim ONLY over the cover image */
+  .club-view-modal .cvm-cover::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:40%;                 /* bottom band only */
+    background: linear-gradient(to top,
+      rgba(0,0,0,.45) 0%,
+      rgba(0,0,0,.25) 60%,
+      rgba(0,0,0,0)   100%);
+    pointer-events:none;
+    z-index:1;                  /* sits under avatar/name */
+  }
+
+  /* Keep avatar & club name above the scrim (not dimmed) */
+  .club-view-modal .cvm-avatar-wrap,
+  .club-view-modal .cvm-clubname{
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Club name: white text, readable on any cover */
+  .club-view-modal .cvm-clubname{
+    color:#fff;
+    font-weight:800;
+    text-shadow:0 2px 6px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.35);
+    background: transparent; /* no pill background */
+  }
+
+  /* Restore working scrim WITHOUT changing layout */
+  .club-view-modal .cvm-cover{
+    position: relative;       /* anchor overlay */
+    overflow: hidden;         /* keep scrim inside the rounded cover */
+  }
+
+  /* If any earlier ::before scrim exists, disable it here only */
+  .club-view-modal .cvm-cover::before{ content: none !important; }
+
+  /* Bottom-only scrim that darkens just the cover image */
+  .club-view-modal .cvm-cover::after{
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 40%;
+    background: linear-gradient(to top,
+      rgba(0,0,0,.45) 0%,
+      rgba(0,0,0,.25) 60%,
+      rgba(0,0,0,0)   100%);
+    pointer-events: none;
+    z-index: 1;               /* sits under avatar/name/edit badges */
+  }
+
+  /* IMPORTANT: keep original absolute placement for the avatar block */
+  .club-view-modal .cvm-avatar-wrap{
+    position: absolute !important;  /* revert if it was changed */
+    left: 12px;                      /* original offsets */
+    bottom: 12px;
+    z-index: 2;                      /* above the scrim */
+  }
+
+  /* Club name: white and above scrim (no background pill) */
+  .club-view-modal .cvm-clubname{
+    color: #fff;
+    font-weight: 800;
+    text-shadow: 0 2px 6px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.35);
+    z-index: 2;                      /* above the scrim */
+  }
+
+  /* Ensure edit badges stay above scrim too */
+  .club-view-modal .cvm-cover .edit-badge{
+    z-index: 2;
+  }
+
+  /* === Restore bottom scrim ONLY on the cover (modal) === */
+  .club-view-modal .cvm-cover{
+    position: relative;        /* anchor overlay */
+    overflow: hidden;          /* keep scrim inside rounded cover */
+  }
+
+  /* If an older neutralizer exists, this forces the overlay back on */
+  .club-view-modal .cvm-cover::after{
+    content: "" !important;    /* override any 'content:none !important' */
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 40%;
+    background: linear-gradient(to top,
+      rgba(0,0,0,.48) 0%,
+      rgba(0,0,0,.28) 60%,
+      rgba(0,0,0,0)   100%);
+    pointer-events: none;
+    z-index: 1;                /* below avatar/name/edit badges */
+  }
+
+  /* Keep name + avatar above the scrim and white text for the name */
+  .club-view-modal .cvm-avatar-wrap,
+  .club-view-modal .cvm-cover .edit-badge,
+  .club-view-modal .cvm-clubname{ position: relative; z-index: 2; }
+
+  .club-view-modal .cvm-clubname{
+    color: #fff;
+    font-weight: 800;
+    text-shadow: 0 2px 6px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.35);
+    background: transparent;
+  }
+
+  /* Fix misplaced edit pencils inside the modal cover */
+
+  /* Cover photo edit pencil: TOP-RIGHT inside the cover */
+  .club-view-modal .cvm-cover .edit-badge.cover-edit{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    left: auto !important;
+    bottom: auto !important;
+    z-index: 2; /* above the scrim */
+  }
+
+  /* Ensure the avatar is a positioning context */
+  .club-view-modal .cvm-avatar{ position: relative; }
+
+  /* Avatar edit pencil: BOTTOM-RIGHT overlapping the avatar circle */
+  .club-view-modal .cvm-avatar .edit-badge.avatar-edit{
+    position: absolute;
+    right: -6px;
+    bottom: -6px;
+    left: auto !important;
+    top: auto !important;
+    z-index: 2; /* above the scrim */
+  }
+
+  /* === Club Description action buttons (polished, consistent with theme) === */
+  .cvm-desc-actions .btn-secondary,
+  .cvm-desc-actions .btn-primary{
+    border-radius: 10px;
+    padding: .55rem .95rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .cvm-desc-actions .btn-secondary{
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #111;
+  }
+  .cvm-desc-actions .btn-secondary:hover{ background:#e5e7eb; }
+
+  .cvm-desc-actions .btn-primary{
+    background: var(--blue);
+    border: 1px solid var(--blue);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(10,42,139,.15);
+  }
+  .cvm-desc-actions .btn-primary:hover{ filter: brightness(.96); }
+  .cvm-desc-actions .btn-primary:disabled{
+    opacity: .7;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+
+  /* === Confirmation overlay (Remove member) — position + visibility === */
+  .confirm-overlay{
+    display:none;                     /* hidden by default */
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(2px);
+    z-index: 3000;                    /* above club modal (2000) */
+    align-items: center;
+    justify-content: center;
+  }
+  .confirm-overlay.active{ display:flex; }
+
+  /* Dialog box */
+  .confirm-box{
+    width: min(94vw, 380px);
+    background:#fff;
+    border-radius:12px;
+    padding: 16px 18px;
+    box-shadow:0 10px 24px rgba(0,0,0,.2);
+  }
+
+  /* Icon + actions */
+  .confirm-icon{ font-size: 28px; margin-bottom: 6px; }
+  .confirm-actions{ display:flex; gap:.6rem; justify-content:flex-end; margin-top: 12px; }
+  .confirm-actions .btn-secondary,
+  .confirm-actions .btn-danger{
+    border-radius:10px; padding:.5rem .85rem; font-weight:700; line-height:1;
+  }
+  .confirm-actions .btn-secondary{
+    background:#f3f4f6; border:1px solid #e5e7eb; color:#111;
+  }
+  .confirm-actions .btn-secondary:hover{ background:#e5e7eb; }
+  .confirm-actions .btn-danger{
+    background:#d9534f; border:1px solid #d9534f; color:#fff;
+  }
+  .confirm-actions .btn-danger:hover{ filter:brightness(.95); }
+
+  /* --- ephemeral cursor bubble (permission hint) --- */
+  .cursor-bubble{
+    position:absolute;
+    left:0; top:0;
+    padding:.4rem .6rem;
+    border-radius:8px;
+    background:rgba(17,17,17,.92);
+    color:#fff;
+    font-size:.85rem;
+    line-height:1.2;
+    pointer-events:none;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity .18s ease, transform .18s ease;
+    z-index:4000; /* above modal */
+    box-shadow:0 8px 18px rgba(0,0,0,.2);
+    white-space:nowrap;
+  }
+  .cursor-bubble.show{ opacity:1; transform:translateY(0); }
+  .cursor-bubble.hide{ opacity:0; transform:translateY(-4px); }
+
+  /* Disabled edit controls (cover/avatar pencils + description edit) */
+  .edit-badge.is-disabled,
+  .icon-btn.is-disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    pointer-events: none; /* fully inert */
+  }
+
+  /* Hide ALL edit controls when the modal is not owned by the adviser */
+  .club-view-modal.readonly .cover-edit,
+  .club-view-modal.readonly .avatar-edit,
+  .club-view-modal.readonly .cvm-desc-head .icon-btn {
+    display: none !important;
+  }
+
+  /* Prevent hover from revealing any pencils in read-only */
+  .club-view-modal.readonly .cvm-cover:hover .edit-badge {
+    display: none !important;
+  }
+
+  /* Read-only state: Add Member button greyed and inert */
+  .club-view-modal.readonly #cvm-add-btn {
+    opacity: .45;
+    cursor: not-allowed;
+    pointer-events: none; /* prevents popover opening */
+  }
+
+  /* Make sure the small Add popover never shows in read-only */
+  .club-view-modal.readonly #cvm-add-pop {
+    display: none !important;
+  }
+
+  /* When the modal is read-only, hide the Add Member area completely */
+  .club-view-modal.readonly .cvm-add-wrap {
+    display: none !important;
+  }
+
+  /* In read-only, align the remaining controls (search) to the right neatly */
+  .club-view-modal.readonly .cvm-head-controls {
+    justify-content: flex-end;
+  }
+
+  /* Remove any residual spacing where the Add button used to be */
+  .club-view-modal.readonly .cvm-search {
+    margin-right: 0;
+  }
+
+  /* Highlight for the adviser's own club card */
+  .club-card.is-owner{
+    position: relative;
+    border: 1.5px solid var(--blue);
+    box-shadow:
+      0 0 0 3px rgba(0,0,139,.08) inset,
+      0 8px 24px rgba(0,0,0,.08);
+  }
+
+  /* A tiny ribbon tag in the corner */
+  .club-card.is-owner::after{
+    content: "Your Club";
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    background: var(--blue);
+    color: #fff;
+    font-weight: 700;
+    font-size: .70rem;
+    padding: .28rem .5rem;
+    border-radius: 8px;
+    transform: rotate(2deg);
+    box-shadow: 0 6px 14px rgba(0,0,0,.12);
+    pointer-events: none;
+  }
+
+  /* Remove blue highlight but keep base card styling + ribbon */
+  .club-card.is-owner{
+    border: none !important;
+    box-shadow: none !important; /* base .club-card shadow will apply if defined there */
+  }
+
+  /* 1) Make the Add Member popover a little bigger (but still responsive) */
+  .cvm-add-pop{
+    width: 460px;
+    max-width: min(90vw, 460px);
+  }
+
+  /* 3) Align the Add button neatly regardless of name length */
+  .cvm-pop-item{
+    display: grid;
+    grid-template-columns: 1fr auto; /* text | Add button */
+    align-items: center;
+    gap: .75rem;
+    padding: .5rem .25rem;
+  }
+  .cvm-pop-item .meta{ min-width: 0; }
+  .cvm-pop-item .meta .id{
+    font-size: .82rem;
+    opacity: .7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cvm-pop-item button{
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: .4rem .7rem;
+    border-radius: 8px;
+  }
+
+  /* REMOVE this if still present */
+  .club-view-modal.readonly .cvm-table th:last-child,
+  .club-view-modal.readonly .cvm-table td:last-child{
+    display: none;
+  }
+
+  /* Hide ONLY the Actions column (header + cells) when viewing other clubs */
+  .club-view-modal.readonly .cvm-col-actions,
+  .club-view-modal.readonly .cvm-row-actions{
+    display: none !important;
+  }
+
+  /* In read-only mode, make the 4 visible columns consume 100% width */
+  .club-view-modal.readonly .cvm-table { table-layout: fixed; }
+  .club-view-modal.readonly .cvm-table thead th:nth-child(1){ width: 8%;  }
+  .club-view-modal.readonly .cvm-table thead th:nth-child(2){ width: 26%; }
+  .club-view-modal.readonly .cvm-table thead th:nth-child(3){ width: 46%; }
+  .club-view-modal.readonly .cvm-table thead th:nth-child(4){ width: 20%; }
+
+  /* === Club View Modal: make Description align with left column and scroll === */
+
+  /* Let the modal body (cvm-content) use all available height under the header */
+  .club-view-modal .cvm-content{
+    flex: 1 1 auto;
+    min-height: 0;          /* important for nested scrolling */
+    align-items: stretch;   /* make both grid columns equal height */
+  }
+
+  /* Make both columns flex stacks that can stretch and allow inner scrolls */
+  .cvm-left,
+  .cvm-right{
+    display: flex;
+    flex-direction: column;
+    min-height: 0;          /* allow children to size/scroll */
+  }
+
+  /* Description card fills the right column's height */
+  .cvm-right .cvm-desc-card{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  /* Only the text area scrolls; keep header and buttons fixed */
+  .cvm-desc-body{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    max-height: none !important; /* override any previous fixed cap */
+  }
+
+  /* Keep editing state scrollable too (textarea area) */
+  .cvm-desc-editing{
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .cvm-desc-editing textarea{
+    flex: 1 1 auto;
+    min-height: 0;
+    resize: none;           /* optional: prevent dragging from breaking layout */
+    overflow: auto;
+  }
+
+  /* --- Modal Description: exclusive view state (text vs. editor) --- */
+  .cvm-desc-card .cvm-desc-text{ display:block; }
+  .cvm-desc-card .cvm-desc-editing{ display:none; }
+
+  .cvm-desc-card.is-editing .cvm-desc-text{ display:none; }
+  .cvm-desc-card.is-editing .cvm-desc-editing{ display:flex; }
+
+  /* Keep the body/textarea scrollable and filling the card */
+  .cvm-desc-body{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+  }
+  .cvm-desc-editing{
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .cvm-desc-editing textarea{
+    flex: 1 1 auto;
+    min-height: 0;
+    resize: none;
+    overflow: auto;
+  }
+
+  /* ==== MODAL: lock layout & scroll only inside description ==== */
+
+  /* Constrain modal height to viewport */
+  .club-view-modal{
+    display:flex;
+    flex-direction:column;
+    max-height:90vh;
+    min-height:0;
+  }
+
+  /* The two-column content stretches evenly; children manage their own overflow */
+  .club-view-modal .cvm-content{
+    flex:1 1 auto;
+    min-height:0;
+    display:grid;                 /* keep your grid */
+    align-items:stretch;          /* equal column heights */
+    overflow:hidden;              /* internal areas scroll */
+  }
+
+  /* Columns can shrink so inner areas scroll instead of growing the row */
+  .cvm-left,
+  .cvm-right{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+
+  /* Right column must not force the row taller */
+  .cvm-right{
+    overflow:hidden;              /* important: prevents track growth from content */
+  }
+
+  /* Description card fills the right column height; only body scrolls */
+  .cvm-right .cvm-desc-card{
+    display:flex;
+    flex-direction:column;
+    flex:1 1 auto;
+    min-height:0;                 /* allow internal scroll */
+    overflow:hidden;              /* keep header/actions fixed */
+  }
+
+  /* View state */
+  .cvm-desc-body{
+    flex:1 1 auto;
+    min-height:0;
+    overflow:auto;                /* scroll here */
+  }
+
+  /* Edit state */
+  .cvm-desc-editing{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+  }
+  .cvm-desc-editing textarea{
+    flex:1 1 auto;
+    min-height:0;
+    overflow:auto;
+    resize:none;
+  }
+
+  /* Exclusive state toggle (keeps either text OR editor visible) */
+  .cvm-desc-card .cvm-desc-text{ display:block; }
+  .cvm-desc-card .cvm-desc-editing{ display:none; }
+  .cvm-desc-card.is-editing .cvm-desc-text{ display:none; }
+  .cvm-desc-card.is-editing .cvm-desc-editing{ display:flex; }
+
+  /* === Club Members: lock to 4 visible rows (scroll beyond) === */
+  .cvm-table-wrap{
+    overflow: auto;           /* enable scrolling when capped */
+    min-height: 0;            /* allow inner scroll instead of pushing parent */
+    /* max-height set dynamically by JS after we measure row height */
+  }
+
+  /* === Club Members: sticky header inside the scroll area === */
+  .cvm-table-wrap{
+    position: relative;        /* context for sticky header */
+    overflow: auto;            /* already set by JS; keep it */
+  }
+
+  .cvm-table{
+    border-collapse: separate; /* helps sticky work reliably */
+    border-spacing: 0;
+  }
+
+  /* Make the header stick to the top of the scroll container */
+  .cvm-table thead th{
+    position: sticky;
+    top: 0;
+    background: #fff;          /* solid bg so rows don't bleed through */
+    z-index: 3;
+    /* subtle divider so it feels fixed */
+    box-shadow: 0 1px 0 #e5e7eb;
+  }
+
+  /* Optional: keep header text crisp and spacing tidy */
+  .cvm-table thead th:first-child { left: 0; } /* safe even without horizontal scroll */
+
+  /* === Club Members: fix sticky header bleed-through === */
+  .cvm-table-wrap{
+    position: relative;       /* create a positioning context */
+    isolation: isolate;       /* own stacking context so z-index works reliably */
+    background: #fff;         /* solid backdrop */
+  }
+
+  /* Keep thead as a single sticky layer */
+  .cvm-table{
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .cvm-table thead{
+    position: sticky;
+    top: 0;
+    z-index: 10;              /* above tbody rows */
+    background: #fff;         /* solid slab */
+    transform: translateZ(0); /* Safari/GPU nudge to avoid paint glitches */
+  }
+  .cvm-table thead tr{
+    background: #fff;         /* ensure no gaps between THs show content behind */
+  }
+  .cvm-table thead th{
+    background: #fff;
+    box-shadow: 0 1px 0 #e5e7eb;  /* subtle divider under header */
+  }
+
+  /* Optional: keep body cells opaque too (helps in some themes) */
+  .cvm-table tbody td{
+    background: #fff;
+  }
+
+  /* === Club Members: solid sticky header with white underlay === */
+  .cvm-table-wrap{
+    position: relative;
+    isolation: isolate;          /* own stacking context */
+    background: #fff;
+    overflow: auto;              /* scroll area */
+  }
+
+  /* White slab stuck at the top of the scroll area (sits under the THEAD) */
+  .cvm-table-wrap::before{
+    content:"";
+    display:block;
+    position: sticky;
+    top: 0;
+    height: var(--cvm-th-h, 44px);  /* set by JS */
+    background:#fff;
+    z-index: 5;
+  }
+
+  .cvm-table{
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  /* THEAD stays on top of the white slab */
+  .cvm-table thead{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background:#fff;
+    transform: translateZ(0);     /* paint fix (Safari) */
+  }
+  .cvm-table thead tr{ background:#fff; } 
+  .cvm-table thead th{
+    background:#fff;
+    box-shadow: 0 1px 0 #e5e7eb;  /* subtle divider */
+  }
+
+  /* Keep body cells opaque */
+  .cvm-table tbody td{ background:#fff; }
+
+  /* === REVERT: make the entire table scroll (header + rows) === */
+  .cvm-table-wrap{
+    position: static !important;
+    isolation: auto !important;
+    background: #fff;         /* keep a solid background */
+    overflow: auto;           /* JS sets fixed height; this scrolls everything */
+  }
+
+  /* Remove sticky behavior & underlay */
+  .cvm-table-wrap::before{ content: none !important; }
+  .cvm-table{ border-collapse: collapse !important; border-spacing: 0 !important; }
+  .cvm-table thead,
+  .cvm-table thead tr,
+  .cvm-table thead th{
+    position: static !important;
+    top: auto !important;
+    z-index: auto !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  /* === Mobile bottom tabs (tablet/phone ONLY) === */
+  /* Hard-hide by default (desktop/laptop) */
+  #mobileBottomTabs,
+  .mobile-bottom-tabs { display: none !important; }
+
+  /* Show only at ≤1024px */
+  @media (max-width: 1024px) {
+    #mobileBottomTabs,
+    .mobile-bottom-tabs {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      display: grid !important;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .25rem;
+      padding: .5rem .75rem calc(.5rem + env(safe-area-inset-bottom));
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+      z-index: 2400;
+    }
+    #mobileBottomTabs .mbtab,
+    .mobile-bottom-tabs .mbtab {
+      display: grid;
+      gap: .25rem;
+      justify-items: center;
+      text-decoration: none;
+      color: #111;
+      font-weight: 700;
+    }
+    #mobileBottomTabs .mbtab img,
+    .mobile-bottom-tabs .mbtab img {
+      width: 22px; height: 22px; display: block;
+    }
+    #mobileBottomTabs .mbtab[aria-current="page"] span,
+    .mobile-bottom-tabs .mbtab[aria-current="page"] span {
+      color: var(--blue, #00008B);
+    }
+
+    /* Keep content above the fixed tabs only on small screens */
+    .content-wrapper { padding-bottom: 84px; }
+  }
+  /* === Club View Modal: responsive behavior on tablet/phone === */
+  @media (max-width: 1024px){
+    /* Make the overlay stretch so the modal can be full-screen */
+    .modal-overlay#clubViewModal.active{
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    /* Full-viewport modal with internal scroll */
+    .club-view-modal{
+      width: 100vw;
+      max-width: none;
+      height: 100dvh;          /* includes mobile browser UI */
+      max-height: none;
+      border-radius: 0;        /* edge-to-edge on small screens */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* One-column stack inside */
+    .cvm-content{
+      grid-template-columns: 1fr;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      overflow: auto;          /* scroll the content area, not the page */
+      min-height: 0;
+    }
+
+    /* Let description grow and scroll naturally */
+    .cvm-desc-body{
+      max-height: none !important;
+      overflow: auto;
+    }
+
+    /* Head controls can wrap nicely */
+    .cvm-head-controls{
+      flex-wrap: wrap;
+      row-gap: 8px;
+    }
+
+    .cvm-search{ width: 100%; }
+    .cvm-search input{ width: 100%; }
+  }
+
+  /* Tighten long names so they wrap instead of being clipped */
+  @media (max-width: 768px){
+    .cvm-clubname,
+    .cvm-adviser-name,
+    .cvm-desc-text{
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+  }
+
+  /* === Members table: mobile readability === */
+  @media (max-width: 640px){
+    /* Allow text to wrap */
+    .cvm-table tbody td{
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      word-break: break-word;
+    }
+
+    /* Drop low-priority columns on phones:
+      1 = "#", 4 = "Email" (Order: #, Student ID, Name, Email, Actions) */
+    .cvm-table thead th:nth-child(1),
+    .cvm-table tbody td:nth-child(1),
+    .cvm-table thead th:nth-child(4),
+    .cvm-table tbody td:nth-child(4){
+      display: none;
+    }
+
+    /* Remove hard minimum so table fits screen width */
+    .cvm-table{ min-width: 0 !important; table-layout: auto; }
+  }
+
+  /* ======= MOBILE/TABLET FIXES FOR CLUB VIEW MODAL ======= */
+
+/* Always keep club modal above mobile bottom tabs */
+.modal-overlay#clubViewModal{ z-index: 3200; }
+
+/* Tablet/Phone: make modal full viewport and let inner sections scroll */
+@media (max-width: 1024px){
+  .modal-overlay#clubViewModal.active{
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+  .club-view-modal{
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    height: 100svh;              /* better on iOS */
+    max-height: 100svh;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Stack to one column, but DO NOT force extra scroll on the wrapper */
+  .cvm-content{
+    grid-template-columns: 1fr;
+    overflow: visible;           /* let inner cards handle scroll */
+    min-height: 0;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+  /* Description body scrolls, not the whole modal */
+  .cvm-desc-body{
+    max-height: none !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+  }
+  /* Header controls wrap nicely */
+  .cvm-head-controls{ flex-wrap: wrap; row-gap: 8px; }
+  .cvm-search{ width: 100%; }
+  .cvm-search input{ width: 100%; }
+}
+
+/* Phones: let long names wrap and keep table readable */
+@media (max-width: 640px){
+  .cvm-clubname, .cvm-adviser-name, .cvm-desc-text{
+    overflow-wrap: anywhere; word-break: break-word;
+  }
+  /* Table readability: allow wrapping and hide # + Email columns */
+  .cvm-table{ min-width: 0 !important; table-layout: auto; }
+  .cvm-table tbody td{
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+  .cvm-table thead th:nth-child(1),
+  .cvm-table tbody td:nth-child(1),
+  .cvm-table thead th:nth-child(4),
+  .cvm-table tbody td:nth-child(4){ display: none; }
+}
+
+/* Make sure only ONE scrim variant wins (avoid duplicate scrim rules fighting) */
+.club-view-modal .cvm-cover{ position: relative; overflow: hidden; }
+.club-view-modal .cvm-cover::before{ content: none !important; }
+.club-view-modal .cvm-cover::after{
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40%;
+  background: linear-gradient(to top, rgba(0,0,0,.48) 0%, rgba(0,0,0,.28) 60%, rgba(0,0,0,0) 100%);
+  pointer-events: none; z-index: 1;
+}
+.club-view-modal .cvm-avatar-wrap,
+.club-view-modal .cvm-cover .edit-badge,
+.club-view-modal .cvm-clubname{ position: relative; z-index: 2; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.5); }
+
+
+/* Tabs above the cards */
+.cd-tabs { display:flex; gap:10px; margin:10px 0 6px; }
+.cd-tabs .tab {
+  padding:8px 14px; border-radius:999px; border:1px solid #e5e7eb;
+  background:#fff; font-weight:600; cursor:pointer;
+}
+.cd-tabs .tab.is-active { background:#0b5fff; color:#fff; border-color:transparent; }
+
+.hidden { display:none !important; }
+
+/* Organizations grid + cards (reuses club look) */
+.orgs-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px,1fr)); gap:18px; }
+.org-card {
+  position:relative; background:#fff; border:1px solid #eef1f5; border-radius:16px;
+  box-shadow:0 6px 22px rgba(0,0,0,.06); padding:18px;
+}
+.org-card .club-logo { width:64px; height:64px; background:#f1f5f9; border-radius:12px; background-size:cover; background-position:center; }
+.org-card.is-owner::after {
+  content:"Your Organization"; position:absolute; top:10px; right:10px;
+  background:#1d4ed8; color:#fff; font-size:11px; font-weight:700;
+  padding:3px 8px; border-radius:999px;
+}
+
+/* In modal: hide members/add when viewing an org; show org table */
+.club-view-modal.is-org .cvm-org-clubs { display:block !important; }
+.club-view-modal.is-org #cvm-members-card,
+.club-view-modal.is-org .cvm-add-wrap { display:none !important; }
+/* Tabs above the cards */
+.cd-tabs { display:flex; gap:10px; margin:10px 0 6px; }
+.cd-tabs .tab {
+  padding:8px 14px; border-radius:999px; border:1px solid #e5e7eb;
+  background:#fff; font-weight:700; cursor:pointer;
+}
+.cd-tabs .tab.is-active { background:#0b5fff; color:#fff; border-color:transparent; }
+
+.hidden { display:none !important; }
+body.no-scroll { overflow:hidden; }
+
+/* Organizations grid + cards (reuse club look) */
+.orgs-grid { display:grid; gap:1rem; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); }
+.org-card {
+  display:grid; gap:.75rem; grid-template-rows:auto auto 1fr auto;
+  background:#fff; border:1px solid #eef2fc; border-radius:12px; padding:1rem;
+  box-shadow:0 8px 20px rgba(10,42,139,.06);
+}
+.org-card .club-logo{ width:64px; height:64px; border-radius:10px; background:#dbeafe center/cover no-repeat; flex-shrink:0; }
+.org-card.is-owner::after{
+  content:"Your Organization"; position:absolute; top:10px; right:10px;
+  background:#1d4ed8; color:#fff; font-size:11px; font-weight:800;
+  padding:3px 8px; border-radius:999px;
+}
+
+/* In modal: show org clubs / hide members & add button */
+.club-view-modal.is-org .cvm-org-clubs { display:block !important; }
+.club-view-modal.is-org #cvm-members-card,
+.club-view-modal.is-org .cvm-add-wrap { display:none !important; }
+.org-card .card-actions{
+  display:flex; justify-content:flex-end; margin-top:.5rem;
+}
+.org-card .btn-primary{
+  padding:8px 14px; border-radius:10px; font-weight:700;
+}
+.cvm-org-clubs .cvm-members-head{
+  align-items:center;
+}
+.cvm-org-clubs .cvm-search input{
+  width:260px;
+}
+.org-card .btn-primary{
+  background:#0b5fff;
+  color:#fff;
+  border:1px solid #0b5fff;
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:700;
+}
+.org-card .btn-primary:hover{ background:#0846d8; border-color:#0846d8; }
+/* ensure a visible pencil on edit buttons even if icon font isn't loaded */
+.cvm-desc-head .cvm-edit-btn::before,
+.cvm-cover .cvm-edit-btn::before{
+  content:"✎";
+  display:inline-block;
+  font-weight:800;
+  line-height:1;
+  color:#111;
+}
+/* Never show an Organization "Clubs" list inside the CLUB modal */
+#clubViewModal .org-clubs-card,
+#clubViewModal [data-org-clubs],
+#clubViewModal .org-clubs-table {
+  display: none !important;
+}
+
+/* Make sure the members section fills the Club modal width */
+#clubViewModal .cvm-members-card {
+  width: 100%;
+}
+
+/* Keep the edit pencil on top + visible on touch */
+@media (hover: none){
+  .club-view-modal .edit-badge{ opacity:1; }
+}
+.club-view-modal .cvm-cover .edit-badge{ z-index: 2; }
+.cvm-desc-head .icon-btn svg,
+.cover-edit svg,
+.avatar-edit svg {
+  color: #111;           /* renders as black */
+  fill: currentColor;    /* ensure the path fills use the color above */
+}
+/* --- Club modal: breathing room for the right edge of the search row --- */
+#clubViewModal .cvm-members-head,
+#clubViewModal .cvm-search,
+#clubViewModal .org-clubs-head {   /* covers the “Search by name or category…” row if present */
+  padding-right: 16px;
+}
+#clubViewModal .cvm-members-head button,
+#clubViewModal .cvm-search button,
+#clubViewModal .org-clubs-head button {
+  margin-right: 4px;               /* tiny extra gap so the button isn’t flush to the edge */
+}
+
+/* --- Make edit pencils render black (cover, avatar, and description) --- */
+.cover-edit svg,
+.avatar-edit svg,
+.cvm-desc-head .icon-btn svg {
+  color: #111;
+  fill: currentColor;
+}
+/* === Club Members header: pack Search + Add to the right (tight gap) === */
+.club-view-modal .cvm-members-head { padding-right: 16px; }
+
+.club-view-modal .cvm-members-head .cvm-head-controls{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end !important; /* override any old rule */
+}
+
+.club-view-modal .cvm-members-head .cvm-search{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;              /* don’t stretch */
+}
+
+.club-view-modal .cvm-members-head .cvm-search input{
+  width: 260px;                /* tweak as you like */
+  max-width: 40vw;
+}
+
+.club-view-modal .cvm-members-head .cvm-add-wrap{
+  flex: 0 0 auto;              /* keep tight next to Search */
+}
+/* Only show the org-clubs table when the modal has .is-org */
+.club-view-modal .cvm-org-clubs { display: none; }
+.club-view-modal.is-org .cvm-org-clubs { display: block; }
+
+/* When showing an organization, hide the members card */
+.club-view-modal.is-org #cvm-members-card { display: none; }
+/* Organization modal: always show the Category column */
+.club-view-modal.is-org .cvm-org-clubs .events-table thead th:nth-child(3),
+.club-view-modal.is-org .cvm-org-clubs .events-table tbody td:nth-child(3) {
+  display: table-cell !important;
+  visibility: visible !important;
+}
+
+/* Make sure the table isn't using a compressed/fixed layout */
+.club-view-modal.is-org .cvm-org-clubs .events-table {
+  table-layout: auto;
+}
+
+/* Optional: give the 3rd column some width so it doesn't collapse */
+.club-view-modal.is-org .cvm-org-clubs .events-table thead th:nth-child(1) { width: 64px; }
+.club-view-modal.is-org .cvm-org-clubs .events-table thead th:nth-child(2) { width: auto; }
+.club-view-modal.is-org .cvm-org-clubs .events-table thead th:nth-child(3) { width: 28%; }

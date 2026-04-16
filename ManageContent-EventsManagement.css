@@ -1,0 +1,780 @@
+/* RESET & BASE */
+html, body { margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --sidebar-width: 80px;
+  --sidebar-width-expanded: 220px;
+  --navbar-height: 60px;
+  --toggle-size: 28px;
+}
+
+
+/* Content wrapper */
+.content-wrapper{
+  margin-left: var(--sidebar-width);
+  padding: 0 1rem 1rem 1rem;
+  padding-top: var(--navbar-height);
+  transition: margin-left .25s ease;
+}
+body.sidebar-expanded { --sidebar-width: var(--sidebar-width-expanded); }
+body.sidebar-expanded .pill-nav{
+  left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+}
+body.sidebar-expanded .content-wrapper{
+  margin-left: var(--sidebar-width);
+}
+
+/* Toggle tabs */
+.toggle-tabs{ position: relative; display: flex; gap: .5rem; margin: 1.5rem 0 1.25rem; }
+.toggle-btn{
+  padding: .75rem 1.5rem; font-size: 1rem; border: none; border-radius: 12px;
+  background: #f4f4f4; box-shadow: 0 4px 6px rgba(0,0,0,.1); cursor: pointer;
+  transition: background .2s, color .2s;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+.toggle-btn.active{ background: #ff0; color: #000; font-weight: 600; }
+
+/* Filters + Create button */
+.filter-create-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+.filters{
+  display: flex; align-items: center; gap: 1rem; background:#fff;
+  border: 1px solid #ccc; border-radius: 8px; padding: .5rem 1rem;
+}
+.filters label{ font-weight: 500; display: inline-flex; align-items: center; gap: .35rem; }
+.filters select, .filters input{
+  border: 1px solid #ccc; border-radius: 4px; padding: .5rem 1rem; font: inherit;
+}
+.reset-filters{ color: #2146C7; text-decoration: none; font-size: .95rem; }
+.reset-filters:hover{ text-decoration: underline; }
+.create-event-btn{
+  background: #232C7E; color: #fff; border: none; border-radius: 6px;
+  padding: .6rem 1.2rem; font-weight: 600; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+.create-event-btn:hover{ background: #1b245f; }
+
+/* Date field */
+.date-filter { display: inline-flex; align-items: center; gap: .5rem; }
+.date-label { font-weight: 600; }
+.date-wrapper { display: inline-flex; align-items: center; gap: .35rem; position: relative; }
+#date-input{ width: 130px; }
+.calendar-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width: 34px; height: 34px;
+  border: 1px solid #ccc; border-radius: 6px;
+  background: #f6f6f6; cursor: pointer; font-size: 1rem; line-height: 1;
+}
+.calendar-btn:hover{ background:#ececec; }
+.calendar-hidden{
+  position: absolute; top: 100%; right: 0;
+  width: 1px; height: 1px; opacity: 0; pointer-events: none;
+}
+
+/* Table */
+.events-table-container{ background:#fff; border:1px solid #ccc; border-radius:8px; overflow:hidden; }
+.events-table{ width:100%; border-collapse:collapse; table-layout:fixed; }
+.events-table thead th{
+  background:#f0f0f0; text-align:left; padding:.75rem; font-weight:600; font-size:.95rem;
+}
+.events-table thead th:nth-child(1){ width: 30%; }
+.events-table thead th:nth-child(2){ width: 18%; }
+.events-table thead th:nth-child(3){ width: 22%; }
+.events-table thead th:nth-child(4){ width: 15%; }
+.events-table thead th:nth-child(5){ width: 8%; }
+.events-table thead th:nth-child(6){ width: 7%; }
+.events-table tbody td{
+  padding:.75rem; vertical-align: middle; font-size:.95rem; border-bottom:1px solid #eee;
+}
+.events-table tbody tr:last-child td{ border-bottom:none; }
+.title-cell{ display:flex; align-items:center; }
+.thumb-placeholder{
+  width:50px; height:50px; background:#339; border-radius:4px; margin-right:.5rem;
+  background-size: cover; background-position: center;
+}
+.event-name{ font-weight: 600; cursor: pointer; }
+.event-name:hover{ color:#2146C7; }
+.event-time{ color:#444; }
+.created-time{ display:block; font-size:.85rem; color:#666; }
+.actions-cell .action-btn{ font-size:.9rem; text-decoration:none; padding:2px 8px; border-radius:4px; margin-right:.5rem; }
+.action-edit{ background:#e7f3ff; color:#007bff; }
+.action-delete{ background:#ffe7e7; color:#dc3545; }
+.action-more{ background:#eef9f0; color:#2b7a2b; }
+.action-btn:hover{ opacity:.85; }
+
+/* Uniform pill sizing (status) */
+.status-badge{
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 88px; height: 24px; padding: 0 .6em; border-radius: 999px;
+  font-weight:700; font-size:.78rem; line-height:1; white-space:nowrap;
+}
+.status-ongoing { background:#e6f7ff; color:#055160; border:1px solid #b6effb; }
+.status-upcoming{ background:#fff3cd; color:#856404; border:1px solid #ffeeba; }
+.status-past    { background:#f5f5f5; color:#6b7280; border:1px solid #e5e7eb; }
+.status-draft   { background:#fff3cd; color:#856404; border:1px solid #ffeeba; }
+
+/* Modals */
+.modal-overlay{
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); backdrop-filter:blur(2px);
+  justify-content:center; align-items:flex-start; z-index:2000; padding:6vh 1rem 1rem;
+}
+.modal-overlay.active{ display:flex; }
+.modal-box{
+  background:#fff; border-radius:12px; box-shadow:0 8px 16px rgba(0,0,0,.2);
+  padding:1.5rem; width:90%; max-width:400px; position:relative; text-align:left;
+  animation: modalIn .22s ease both;
+}
+@keyframes modalIn { from {opacity:0; transform: translateY(6px) scale(.98);} to {opacity:1; transform: translateY(0) scale(1);} }
+.close-btn{
+  position:absolute; top: .8rem; right: 1rem; border:0; background:none; font-size:1.5rem; color:#555; cursor:pointer;
+}
+.modal-box.modal-large{ max-width: 800px; max-height: 85vh; overflow: auto; }
+.modal-title{ margin:0 0 1rem; font-size:1.6rem; font-weight:700; }
+
+/* Attribute-hiding wins over everything */
+[hidden] { display: none !important; }
+
+/* Your standard modal overlay behavior */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.active { display: flex; }
+
+/* Box (unchanged) */
+#confirmDeleteModal .modal-box{
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 8px 16px rgba(0,0,0,.2);
+  padding:1.5rem;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+  animation: modalIn .22s ease both;
+}
+
+
+/* Modal form */
+.modal-form{ margin-top: .5rem; }
+.form-grid{ display:grid; grid-template-columns: repeat(12,1fr); gap:1rem 1.5rem; }
+.form-group{ display:flex; flex-direction:column; grid-column: span 4; min-width:0; }
+.form-group.full{ grid-column: span 12; }
+.form-group label{ font-size:.95rem; margin-bottom:.25rem; font-weight:600; }
+.form-group input, .form-group select, .form-group textarea{
+  border:1px solid #ccc; border-radius:6px; padding:.5rem .75rem; font: inherit; width:100%;
+}
+textarea{ resize: vertical; }
+
+/* Upload preview */
+.file-upload{ display:flex; gap:1rem; align-items:flex-start; flex-wrap: wrap; }
+.file-input-placeholder{
+  position: relative; display: inline-block; width: min(100%, 640px);
+  min-height: 220px; border: 1px dashed #ccc; border-radius: 12px;
+  background:#f4f4f4; overflow: hidden; cursor: pointer;
+}
+.file-placeholder-text{
+  position: absolute; inset: 0; display:flex; align-items:center; justify-content:center;
+  color:#666; font-weight:600; pointer-events:none;
+}
+.file-preview{
+  display:none; position:absolute; inset:0; width:100%; height:100%;
+  object-fit: contain; background:#fff;
+}
+.file-input-placeholder.has-image .file-preview{ display:block; }
+.file-input-placeholder.has-image .file-placeholder-text{ display:none; }
+.file-input-real{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+
+.file-hint{ font-size:.85rem; color:#666; line-height:1.3; margin:0; }
+
+/* Modal actions */
+.modal-actions{ display:flex; justify-content:flex-end; align-items:center; gap:.75rem; margin-top:1.25rem; flex-wrap: nowrap; }
+.btn-secondary, .btn-primary, .btn-danger{
+  padding:.6rem 1.2rem; border:none; border-radius:6px; font-size:1rem; cursor:pointer;
+}
+.btn-secondary{ background:#e0e0e0; color:#333; }
+.btn-primary{ background:#232C7E; color:#fff; }
+.btn-danger{ background:#e74c3c; color:#fff; }
+.btn-secondary:hover{ background:#d1d1d1; }
+.btn-primary:hover{ background:#1b245f; }
+.btn-danger:hover{ opacity:.9; }
+
+/* Empty state */
+.empty-state{
+  display:grid; place-items:center; height:60vh; font-size:1.25rem; font-weight:600;
+  color:#333; background:#fff; border:1px dashed #ccc; border-radius:12px; margin-bottom:1rem;
+}
+.hidden{ display:none !important; }
+
+/* Logout modal */
+#logoutConfirmOverlay{
+  display:none; position:fixed; inset:0; background: rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  justify-content:center; align-items:center; z-index:2000;
+}
+#logoutConfirmOverlay.active{ display:flex; }
+#logoutConfirmOverlay .modal-box{ text-align:center; }
+
+/* Page font/background */
+body{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(255,255,0,.07), transparent 60%),
+    radial-gradient(900px 500px at 120% 10%, rgba(30,144,255,.06), transparent 55%),
+    #f9fafb;
+  color:#111;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){ *{ transition:none !important; animation:none !important; } }
+
+/* Actions column styling */
+.actions-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px; /* spacing between links */
+  padding: 8px 0;
+}
+
+.actions-cell a {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.actions-cell a.action-edit {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+
+.actions-cell a.action-edit:hover {
+  background-color: rgba(0, 123, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.actions-cell a.action-delete {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #dc3545;
+}
+
+.actions-cell a.action-delete:hover {
+  background-color: rgba(255, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.actions-cell a.action-participants {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.actions-cell a.action-participants:hover {
+  background-color: rgba(40, 167, 69, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Actions column - vertical layout */
+.actions-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* align left in cell */
+  gap: 6px; /* space between pills */
+  padding: 8px 0;
+}
+
+.actions-cell a {
+  display: inline-block;
+  min-width: 130px; /* fixed pill width for uniformity */
+  text-align: center;
+  padding: 6px 0;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Edit */
+.actions-cell a.action-edit {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+}
+.actions-cell a.action-edit:hover {
+  background-color: rgba(0, 123, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Delete */
+.actions-cell a.action-delete {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #dc3545;
+}
+.actions-cell a.action-delete:hover {
+  background-color: rgba(255, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Participants */
+.actions-cell a.action-participants {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+.actions-cell a.action-participants:hover {
+  background-color: rgba(40, 167, 69, 0.2);
+  transform: translateY(-1px);
+}
+
+/* === Table Spacing Fix === */
+table th {
+  padding: 12px 16px; /* top/bottom 12px, left/right 16px */
+  text-align: left;
+}
+
+table td {
+  padding: 10px 16px;
+}
+
+table th:last-child,
+table td:last-child {
+  padding-right: 24px; /* extra space on right */
+}
+
+.news-table-container {
+  padding-right: 8px; /* prevents content from touching container edge */
+}
+
+/* ==== Events table column layout & spacing ==== */
+
+/* Use fixed layout so widths are respected */
+.events-table,
+.news-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Column widths (Event, Club, Date & Time, Location, Status, Actions) */
+.events-table thead th:nth-child(1),
+.news-table  thead th:nth-child(1) { width: 28%; }  /* Event */
+.events-table thead th:nth-child(2),
+.news-table  thead th:nth-child(2) { width: 18%; }  /* Club */
+.events-table thead th:nth-child(3),
+.news-table  thead th:nth-child(3) { width: 24%; }  /* Date & Time */
+.events-table thead th:nth-child(4),
+.news-table  thead th:nth-child(4) { width: 14%; }  /* Location */
+
+/* Give Status and Actions fixed space so they don't collide */
+.events-table thead th:nth-child(5),
+.news-table  thead th:nth-child(5) { width: 10%; min-width: 120px; }  /* Status */
+
+.events-table thead th:nth-child(6),
+.news-table  thead th:nth-child(6) { width: 10%; min-width: 140px; }  /* Actions */
+
+/* Create visual gap between Status and Actions */
+.events-table tbody td:nth-child(5),
+.news-table  tbody td:nth-child(5) {
+  padding-right: 18px;                  /* space on the right of Status */
+}
+
+.events-table tbody td:nth-child(6),
+.news-table  tbody td:nth-child(6) {
+  padding-left: 18px;                   /* space on the left of Actions */
+}
+
+/* Slightly more generous cell padding overall */
+.events-table th, .events-table td,
+.news-table  th, .news-table  td {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Keep the right edge comfy */
+.events-table,
+.news-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+/* Always hide overlays by default */
+.modal-overlay { display: none; }
+
+/* Confirm Delete overlay — hidden by default, centered when active */
+#confirmDeleteModal {
+  /* hidden by default; .active will switch to flex */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  z-index: 2200;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Show when active */
+#confirmDeleteModal.active { display: flex; }
+
+/* Force hidden attribute to win on hard refresh */
+#confirmDeleteModal[hidden] { display: none !important; }
+
+/* Modal card */
+#confirmDeleteModal .modal-box {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,.2);
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  animation: modalIn .22s ease both;
+  position: relative;
+}
+
+/* Icon styling */
+#confirmDeleteModal .modal-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .5rem;
+}
+#confirmDeleteModal .modal-icon svg { width: 48px; height: 48px; }
+
+/* Keep the close button in the corner */
+#confirmDeleteModal .close-btn{
+  position:absolute; top:.6rem; right:.75rem;
+  border:0; background:none; font-size:1.4rem; color:#666; cursor:pointer;
+}
+
+/* Keep the create modal scrollable when content is tall */
+.modal-box.modal-large {
+  max-width: 800px;
+  max-height: 85vh;
+  overflow: auto;
+}
+
+/* Banner upload block */
+.file-upload-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap; /* let the hint wrap under the box if needed */
+}
+
+/* Clickable banner box */
+#bannerBox.file-input-placeholder {
+  position: relative;
+  display: inline-block;            /* shrink-wrap width */
+  width: min(100%, 640px);          /* responsive width but capped */
+  aspect-ratio: 16 / 9;             /* nice wide banner */
+  border: 1px dashed #ccc;
+  border-radius: 12px;
+  background: #f4f4f4;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+/* Centered "Preview" text (shown before an image is chosen) */
+#bannerBox .file-placeholder-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-weight: 600;
+  pointer-events: none; /* clicks pass through to the input */
+}
+
+/* The preview image itself */
+#bannerPreview {
+  display: none;                    /* hidden until we have a file */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;              /* show full image/GIF without cropping */
+  background: #fff;
+}
+
+/* Toggle states when a file is selected */
+#bannerBox.has-image #bannerPreview { display: block; }
+#bannerBox.has-image .file-placeholder-text { display: none; }
+
+/* Invisible file input covers the whole box */
+#bannerBox .file-input-real {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.input-with-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-with-button input[type="text"] {
+  flex: 1;
+}
+
+.calendar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+.calendar-btn:hover { background: #f7f7f7; }
+
+/* Modal centering (safe if you already have similar; this just ensures it) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;            /* shown when .active is added */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.4);
+  z-index: 1000;
+}
+.modal-overlay.active { display: flex; }
+
+.modal-box.confirm-delete {
+  width: min(420px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  text-align: center;
+}
+.modal-box.confirm-delete h3 { margin: 8px 0 6px; }
+.modal-box.confirm-delete p { margin: 0 0 16px; color: #444; }
+.modal-box.confirm-delete .modal-actions {
+  display: flex; gap: 8px; justify-content: center;
+}
+
+/* Buttons (reuse your styles if you have them) */
+.btn-danger {
+  background: #d9534f; color: #fff; border: none; border-radius: 6px;
+  padding: .6rem 1rem; cursor: pointer;
+}
+.btn-danger:disabled { opacity: .7; cursor: default; }
+
+/* Confirm Delete modal icon */
+.modal-box .modal-icon{ display:flex; justify-content:center; margin-bottom:.5rem; }
+
+/* Centered overlay that shows only when .active is present */
+#confirmDeleteModal.modal-overlay{
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.4);
+  z-index: 10000; /* above everything */
+}
+#confirmDeleteModal.modal-overlay.active{ display: flex !important; }
+
+.modal-box.confirm-delete{
+  width: min(420px, 92vw);
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  text-align: center;
+}
+
+.modal-box.confirm-delete .modal-actions{
+  display:flex; gap:8px; justify-content:center;
+}
+
+/* Confirm Delete modal icon */
+.modal-box .modal-icon{ display:flex; justify-content:center; margin-bottom:.5rem; }
+
+.btn-danger{
+  background:#d9534f; color:#fff; border:none; border-radius:6px; padding:.6rem 1rem; cursor:pointer;
+}
+.btn-danger:disabled{ opacity:.7; cursor:default; }
+
+/* Participants modal layout */
+.participants-modal { display:flex; flex-direction:column; max-height:85vh; }
+.pm-header{
+  display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:.75rem;
+}
+.pm-left .modal-title{ margin:0; }
+.pm-subtitle{ color:#555; font-size:.95rem; margin-top:.25rem; }
+.pm-right .pm-add-toggle{ white-space:nowrap; }
+
+/* Inline Add form */
+.pm-add-form{
+  background:#f9fafb; border:1px solid #e5e7eb; border-radius:8px;
+  padding:.75rem; margin-bottom:.75rem;
+}
+.pm-row{ display:grid; grid-template-columns: 1fr 1fr 1.2fr auto; gap:.75rem; align-items:end; }
+.pm-field{ display:flex; flex-direction:column; gap:.25rem; }
+.pm-field input{ height:36px; padding:.4rem .6rem; border:1px solid #d1d5db; border-radius:6px; font:inherit; }
+.pm-actions{ display:flex; gap:.5rem; align-items:center; }
+.pm-actions .btn-secondary{ background:#eee; }
+
+/* Table area scroll */
+.participants-table-wrap{
+  border:1px solid #e5e7eb; border-radius:8px; background:#fff;
+  overflow:auto; max-height: 48vh; /* scroll inside modal */
+}
+.participants-table thead th{ background:#f3f4f6; }
+
+/* Row actions */
+.pm-remove{
+  display:inline-block; padding:.35rem .75rem; border-radius:999px;
+  font-size:.85rem; background:rgba(220,53,69,.12); color:#dc3545; text-decoration:none; cursor:pointer;
+}
+.pm-remove:hover{ background:rgba(220,53,69,.2); }
+
+/* Muted removed row (optional) */
+.pm-removed { opacity:.55; text-decoration: line-through; }
+
+/* keeps the inline add controls tidy */
+.add-participants-inline { display:flex; gap:.5rem; align-items:center; }
+.add-participants-inline .text-input { min-width: 320px; }
+
+.part-row.to-add td { background: #f6fff6; }
+.part-row.to-remove td { background: #fff6f6; text-decoration: line-through; color:#a55; }
+
+/* ===== Participants Modal (layout + look) ===== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;                 /* hidden by default */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 10000;
+}
+.modal-overlay.active {
+  display: flex;                 /* show when .active is added */
+}
+/* If aria-hidden="true", force hide as well */
+.modal-overlay[aria-hidden="true"] { display: none; }
+
+.modal-box.participants-box {
+  width: min(720px, 92vw);
+  max-height: 85vh;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.modal-box.participants-box .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e9ecef;
+}
+.modal-box.participants-box .modal-header h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+.modal-box.participants-box .close-btn {
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Toolbar (upper-left input + Add button) */
+.participants-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 12px 18px;
+}
+.participants-toolbar input[type="text"] {
+  flex: 1;
+  height: 36px;
+  padding: 6px 10px;
+  border: 1px solid #cfd4d9;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.participants-toolbar .btn {
+  height: 36px;
+  padding: 0 12px;
+}
+
+/* Table area scrolls if long */
+.participants-body {
+  padding: 0 18px 12px 18px;
+  overflow: auto;
+}
+.participants-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.participants-table th,
+.participants-table td {
+  border: 1px solid #e9ecef;
+  padding: 10px 12px;
+  vertical-align: middle;
+  background: #fff;
+}
+.participants-table thead th {
+  background: #f7f7f8;
+  font-weight: 700;
+}
+.participants-empty {
+  text-align: center;
+  color: #6c757d;
+  padding: 18px 0;
+}
+
+/* Footer buttons */
+.modal-box.participants-box .modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 12px 18px 16px;
+  border-top: 1px solid #e9ecef;
+}
+.btn { border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
+.btn-secondary { background: #e9ecef; color: #333; }
+.btn-primary   { background: #253cf2; color: #fff; }
+.btn-danger    { background: #d9534f; color: #fff; }
+.btn:disabled  { opacity: .6; cursor: not-allowed; }
+
+/* Match Create Event modal size */
+.modal-box.modal-large {
+  max-width: 900px; /* adjust if needed */
+  width: 100%;
+}
+
+.content-wrapper { 
+  padding-top: var(--navbar-height) !important;  /* keep content below fixed navbar */
+}
+
+.content-wrapper .toggle-tabs {
+  margin-top: 1.5rem !important;   /* same top gap as Events */
+  margin-bottom: 1.25rem;           /* same bottom spacing */
+}
+.participants-toolbar { display: none !important; }

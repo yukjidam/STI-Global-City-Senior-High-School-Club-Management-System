@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>STI SHS Club Management</title>
+  <link rel="stylesheet" href="HomeNews.css?v=ui1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script defer src="auth-guard.js"></script>
+<script defer src="logout-confirm.js"></script>
+  <script src="HomeNews.js" defer></script>
+</head>
+<body>
+
+  <!-- ── LEFT SIDEBAR ── -->
+  <div class="side-nav">
+    <!-- STI Logo -->
+    <img src="Images/stiLogo.png" alt="STI Logo" class="side-nav__logo">
+
+    <!-- Profile button -->
+    <button class="side-nav__btn" aria-label="Profile">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="12" cy="8" r="4"></circle>
+        <path d="M4 20c0-4 4-6 8-6s8 2 8 6"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Sidebar Toggle Button (small arrow in a circle, overlapping the sidebar edge) -->
+  <button id="sidebarToggleBtn" class="sidebar-toggle-btn" aria-label="Toggle sidebar" title="Toggle sidebar">
+    <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </button>
+
+  <!-- ── PAGE CONTENT (pushed right) ── -->
+  <div class="content-wrapper">
+
+    <!-- ── TOP “PILL” NAVBAR ── -->
+    <nav class="pill-nav">
+      <ul class="pill-nav__links">
+        <li class="pill-nav__item dropdown">
+          <a href="#" class="dropdown-toggle">
+            Home <span class="pill-nav__arrow">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="HomeNews.html">Club News</a></li>
+            <li><a href="HomeEventClub.html">Club Events</a></li>
+          </ul>
+        </li>
+        <li class="pill-nav__item"><a href="ManageContent-NewsManagement.html">Manage Content</a></li>
+        <li class="pill-nav__item"><a href="ClubDirectory.html">Club Directory</a></li>
+        <li class="pill-nav__item"><a href="Request.html">Requests</a></li>
+        <li class="pill-nav__item dropdown">
+          <a href="#" class="dropdown-toggle">
+            Account <span class="pill-nav__arrow">▾</span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="">Profile</a></li>
+            <li><a href="">Settings</a></li>
+            <li><a href="index.html" class="logout-link">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="pill-nav__icons">
+        <button class="pill-nav__icon-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <button class="pill-nav__icon-btn" aria-label="Notifications">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <div class="toggle-tabs">
+      <button class="toggle-btn active">News</button>
+      <a href="HomeEventClub.html"><button class="toggle-btn">Events of Clubs</button></a>
+    </div>
+
+    <!-- ── Latest Clubs News ── -->
+    <section class="news-section">
+      <h2 class="news-section__title">Latest Clubs News</h2>
+
+      <div class="news-grid">
+        <!-- Card #1 -->
+        <article class="news-card">
+          <div class="news-card__photo"></div>
+          <div class="news-card__meta">
+            <svg class="icon-calendar" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 4h18M8 2v4M16 2v4M4 8h16v12H4z"/>
+            </svg>
+            <time datetime="2025-03-12">March 12, 2025</time>
+          </div>
+          <h3 class="news-card__headline">
+            STI Global City's STEM Club Celebrates Robotics Success
+          </h3>
+          <p class="news-card__summary">
+            The STEM Club of STI College Global City recently congratulated the winners of their 2nd session Robotics hands-on activity for 2025…
+          </p>
+          <div class="news-card__footer">
+            <a href="#" class="news-card__readmore">Read More</a>
+            <button class="news-card__fave" aria-label="Favorite">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 
+                         7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 
+                         14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
+                         3.78-3.4 6.86-8.55 11.18L12 21z"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- Card #2 -->
+        <article class="news-card">
+          <div class="news-card__photo"></div>
+          <div class="news-card__meta">
+            <svg class="icon-calendar" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 4h18M8 2v4M16 2v4M4 8h16v12H4z"/>
+            </svg>
+            <time datetime="2025-02-20">February 20, 2025</time>
+          </div>
+          <h3 class="news-card__headline">
+            Arriba Humanista Club Celebrates Successful 2nd General Assembly
+          </h3>
+          <p class="news-card__summary">
+            The Arriba Humanista Club of STI Global City successfully held its 2nd General Assembly, fostering a sense of community and collaboration among members…
+          </p>
+          <div class="news-card__footer">
+            <a href="#" class="news-card__readmore">Read More</a>
+            <button class="news-card__fave" aria-label="Favorite">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 
+                         7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 
+                         14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 
+                         3.78-3.4 6.86-8.55 11.18L12 21z"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- LOGOUT CONFIRM MODAL -->
+  <div id="logoutConfirmOverlay">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" stroke="#d9534f" fill="#fff5f5"></circle>
+        <line x1="12" y1="8" x2="12" y2="13" stroke="#d9534f"></line>
+        <circle cx="12" cy="17" r="1" fill="#d9534f"></circle>
+      </svg>
+    </div>
+    <h4>Do you want to logout?</h4>
+    <div class="btns">
+      <button class="btn-no">No</button>
+      <button class="btn-yes">Yes</button>
+    </div>
+  </div>
+</div>
+
+  <!-- Sidebar toggle JS -->
+  <script>
+    (function(){
+      const btn = document.getElementById('sidebarToggleBtn');
+      if (!btn) return;
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.body.classList.toggle('sidebar-expanded');
+      });
+    })();
+  </script>
+
+</body>
+</html>

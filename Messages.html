@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UserProfile • Shell (copied from Student‑HomeNews)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="Messages.css">
+<script src="Messages.js" defer></script>
+  <script src="adviser-shell.js" defer></script>
+  <script defer src="Adviser-UserProfile.js"></script>
+  <link rel="stylesheet" href="adviser-shell.css" />
+  <script src="Adviser-Search.js" defer></script>
+  
+</head>
+<body>
+
+  <!-- SIDEBAR (unchanged structure; just added id="sideNav") -->
+  <aside id="sideNav" class="side-nav" role="navigation" aria-label="Sidebar">
+    <div class="side-nav__top">
+      <nav id="mobileNavLinks" class="side-nav__primary-links" aria-label="Navigation (mobile)"></nav>
+      <button id="sidebarHamburger" class="hamburger" aria-label="Toggle sidebar" title="Toggle sidebar">
+        <!-- small SVG, large hit area -->
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <img src="Images/stiLogo.png" alt="STI Logo" class="side-nav__logo" />
+      <span class="side-nav__brand">STI Global City</span>
+    </div>
+
+    <!-- Profile: PFP over Name -->
+    <div class="side-nav__profile">
+      <img class="profile__avatar" src="Images/profile.png" alt="Profile" />
+      <div class="profile__meta">
+        <span class="profile__name">Your Name</span>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <nav class="side-nav__menu">
+      <a class="side-nav__item" href="#" aria-label="Newsfeed" data-label="Newsfeed">
+        <img class="item__icon" src="Images/newsfeed.png" alt="" />
+        <span class="item__label">Newsfeed</span>
+      </a>
+      <a class="side-nav__item" href="#" aria-label="Chat" data-label="Chat">
+        <img class="item__icon" src="Images/chat.png" alt="" />
+        <span class="item__label">Chat</span>
+      </a>
+      <a class="side-nav__item" href="#" aria-label="Club" data-label="Club">
+        <img class="item__icon" src="Images/club.png" alt="" />
+        <span class="item__label">Club</span>
+      </a>
+      <a class="side-nav__item" href="#" aria-label="Settings" data-label="Settings">
+        <img class="item__icon" src="Images/setting.png" alt="" />
+        <span class="item__label">Settings</span>
+      </a>
+    </nav>
+
+    <!-- Footer with divider and Logout -->
+    <div class="side-nav__footer">
+      <div class="side-nav__divider" aria-hidden="true"></div>
+      <a class="side-nav__item side-nav__logout logout-link" href="#" aria-label="Logout" data-label="Logout">
+        <img class="item__icon" src="Images/out.png" alt="" />
+        <span class="item__label">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- TOP NAV (unchanged) -->
+  <nav class="pill-nav">
+    <ul class="pill-nav__links">
+      <li class="pill-nav__item"><a href="HomeNews.html" class="active-link">Home</a></li>
+      <li class="pill-nav__item"><a href="ManageContent-NewsManagement.html">Manage Content</a></li>
+      <li class="pill-nav__item"><a href="ClubDirectory.html">Club Directory</a></li>
+      <li class="pill-nav__item"><a href="Request.html">Request</a></li>
+
+      
+      
+
+      <li class="pill-nav__item dropdown">
+        <a href="#" class="dropdown-toggle">Account <span class="pill-nav__arrow">▾</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="">Profile</a></li>
+          <li><a href="">Settings</a></li>
+          <li><a href="#" class="logout-link">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    
+
+    
+
+    <div class="pill-nav__icons">
+      <button class="pill-nav__icon-btn" aria-label="Search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+      <button class="pill-nav__icon-btn" aria-label="Notifications">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sliding / popover search (desktop = popover under icon; mobile = sliding tray) -->
+<div id="pillSearchTray" class="pill-search-tray" aria-hidden="true">
+  <form role="search" class="pill-search-form" id="pillSearchForm" action="#" method="get">
+    <input id="navSearchInput" name="q" type="search" placeholder="Search…" aria-label="Search" autocomplete="off" />
+    <button type="button" class="pill-search-close" aria-label="Close search">×</button>
+  </form>
+</div>
+
+
+  <!-- PAGE CONTENT (unchanged hero) -->
+  <main class="content-wrapper">
+ <div class="page">
+  <div class="messages-layout">
+    <!-- LEFT: threads & search -->
+    <aside class="threads card" aria-label="Conversations">
+      <div class="threads-head"><h3>Messages</h3></div>
+      <button id="msgNewGroupBtn" class="btn-new-group" type="button" title="Create group">New Group</button>
+
+      <!-- Search ABOVE the names -->
+      <div class="threads-search">
+        <input id="msgSearch" type="search" placeholder="Search people…" aria-label="Search people to chat">
+        <button id="msgNewBtn" type="button" title="New message">＋</button>
+      </div>
+
+      <!-- Scrolls; does not expand the card -->
+      <ul id="threadList" class="thread-list" role="list">
+        <!-- Rendered by JS -->
+      </ul>
+    </aside>
+
+    <!-- RIGHT: conversation -->
+    <section class="conversation card" aria-live="polite">
+      <header class="conv-head">
+        <div class="conv-user">
+          <div class="avatar" id="convAvatar" aria-hidden="true"></div>
+          <div class="meta">
+            <div id="convName" class="name">—</div>
+            <div id="convStatus" class="sub">Select a conversation</div>
+          </div>
+        </div>
+        <button class="kebab" type="button" aria-label="Conversation menu">⋯</button>
+      </header>
+
+      <!-- Scrolls; does not expand the card -->
+      <div id="convBody" class="conv-body"></div>
+
+      <form id="msgComposer" class="composer" autocomplete="off">
+  <!-- NEW -->
+  <button type="button" class="msg-plus" id="msgPlus" aria-label="Attach">＋</button>
+  <input type="file" id="msgPicker" accept="image/*,video/*" multiple hidden> <!-- NEW -->
+
+  <input id="msgInput" class="msg-text" type="text" placeholder="Write a message…" aria-label="Write a message" required>
+  <button class="msg-send" type="submit">Send</button>
+</form>
+
+    </section>
+  </div>
+</div>
+
+
+
+</main>
+
+  <!-- LOGOUT CONFIRM MODAL (unchanged) -->
+  <div id="logoutConfirmOverlay" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+      <div class="modal-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" stroke="#d9534f" fill="#fff5f5"></circle>
+          <line x1="12" y1="8" x2="12" y2="13" stroke="#d9534f"></line>
+          <circle cx="12" cy="17" r="1" fill="#d9534f"></circle>
+        </svg>
+      </div>
+      <h4 id="logoutTitle">Do you want to logout?</h4>
+      <div class="btns">
+        <button class="btn-no" type="button">No</button>
+        <button class="btn-yes" type="button">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE drawer trigger + backdrop (added) -->
+  <button id="mobileSidebarToggle" class="mobile-hamburger" aria-label="Open menu" aria-controls="sideNav" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="3" y1="6"  x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+  <div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
+
+  <!-- Mobile bottom tabs (mirror of the sidebar icons) -->
+<nav id="mobileBottomTabs" class="mobile-bottom-tabs" aria-label="Sidebar tabs (mobile)">
+  <a class="mbtab" href="#" aria-label="Newsfeed">
+    <img src="Images/newsfeed.png" alt="" />
+    <span>News</span>
+  </a>
+  <a class="mbtab" href="#" aria-label="Chat">
+    <img src="Images/chat.png" alt="" />
+    <span>Chat</span>
+  </a>
+  <a class="mbtab" href="#" aria-label="Club">
+    <img src="Images/club.png" alt="" />
+    <span>Club</span>
+  </a>
+  <a class="mbtab" href="#" aria-label="Settings">
+    <img src="Images/setting.png" alt="" />
+    <span>Settings</span>
+  </a>
+</nav>
+
+<!-- Mobile Navigation Drawer (phones only) -->
+<div id="mobileNavDrawer" class="mobile-nav-drawer" hidden aria-hidden="true">
+  <nav class="mobile-nav-list" aria-label="Navigation"></nav>
+</div>
+
+<!-- ================== SETTINGS MODAL ================== -->
+<div id="settingsModalOverlay" class="settings-modal__overlay" aria-hidden="true">
+  <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-modal__header">
+      <h2 id="settingsTitle">Settings</h2>
+      <button type="button" class="settings-modal__close" aria-label="Close">×</button>
+    </div>
+
+    <!-- Tabs are buttons (so nothing navigates) -->
+    <div class="settings-tabs" role="tablist">
+      <button type="button" class="settings-tab is-active" role="tab" aria-selected="true" data-tab="account">
+        Account Settings
+      </button>
+      <button type="button" class="settings-tab" role="tab" aria-selected="false" data-tab="profile">
+        Profile Settings
+      </button>
+    </div>
+
+    <div class="settings-panels">
+      <!-- Account Settings -->
+      <section class="settings-panel is-active" data-panel="account" aria-labelledby="settingsTitle">
+        <ol class="settings-chooser vertical" id="acctList">
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="name">
+              <span class="num">1.</span> <span>Name</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="email">
+              <span class="num">2.</span> <span>Email</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="password">
+              <span class="num">3.</span> <span>Password</span>
+            </button>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Profile Settings -->
+      <section class="settings-panel" data-panel="profile" aria-labelledby="settingsTitle">
+        <ol class="settings-chooser vertical" id="profList">
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="bio">
+              <span class="num">1.</span> <span>Bio</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="nickname">
+              <span class="num">2.</span> <span>Nickname</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="birthdate">
+              <span class="num">3.</span> <span>Birthdate</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="about_city">
+              <span class="num">4.</span> <span>Town / City</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="contact_email">
+              <span class="num">5.</span> <span>Contact Email</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="student_id_display">
+              <span class="num">6.</span> <span>Adviser ID</span>
+            </button>
+          </li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- ================== CONFIRM MODAL ================== -->
+<div id="confirmModal" class="confirm-modal__overlay" aria-hidden="true">
+  <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <h3 id="confirmTitle">Apply these changes?</h3>
+    <p id="confirmMsg" class="confirm-msg"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn" id="btnConfirmNo">Cancel</button>
+      <button type="button" class="btn btn-primary" id="btnConfirmYes">Yes, save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================== FIELD TEMPLATES ================== -->
+<template id="tpl-name">
+  <form class="slot-form" data-field="name" novalidate>
+    <div class="grid-2 gap">
+      <label>First name
+        <input type="text" name="first_name" required />
+      </label>
+      <label>Last name
+        <input type="text" name="last_name" required />
+      </label>
+    </div>
+    <label>Middle name (optional)
+      <input type="text" name="middle_name" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-email">
+  <form class="slot-form" data-field="email" novalidate>
+    <label>Account email
+      <input type="email" name="sti_email" required />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-password">
+  <form class="slot-form" data-field="password" novalidate>
+    <label>Current password
+      <input type="password" name="current_password" autocomplete="current-password" required />
+    </label>
+    <div class="grid-2 gap">
+      <label>New password
+        <input type="password" name="new_password" autocomplete="new-password" required minlength="6" />
+      </label>
+      <label>Confirm new password
+        <input type="password" name="confirm_password" autocomplete="new-password" required minlength="6" />
+      </label>
+    </div>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-bio">
+  <form class="slot-form" data-field="bio" novalidate>
+    <label>Bio (max 100 chars)
+      <textarea name="bio" maxlength="100" rows="3"></textarea>
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-nickname">
+  <form class="slot-form" data-field="nickname" novalidate>
+    <label>Nickname
+      <input type="text" name="nickname" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-birthdate">
+  <form class="slot-form" data-field="birthdate" novalidate>
+    <label>Birthdate
+      <input type="date" name="birthdate" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-about_city">
+  <form class="slot-form" data-field="about_city" novalidate>
+    <label>Town / City
+      <input type="text" name="about_city" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-contact_email">
+  <form class="slot-form" data-field="contact_email" novalidate>
+    <label>Contact email
+      <input type="email" name="contact_email" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-student_id_display">
+  <form class="slot-form" data-field="student_id_display" novalidate>
+    <label>Adviser ID
+      <input
+  type="text"
+  name="adviser_id"
+  id="adviser_id"
+  readonly
+  aria-readonly="true"
+  inputmode="none"
+/>
+    </label>
+    <div class="slot-actions">
+      <!-- read-only: no save button will be added by JS -->
+    </div>
+  </form>
+</template>
+
+
+</body>
+</html>

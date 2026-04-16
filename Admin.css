@@ -1,0 +1,2436 @@
+:root{
+  --blue:#00008B;
+  --yellow:#FFFF00;
+  --bg:#f5f7fb;
+  --text:#0f172a;
+  --muted:#64748b;
+  --card:#ffffff;
+  --border:#e5e7eb;
+  --danger:#ef4444;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background:var(--bg); color:var(--text);
+}
+
+/* Header */
+.admin-header{
+  padding:20px 16px 8px;
+}
+.admin-header h1{
+  margin:0 0 6px; font-size:1.5rem; font-weight:800;
+}
+.muted{color:var(--muted)}
+.muted.small{font-size:.9rem}
+
+/* Main */
+.admin-main{ padding:12px 16px 40px; max-width:1100px; margin:0 auto; }
+
+/* Cards grid */
+.admin-grid{
+  display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:16px;
+}
+@media (max-width:900px){ .admin-grid{ grid-template-columns:1fr 1fr } }
+@media (max-width:560px){ .admin-grid{ grid-template-columns:1fr } }
+
+.admin-card{
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:16px; box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+.admin-card h2{ margin:0 0 6px; font-size:1.1rem }
+.admin-card .btn-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px }
+
+/* Buttons */
+.btn{
+  appearance:none; border:1px solid var(--border); background:#fff; color:#111;
+  padding:9px 12px; border-radius:10px; font-weight:800; cursor:pointer;
+}
+.btn:hover{ border-color:#cbd5e1 }
+.btn-primary{ background:var(--blue); color:#fff; border-color:var(--blue) }
+.btn-primary:hover{ filter:brightness(.95) }
+.btn-outline{ background:#fff; color:var(--blue); border-color:var(--blue) }
+.btn-danger{ background:var(--danger); color:#fff; border-color:var(--danger) }
+.btn-light{ background:#f7fafc }
+
+/* Forms */
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.form-grid label{ display:flex; flex-direction:column; gap:6px; font-weight:700; color:#1f2937 }
+.form-grid input, .form-grid textarea, .form-grid select{
+  border:1px solid var(--border); border-radius:10px; padding:10px 12px; font:600 14px/1.4 inherit; outline:none; background:#fff;
+}
+.form-grid textarea{ resize:vertical; min-height:80px }
+.form-grid input:focus, .form-grid textarea:focus, .form-grid select:focus{
+  border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,0,139,.12);
+}
+.form-grid .modal-actions{ grid-column:1 / -1; display:flex; justify-content:flex-end; gap:10px; margin-top:4px }
+.form-grid .seg{ grid-column:1 / -1 }
+.grid-1{ grid-template-columns:1fr }
+.radio{ display:inline-flex; align-items:center; gap:8px; margin-right:14px }
+
+/* Callouts */
+.callout{
+  border:1px solid #facc15; background:#fffbeb; color:#713f12;
+  padding:10px 12px; border-radius:10px; font-weight:700;
+}
+.callout.warn{ border-color:#fb923c; background:#fff7ed; color:#9a3412 }
+
+/* Modals */
+.modal[aria-hidden="true"]{ display:none }
+.modal{
+  position:fixed; inset:0; display:grid; place-items:center; padding:18px; z-index:50;
+  background:rgba(0,0,0,.25); backdrop-filter: blur(2px);
+}
+.modal-box{
+  width:min(720px, 100%); background:#fff; border-radius:16px; border:1px solid var(--border);
+  box-shadow:0 20px 50px rgba(0,0,0,.18); padding:16px;
+}
+.modal-head{
+  display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px;
+}
+.modal-head h3{ margin:0; font-size:1.2rem; font-weight:800 }
+.modal-x{
+  appearance:none; width:36px; height:36px; border-radius:10px; border:1px solid var(--border);
+  background:#fff; cursor:pointer; font-size:20px; font-weight:800; line-height:34px;
+}
+
+/* Bulk preview */
+.bulk-preview{ border-top:1px dashed var(--border); padding-top:10px; margin-top:2px }
+.preview-table-wrap{
+  overflow:auto; max-height:240px; border:1px solid var(--border); border-radius:10px; background:#fff;
+}
+.preview-table{ width:100%; border-collapse:collapse; font-size:.92rem }
+.preview-table th, .preview-table td{ border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; white-space:nowrap }
+.preview-table thead th{ position:sticky; top:0; background:#fafafa }
+
+/* Toasts */
+.toasts{ position:fixed; right:14px; bottom:14px; display:flex; flex-direction:column; gap:8px; z-index:60 }
+.toast{
+  background:#111; color:#fff; border-radius:12px; padding:10px 12px; font-weight:700; box-shadow:0 8px 24px rgba(0,0,0,.2);
+}
+.toast.warn{ background:#9a3412 }
+.toast.ok{ background:#14532d }
+.toast.err{ background:#7f1d1d }
+
+
+/* Bigger modal that can host tables comfortably */
+.modal-box{
+  width: min(960px, calc(100% - 24px)) !important;   /* was ~720px */
+  max-height: calc(100vh - 48px) !important;
+  display: flex; flex-direction: column;
+}
+
+/* Let the form scroll inside the box if content overflows */
+.modal-box .form-grid{ max-height: 100%; overflow: auto; }
+
+/* Preview section + search tools */
+.preview-tools{
+  display:flex; align-items:center; gap:10px; margin:8px 0;
+}
+.preview-tools input[type="search"]{
+  flex:1; min-width:0;
+  border:1px solid var(--border); border-radius:10px; padding:8px 10px;
+  font:600 14px/1.2 inherit; outline:none; background:#fff;
+}
+.preview-tools input[type="search"]:focus{
+  border-color: var(--blue); box-shadow:0 0 0 3px rgba(0,0,139,.12);
+}
+.preview-table-wrap{
+  overflow:auto; max-height:50vh;  /* taller preview area */
+  border:1px solid var(--border); border-radius:10px; background:#fff;
+  width:100%;
+}
+
+/* Error callout (for validation) */
+.callout.err{
+  border:1px solid #ef4444;
+  background:#fef2f2;
+  color:#7f1d1d;
+  padding:10px 12px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+/* Show only the correct template button */
+#modal-bulk-upload[data-kind="student"]  #dl-adviser-template { display: none !important; }
+#modal-bulk-upload[data-kind="adviser"]  #dl-student-template { display: none !important; }
+/* (optional) avoid flicker before kind is set */
+#modal-bulk-upload:not([data-kind]) #bulk-templates button { display: none; }
+
+/* Preview table polish */
+.preview-table{ width:100%; border-collapse:separate; border-spacing:0; font-size:.95rem }
+.preview-table thead th{
+  position:sticky; top:0;
+  background:#eef2ff; color:#1e3a8a; z-index:1;   /* soft blue header */
+  border-bottom:1px solid var(--border);
+}
+.preview-table th, .preview-table td{ padding:8px 10px; white-space:nowrap; border-bottom:1px solid var(--border) }
+.preview-table tbody tr:nth-child(even){ background:#f8fafc; }    /* zebra */
+.preview-table tbody tr:hover{ background:#fff7ed; }              /* hover hint */
+.preview-table td.num{ color:#64748b; font-weight:700; }
+.preview-table td.bad{
+  background:#fef2f2; color:#7f1d1d; font-weight:700;              /* invalid cell */
+}
+
+/* Reset student modal: two columns + shorter inputs */
+#modal-student-reset .form-grid{
+  grid-template-columns: 1fr 1fr;     /* Student ID | New password */
+  align-items: start;
+  column-gap: 14px;
+}
+#modal-student-reset .form-grid label{ max-width: 420px; }  /* shorten */
+#modal-student-reset .form-grid input{ width: 100%; }
+
+/* Put label title and hint on one line */
+#modal-student-reset .label-head{
+  display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;
+}
+#modal-student-reset .field-hint{ color: #64748b; font-weight: 700; }
+#modal-student-reset .field-hint.error{ color: #7f1d1d; }   /* red */
+
+/* Reset student modal: keep the note tiny + single line so inputs don't shift */
+#modal-student-reset .label-head{ align-items:center; gap:8px; }
+#modal-student-reset .field-hint{
+  font-size: .8rem;               /* smaller text */
+  line-height: 1;                 /* compact line height */
+  font-weight: 700;
+  color:#64748b;
+  max-width: 260px;               /* keep it short */
+  white-space: nowrap;            /* one line only */
+  overflow: hidden;               /* hide overflow */
+  text-overflow: ellipsis;        /* add … */
+}
+#modal-student-reset .field-hint.error{ color:#7f1d1d; }
+
+/* Reset student modal layout + note + show/hide toggle */
+#modal-student-reset .form-grid{
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap:16px; align-items:start;
+}
+#modal-student-reset label{ display:block; }
+#modal-student-reset input{ width:100%; }
+
+/* Note under the Student ID field */
+#modal-student-reset .field-note{
+  margin-top:6px; min-height:1em;
+  font-size:.85rem; line-height:1.15; font-weight:700; color:#64748b;
+}
+#modal-student-reset .field-note.error{ color:#7f1d1d; }
+
+/* Password show/hide button inside the input */
+#modal-student-reset .pw-wrap{ position:relative; }
+#modal-student-reset .pw-wrap input{ padding-right:44px; }
+#modal-student-reset .pw-toggle{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  border:1px solid var(--border); background:#fff; border-radius:8px;
+  padding:4px 8px; font-weight:800; cursor:pointer;
+}
+#modal-student-reset .pw-toggle[aria-pressed="true"]{
+  background:#eef2ff; border-color:#c7d2fe;
+}
+
+/* Reset student modal layout + note + tiny eye icon toggle */
+#modal-student-reset .form-grid{
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap:16px; align-items:start;
+}
+#modal-student-reset label{ position:relative; overflow:visible; display:block; }
+#modal-student-reset input{ width:100%; }
+
+/* Note under the Student ID field */
+#modal-student-reset .field-note{
+  margin-top:6px; min-height:1em;
+  font-size:.85rem; line-height:1.15; font-weight:700; color:#64748b;
+}
+#modal-student-reset .field-note.error{ color:#7f1d1d; }
+
+/* Eye icon inside password input */
+#modal-student-reset .pw-wrap{ position:relative; }
+#modal-student-reset .pw-wrap input{ padding-right:42px; }
+#modal-student-reset .pw-ico{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:24px; height:24px; display:grid; place-items:center;
+  border:none; background:transparent; padding:0; cursor:pointer; color:#334155;
+}
+#modal-student-reset .pw-ico svg{ width:20px; height:20px; }
+#modal-student-reset .pw-ico:hover{ color:#111827; }
+#modal-student-reset .pw-ico:focus{ outline:none; box-shadow:0 0 0 3px rgba(0,0,139,.12); border-radius:6px; }
+
+/* Adviser reset layout mirrors the student reset */
+#modal-adviser-reset .form-grid{
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap:16px; align-items:start;
+}
+#modal-adviser-reset label{ position:relative; display:block; overflow:visible; }
+#modal-adviser-reset input{ width:100%; }
+
+/* Note under the search field */
+#modal-adviser-reset .field-note{
+  margin-top:6px; min-height:1em;
+  font-size:.85rem; line-height:1.15; font-weight:700; color:#64748b;
+}
+#modal-adviser-reset .field-note.error{ color:#7f1d1d; }
+
+/* Typeahead (search suggestions) */
+#modal-adviser-reset .ta-wrap{ position:relative; }
+#modal-adviser-reset .ta-list{
+  position:absolute; left:0; right:0; top:calc(100% + 4px);
+  background:#fff; border:1px solid var(--border); border-radius:10px;
+  box-shadow:0 10px 24px rgba(0,0,0,.08);
+  max-height:240px; overflow:auto; z-index:6;
+}
+#modal-adviser-reset .ta-item{
+  display:flex; flex-direction:column; gap:2px;
+  padding:8px 10px; cursor:pointer;
+}
+#modal-adviser-reset .ta-item small{ color:#64748b; }
+#modal-adviser-reset .ta-item:hover,
+#modal-adviser-reset .ta-item.is-active{ background:#f8fafc; }
+
+/* Tiny eye icon toggle inside password input */
+#modal-adviser-reset .pw-wrap{ position:relative; }
+#modal-adviser-reset .pw-wrap input{ padding-right:42px; }
+#modal-adviser-reset .pw-ico{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:24px; height:24px; display:grid; place-items:center;
+  border:none; background:transparent; padding:0; cursor:pointer; color:#334155;
+}
+#modal-adviser-reset .pw-ico svg{ width:20px; height:20px; }
+#modal-adviser-reset .pw-ico:hover{ color:#111827; }
+#modal-adviser-reset .pw-ico:focus{ outline:none; box-shadow:0 0 0 3px rgba(0,0,139,.12); border-radius:6px; }
+
+/* Adviser reset (match student reset look) */
+#modal-adviser-reset .form-grid{
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap:16px; align-items:start;
+}
+#modal-adviser-reset label{ position:relative; display:block; overflow:visible; }
+#modal-adviser-reset input{ width:100%; }
+#modal-adviser-reset .field-note{
+  margin-top:6px; min-height:1em;
+  font-size:.85rem; line-height:1.15; font-weight:700; color:#64748b;
+}
+#modal-adviser-reset .field-note.error{ color:#7f1d1d; }
+#modal-adviser-reset .pw-wrap{ position:relative; }
+#modal-adviser-reset .pw-wrap input{ padding-right:42px; }
+#modal-adviser-reset .pw-ico{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:24px; height:24px; display:grid; place-items:center;
+  border:none; background:transparent; padding:0; cursor:pointer; color:#334155;
+}
+#modal-adviser-reset .pw-ico svg{ width:20px; height:20px; }
+#modal-adviser-reset .pw-ico:hover{ color:#111827; }
+#modal-adviser-reset .pw-ico:focus{ outline:none; box-shadow:0 0 0 3px rgba(0,0,139,.12); border-radius:6px; }
+/* --- Bulk upload modal: compact by default --- */
+#modal-bulk-upload[aria-hidden="false"]{ overflow: hidden; }   /* overlay never scrolls */
+
+#modal-bulk-upload .modal-box{
+  width: clamp(640px, 70vw, 880px);   /* small when no file yet (your screenshot) */
+  max-height: 76vh;
+  display: flex; flex-direction: column;
+  overflow: visible;                  /* no internal scrollbars in compact state */
+}
+
+/* Expanded (after CSV preview is visible) — wide, but height is dynamic by default */
+#modal-bulk-upload.has-table .modal-box{
+  width: clamp(1280px, 96vw, 1500px);
+  /* no fixed height here */
+}
+
+/* Only when the table is long do we fix the modal height and let the table scroll */
+#modal-bulk-upload.has-table.long-table .modal-box{
+  height: 86vh;
+  overflow: hidden;
+}
+
+/* Table wrapper scrolling only in long-table mode */
+#modal-bulk-upload.has-table #bulk-table-wrap{ overflow: visible; }
+#modal-bulk-upload.has-table.long-table #bulk-table-wrap{
+  flex: 1 1 auto; min-height: 0;
+  overflow: auto;                 /* vertical + horizontal scroll live here */
+}
+
+
+/* Preview region layout (only matters in expanded state) */
+#modal-bulk-upload #bulk-preview{ margin-top: 8px; }
+#modal-bulk-upload.has-table #bulk-preview{
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column;
+}
+
+/* Only table scrolls (vertical+horizontal inside here) */
+#modal-bulk-upload.has-table #bulk-table-wrap{
+  flex: 1 1 auto; min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Hide tools/preview when not used */
+#modal-bulk-upload [hidden]{ display:none !important; }
+#modal-bulk-upload .modal-actions{ flex: 0 0 auto; }
+
+/* Table polish; sticky header; keep wide columns */
+.preview-table{
+  width: 100%;
+  min-width: 1200px;                  /* forces horizontal scroll INSIDE the table wrap */
+  border-collapse: separate; border-spacing: 0;
+}
+.preview-table thead th{
+  position: sticky; top: 0; z-index: 1;
+  background:#eef2ff; color:#1e3a8a;
+  border-bottom:1px solid var(--border);
+}
+.preview-table th, .preview-table td{
+  padding: 8px 10px; white-space: nowrap;
+  border-bottom:1px solid var(--border);
+}
+.preview-table tbody tr:nth-child(even){ background:#f8fafc; }
+.preview-table tbody tr:hover{ background:#fff7ed; }
+.preview-table td.num{ color:#64748b; font-weight:700; }
+.preview-table td.bad{ background:#fef2f2; color:#7f1d1d; font-weight:700; }
+
+/* === Bulk upload modal sizing (compact vs expanded) === */
+
+/* Overlay + modal never show their own scrollbars */
+#modal-bulk-upload,
+#modal-bulk-upload .modal-box{
+  overflow-x: hidden !important;
+}
+
+/* Compact (before a file is chosen) — keep your small look */
+#modal-bulk-upload .modal-box{
+  width: clamp(640px, 70vw, 880px);
+  max-height: 76vh;
+  display: flex; flex-direction: column;
+}
+
+/* Expanded (after CSV preview is visible) — WIDER so table fits */
+#modal-bulk-upload.has-table .modal-box{
+  width: clamp(1280px, 96vw, 1500px);   /* <- extended sides */
+  height: 86vh;                         /* fixed height; modal itself won't scroll */
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+
+/* Preview region (only matters when expanded) */
+#modal-bulk-upload.has-table #bulk-preview{
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column;
+}
+
+/* Only the table area scrolls (vertical/horizontal) */
+#modal-bulk-upload.has-table #bulk-table-wrap{
+  flex: 1 1 auto; min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Hide tools/preview when not used */
+#modal-bulk-upload [hidden]{ display:none !important; }
+
+/* Table: make sure its min-width is LESS than the modal width so no modal scrollbar shows */
+.preview-table{
+  width: 100%;
+  min-width: 1200px;                    /* <= modal expanded min (1280px) to avoid bottom bar */
+  border-collapse: separate; border-spacing: 0;
+}
+.preview-table thead th{
+  position: sticky; top: 0; z-index: 1;
+  background:#eef2ff; color:#1e3a8a;
+  border-bottom:1px solid var(--border);
+}
+.preview-table th, .preview-table td{
+  padding: 8px 10px; white-space: nowrap;
+  border-bottom:1px solid var(--border);
+}
+.preview-table tbody tr:nth-child(even){ background:#f8fafc; }
+.preview-table tbody tr:hover{ background:#fff7ed; }
+.preview-table td.num{ color:#64748b; font-weight:700; }
+.preview-table td.bad{ background:#fef2f2; color:#7f1d1d; font-weight:700; }
+/* ==== BULK MODAL OVERRIDES (place at the very end) ==== */
+
+/* Never let the modal itself scroll horizontally */
+#modal-bulk-upload,
+#modal-bulk-upload .modal-box{ overflow-x: hidden !important; }
+
+/* COMPACT: before a file is chosen (matches your screenshot) */
+#modal-bulk-upload .modal-box{
+  width: clamp(640px, 70vw, 880px) !important;
+  max-height: 76vh !important;
+  display: flex; flex-direction: column;
+  overflow: visible; /* no inner scrollbars in compact state */
+}
+
+/* EXPANDED: after CSV preview is visible — wider so the table fits, no modal scrollbar */
+#modal-bulk-upload.has-table .modal-box{
+  width: clamp(1280px, 96vw, 1500px) !important;  /* extend the sides */
+  height: 86vh !important;
+  display: flex; flex-direction: column;
+  overflow: hidden;                               /* modal itself never scrolls */
+}
+
+/* Let only the table area scroll (both axes if needed) */
+#modal-bulk-upload.has-table #bulk-preview{
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column;
+}
+#modal-bulk-upload.has-table #bulk-table-wrap{
+  flex: 1 1 auto; min-height: 0;
+  overflow: auto;                                   /* table owns the scrollbars */
+  border: 1px solid var(--border);
+  border-radius: 10px; background: #fff;
+}
+
+/* Keep table wide but still inside expanded modal width */
+#modal-bulk-upload .preview-table{
+  width: 100%;
+  min-width: 1200px;                                /* less than 1280 → no bottom bar on modal */
+  border-collapse: separate; border-spacing: 0;
+}
+#modal-bulk-upload [hidden]{ display:none !important; }
+
+/* Bulk upload: make the file chooser compact */
+#modal-bulk-upload label[for="bulk-file"] { display: block; }   /* keep the label full width */
+#modal-bulk-upload #bulk-file{
+  width: 420px !important;     /* pick any width you like */
+  display: inline-block !important;
+}
+
+/* If your theme forces *all* inputs to 100%, un-stretch file inputs inside this modal */
+#modal-bulk-upload input[type="file"]{
+  width: auto !important;      /* fallback if the id changes */
+  max-width: 420px !important;
+}
+
+/* Pretty buttons inside the bulk upload modal */
+#modal-bulk-upload .btn {
+  appearance: none;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  color: #0b1a4d;
+  border-radius: 12px;
+  padding: .55rem .95rem;
+  font-weight: 700;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .12s ease, background .12s ease, filter .12s ease;
+}
+#modal-bulk-upload .btn:hover {
+  background: #eef2f7;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+#modal-bulk-upload .btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+#modal-bulk-upload .btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11,77,255,.22);
+}
+
+/* If you ever need a primary button inside this modal */
+#modal-bulk-upload .btn-primary {
+  border-color: #0b4dff;
+  background: linear-gradient(180deg, #0c5aff 0%, #0b4dff 100%);
+  color: #fff;
+}
+#modal-bulk-upload .btn-primary:hover { filter: brightness(0.97); }
+#modal-bulk-upload .btn:disabled {
+  opacity: .55; cursor: not-allowed; transform: none; box-shadow: none;
+}
+/* ---------- Default modal sizing (APPLIES TO ALL EXCEPT BULK) ---------- */
+.modal:not(#modal-bulk-upload) .modal-box{
+  width: min(960px, calc(100% - 24px));
+  max-height: calc(100vh - 48px);
+  display: flex; flex-direction: column;
+}
+
+/* Let long forms scroll inside regular modals */
+.modal:not(#modal-bulk-upload) .modal-box .form-grid{ max-height: 100%; overflow: auto; }
+
+/* ---------- Bulk upload modal ---------- */
+
+#modal-bulk-upload[aria-hidden="false"]{ overflow: hidden; } /* overlay never scrolls */
+
+/* Compact (before a file is chosen) */
+#modal-bulk-upload .modal-box{
+  width: clamp(640px, 70vw, 880px);
+  max-height: 76vh;
+  display: flex; flex-direction: column;
+  overflow: visible;                 /* no inner scrollbars in compact state */
+}
+
+/* Expanded (after CSV preview is visible) — wider so table fits without bottom scrollbar */
+#modal-bulk-upload.has-table .modal-box{
+  width: clamp(1280px, 96vw, 1500px);
+  height: 86vh;                      /* fixed height; modal itself won’t scroll */
+  overflow: hidden;
+}
+
+/* Tools bar (contains the template button + search + row count) */
+#modal-bulk-upload #bulk-tools{
+  display: flex; align-items: center; gap: 10px; margin: 8px 0;
+}
+#modal-bulk-upload #bulk-templates .btn{ margin-right: auto; } /* template btn left, search fills the rest */
+
+/* Search box look inside bulk modal */
+#modal-bulk-upload #bulk-search{
+  flex: 1; min-width: 0;
+  border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px;
+  font: 600 14px/1.2 inherit; outline: none; background: #fff;
+}
+#modal-bulk-upload #bulk-search:focus{
+  border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,0,139,.12);
+}
+
+/* Preview region layout when expanded */
+#modal-bulk-upload #bulk-preview{ margin-top: 8px; }
+#modal-bulk-upload.has-table #bulk-preview{
+  flex: 1 1 auto; min-height: 0;
+  display: flex; flex-direction: column;
+}
+
+/* Only the table area scrolls (vertical + horizontal) */
+#modal-bulk-upload.has-table #bulk-table-wrap{
+  flex: 1 1 auto; min-height: 0;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px; background: #fff;
+}
+
+/* Hide elements with [hidden] attribute inside the bulk modal */
+#modal-bulk-upload [hidden]{ display: none !important; }
+
+/* File input: short, not full width */
+#modal-bulk-upload label[for="bulk-file"]{ display: block; }
+#modal-bulk-upload input[type="file"]{
+  width: auto !important;
+  max-width: 420px !important;
+}
+
+/* Styled buttons specifically inside bulk modal */
+#modal-bulk-upload .btn{
+  appearance: none;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  color: #0b1a4d;
+  border-radius: 12px;
+  padding: .55rem .95rem;
+  font-weight: 700;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .12s ease, background .12s ease, filter .12s ease;
+}
+#modal-bulk-upload .btn:hover{
+  background: #eef2f7;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+#modal-bulk-upload .btn:active{
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+#modal-bulk-upload .btn:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11,77,255,.22);
+}
+#modal-bulk-upload .btn-primary{
+  border-color: #0b4dff;
+  background: linear-gradient(180deg, #0c5aff 0%, #0b4dff 100%);
+  color: #fff;
+}
+#modal-bulk-upload .btn-primary:hover{ filter: brightness(.97); }
+#modal-bulk-upload .btn:disabled{
+  opacity: .55; cursor: not-allowed; transform: none; box-shadow: none;
+}
+
+/* Show only the correct template button based on data-kind set by JS */
+#modal-bulk-upload[data-kind="student"]  #dl-adviser-template{ display:none !important; }
+#modal-bulk-upload[data-kind="adviser"]  #dl-student-template{ display:none !important; }
+/* Avoid flicker before kind is set */
+#modal-bulk-upload:not([data-kind]) #bulk-templates button{ display:none; }
+
+/* Preview table polish (single definition) */
+#modal-bulk-upload .preview-table{
+  width: 100%;
+  min-width: 1200px;                   /* guarantees any horizontal scroll stays inside the table wrap */
+  border-collapse: separate; border-spacing: 0;
+  font-size: .95rem;
+}
+#modal-bulk-upload .preview-table thead th{
+  position: sticky; top: 0; z-index: 1;
+  background: #eef2ff; color: #1e3a8a;
+  border-bottom: 1px solid var(--border);
+}
+#modal-bulk-upload .preview-table th,
+#modal-bulk-upload .preview-table td{
+  padding: 8px 10px; white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+#modal-bulk-upload .preview-table tbody tr:nth-child(even){ background:#f8fafc; }
+#modal-bulk-upload .preview-table tbody tr:hover{ background:#fff7ed; }
+#modal-bulk-upload .preview-table td.num{ color:#64748b; font-weight:700; }
+#modal-bulk-upload .preview-table td.bad{ background:#fef2f2; color:#7f1d1d; font-weight:700; }
+/* --- FORCE pretty styling for the Template buttons inside the bulk modal --- */
+#modal-bulk-upload #dl-student-template,
+#modal-bulk-upload #dl-adviser-template{
+  display: inline-flex !important;
+  align-items: center;
+  gap: .35rem;
+  appearance: none;
+  border: 1px solid #d1d5db !important;
+  background: #f8fafc !important;
+  color: #0b1a4d !important;
+  border-radius: 12px !important;
+  padding: .55rem .95rem !important;
+  font-weight: 700 !important;
+  line-height: 1.1;
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .12s ease, background .12s ease, filter .12s ease;
+}
+
+#modal-bulk-upload #dl-student-template:hover,
+#modal-bulk-upload #dl-adviser-template:hover{
+  background: #eef2f7 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+
+#modal-bulk-upload #dl-student-template:active,
+#modal-bulk-upload #dl-adviser-template:active{
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+
+#modal-bulk-upload #dl-student-template:focus-visible,
+#modal-bulk-upload #dl-adviser-template:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11,77,255,.22);
+}
+
+/* make sure the tools row lays out nicely */
+#modal-bulk-upload #bulk-tools{
+  display: flex; align-items: center; gap: 10px; margin: 8px 0;
+}
+#modal-bulk-upload #bulk-templates{ margin-right: auto; } /* template button on the left */
+/* tighten space above the template button in the bulk modal */
+#modal-bulk-upload .modal-box hr,
+#modal-bulk-upload .modal-box .divider{
+  margin: 6px 0 8px !important;   /* was ~16px+ */
+}
+
+#modal-bulk-upload #bulk-tools{
+  margin-top: 0 !important;       /* was 8–10px */
+}
+
+#modal-bulk-upload #bulk-templates{
+  margin-top: 0 !important;       /* extra safety if a wrapper adds margin */
+}
+/* Bulk modal — tighten the space above the template button */
+#modal-bulk-upload .modal-head{               /* smaller header gap just for this modal */
+  margin-bottom: 4px !important;
+}
+
+/* In the compact state (no file yet): remove the dashed divider & spacing */
+#modal-bulk-upload .bulk-preview{
+  border-top: 0 !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* When a file is picked (we add .lock-backdrop) or a CSV table is shown (.has-table),
+   restore the divider and a small breathing space */
+#modal-bulk-upload.lock-backdrop .bulk-preview,
+#modal-bulk-upload.has-table .bulk-preview{
+  border-top: 1px dashed var(--border) !important;
+  padding-top: 8px !important;
+  margin-top: 6px !important;
+}
+
+/* Keep the tools row snug */
+#modal-bulk-upload #bulk-tools{ margin-top: 0 !important; }
+/* ===================== Bulk modal autosize vs fixed ===================== */
+
+/* Wide layout for table preview, but let height follow content by default */
+#modal-bulk-upload.has-table:not(.long-table) .modal-box{
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* In short-table mode, don't let the preview area stretch the modal */
+#modal-bulk-upload.has-table:not(.long-table) #bulk-preview{
+  display: block !important;
+  flex: unset !important;
+  min-height: 0 !important;
+}
+
+/* No internal scrollbars when the table is short */
+#modal-bulk-upload.has-table:not(.long-table) #bulk-table-wrap{
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* When the table is long (>9 visible rows): fix the modal height and scroll only the table */
+#modal-bulk-upload.has-table.long-table .modal-box{
+  height: 86vh !important;
+  overflow: hidden !important;
+}
+#modal-bulk-upload.has-table.long-table #bulk-preview{
+  display: flex !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+#modal-bulk-upload.has-table.long-table #bulk-table-wrap{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: auto !important;           /* vertical + horizontal scroll live here */
+}
+
+/* Bulk upload: file row rebuilt to avoid label-click behavior */
+#modal-bulk-upload .file-field{
+  display:flex; flex-direction:column; gap:6px;
+}
+#modal-bulk-upload .file-field .field-text{
+  font-weight:700; color:#1f2937;
+}
+
+/* Make only the native “Choose File” button clickable */
+#modal-bulk-upload .file-field input[type="file"]{
+  width: 140px !important;        /* just the button area */
+  display: inline-block !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* optional: tidy up the native button */
+#modal-bulk-upload .file-field input[type="file"]::file-selector-button{
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #0b1a4d;
+  font-weight: 700;
+  cursor: pointer;
+}
+#modal-bulk-upload .file-field input[type="file"]::file-selector-button:hover{
+  background: #eef2f7;
+}
+
+/* List modal layout */
+#modal-list-accounts .modal-box{
+  width: clamp(1100px, 95vw, 1400px);
+  height: 86vh;                 /* fixed height; only table scrolls */
+  display:flex; flex-direction:column;
+}
+
+#modal-list-accounts .list-tools{
+  display:flex; gap:10px; align-items:center; margin:8px 0 10px;
+}
+#modal-list-accounts #list-search{
+  flex:1; min-width:0;
+  border:1px solid var(--border); border-radius:10px; padding:8px 10px;
+  font:600 14px/1.2 inherit; outline:none; background:#fff;
+}
+#modal-list-accounts #list-search:focus{
+  border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,0,139,.12);
+}
+
+#modal-list-accounts #list-table-wrap{
+  flex:1 1 auto; min-height:0;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:10px; background:#fff;
+}
+
+/* Table */
+#modal-list-accounts .list-table{
+  width:100%; min-width:1000px;
+  border-collapse:separate; border-spacing:0;
+  font-size:.95rem;
+}
+#modal-list-accounts .list-table thead th{
+  position:sticky; top:0; z-index:1;
+  background:#eef2ff; color:#1e3a8a;
+  border-bottom:1px solid var(--border);
+}
+#modal-list-accounts .list-table th,
+#modal-list-accounts .list-table td{
+  padding:8px 10px; white-space:nowrap; border-bottom:1px solid var(--border);
+}
+#modal-list-accounts .list-table tbody tr:nth-child(even){ background:#f8fafc; }
+#modal-list-accounts .list-table tbody tr:hover{ background:#fff7ed; }
+#modal-list-accounts .list-table td.num{ color:#64748b; font-weight:700; }
+#modal-list-accounts .list-table td.status-archived{ color:#7f1d1d; font-weight:700; }
+#modal-list-accounts .archive-btn.btn{
+  border-color:#e11d48; color:#e11d48; background:#fff;
+}
+#modal-list-accounts .archive-btn.btn:hover{
+  background:#fff1f2;
+}
+
+/* ==== LIST MODAL: same close button style as others ==== */
+#modal-list-accounts .modal-head .icon-btn{
+  appearance:none; border:1px solid #e5e7eb; background:#fff;
+  width:36px; height:36px; border-radius:10px;
+  display:inline-grid; place-items:center;
+  color:#111827; cursor:pointer;
+  transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+}
+#modal-list-accounts .modal-head .icon-btn:hover{
+  background:#f8fafc; transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+#modal-list-accounts .modal-head .icon-btn:active{
+  transform:translateY(0); box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+/* ==== LIST MODAL: width + autosize vs fixed ==== */
+#modal-list-accounts .modal-box{
+  width: clamp(1100px, 95vw, 1500px);
+  /* height is dynamic by default (short tables) */
+}
+
+/* Long tables: fix modal height and scroll only the table area */
+#modal-list-accounts.long-table .modal-box{
+  height: 86vh !important;
+  overflow: hidden !important;
+}
+
+/* tools row & search */
+#modal-list-accounts .list-tools{
+  display:flex; gap:10px; align-items:center; margin:8px 0 10px;
+}
+#modal-list-accounts #list-search{
+  flex:1; min-width:0;
+  border:1px solid var(--border); border-radius:10px; padding:8px 10px;
+  font:600 14px/1.2 inherit; outline:none; background:#fff;
+}
+#modal-list-accounts #list-search:focus{
+  border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,0,139,.12);
+}
+
+/* Table wrapper behavior */
+#modal-list-accounts #list-table-wrap{
+  border:1px solid var(--border);
+  border-radius:10px; background:#fff;
+  /* dynamic by default */
+  overflow: visible;
+}
+#modal-list-accounts.long-table #list-table-wrap{
+  flex:1 1 auto; min-height:0;
+  overflow:auto;                        /* vertical + horizontal scroll live here */
+}
+
+/* Table */
+#modal-list-accounts .list-table{
+  width:100%;
+  min-width: 1200px;                    /* avoid bottom scrollbar on narrow screens */
+  border-collapse:separate; border-spacing:0;
+  font-size:.95rem;
+}
+#modal-list-accounts .list-table thead th{
+  position:sticky; top:0; z-index:1;
+  background:#eef2ff; color:#1e3a8a;
+  border-bottom:1px solid var(--border);
+}
+#modal-list-accounts .list-table th,
+#modal-list-accounts .list-table td{
+  padding:8px 10px; white-space:nowrap; border-bottom:1px solid var(--border);
+}
+#modal-list-accounts .list-table tbody tr:nth-child(even){ background:#f8fafc; }
+#modal-list-accounts .list-table tbody tr:hover{ background:#fff7ed; }
+#modal-list-accounts .list-table td.num{ color:#64748b; font-weight:700; }
+#modal-list-accounts .list-table td.status-archived{ color:#7f1d1d; font-weight:700; }
+
+/* Archive button styling */
+#modal-list-accounts .archive-btn.btn{
+  border-color:#e11d48; color:#e11d48; background:#fff;
+}
+#modal-list-accounts .archive-btn.btn:hover{ background:#fff1f2; }
+#modal-list-accounts .archive-btn.btn:disabled{
+  opacity:.55; cursor:not-allowed;
+}
+
+/* List modal: always handle horizontal overflow inside the table wrapper */
+#modal-list-accounts #list-table-wrap{
+  max-width: 100%;
+  overflow-x: auto !important;   /* contain wide tables, no bleed */
+  overflow-y: hidden !important; /* vertical handled below */
+}
+
+/* Short tables (compact): no vertical scroll */
+#modal-list-accounts:not(.long-table) #list-table-wrap{
+  overflow-y: hidden !important;
+}
+
+/* Long tables: scroll both ways inside the wrapper (vertical + horizontal) */
+#modal-list-accounts.long-table #list-table-wrap{
+  overflow-y: auto !important;   /* vertical scroll only when long */
+  /* overflow-x stays auto from the base rule */
+}
+
+/* Make the LIST modal stretch further left & right */
+#modal-list-accounts .modal-box{
+  width: clamp(1280px, 96vw, 1600px) !important; /* wider than before */
+}
+
+/* Grow the table's minimum width to match the wider modal,
+   so no bottom scrollbar appears on large screens */
+#modal-list-accounts .list-table{
+  min-width: 1400px !important;  /* was ~1100–1200; bump to fit the wider modal */
+}
+
+/* Keep overflow contained inside the table area (safety) */
+#modal-list-accounts #list-table-wrap{
+  max-width: 100%;
+  overflow-x: auto;               /* only kicks in on very small viewports */
+}
+
+/* List modal: consistent cell alignment/sizing so columns line up */
+#modal-list-accounts .list-table th,
+#modal-list-accounts .list-table td{
+  padding: 10px 14px !important;
+  text-align: left !important;
+  vertical-align: middle !important;
+}
+
+/* Column 1: row number */
+#modal-list-accounts .list-table th:nth-child(1),
+#modal-list-accounts .list-table td:nth-child(1){
+  width: 60px !important;
+  text-align: center !important;
+}
+
+/* Column 2: student_id / adviser_id (a little fixed width keeps layout stable) */
+#modal-list-accounts .list-table th:nth-child(2),
+#modal-list-accounts .list-table td:nth-child(2){
+  width: 160px !important;
+}
+
+/* Column 7: status */
+#modal-list-accounts .list-table th:nth-child(7),
+#modal-list-accounts .list-table td:nth-child(7){
+  width: 120px !important;
+  text-align: center !important;
+}
+
+#modal-list-accounts .list-table th:nth-child(8),
+#modal-list-accounts .list-table td:nth-child(8){
+  width: 200px !important;          /* room for Activate + Delete */
+  text-align: center !important;
+}
+
+/* List modal: consistent cell alignment/sizing so columns line up */
+#modal-list-accounts .list-table th,
+#modal-list-accounts .list-table td{
+  padding: 10px 14px !important;
+  text-align: left !important;
+  vertical-align: middle !important;
+}
+
+/* Column 1: row number */
+#modal-list-accounts .list-table th:nth-child(1),
+#modal-list-accounts .list-table td:nth-child(1){
+  width: 60px !important;
+  text-align: center !important;
+}
+
+/* Column 2: student_id / adviser_id (a little fixed width keeps layout stable) */
+#modal-list-accounts .list-table th:nth-child(2),
+#modal-list-accounts .list-table td:nth-child(2){
+  width: 160px !important;
+}
+
+/* Column 7: status */
+#modal-list-accounts .list-table th:nth-child(7),
+#modal-list-accounts .list-table td:nth-child(7){
+  width: 120px !important;
+  text-align: center !important;
+}
+
+#modal-list-accounts .list-table th:nth-child(8),
+#modal-list-accounts .list-table td:nth-child(8){
+  width: 200px !important;          /* room for Activate + Delete */
+  text-align: center !important;
+}
+
+
+/* Confirm-archive modal: compact size */
+#modal-archive-confirm .confirm-box{
+  width: clamp(360px, 34vw, 480px) !important;  /* shorter & snappier */
+}
+
+/* Proper, consistent close icon */
+#modal-archive-confirm .modal-head .icon-btn{
+  appearance:none; border:1px solid #e5e7eb; background:#fff;
+  width:36px; height:36px; border-radius:10px;
+  display:inline-grid; place-items:center;
+  color:#111827; cursor:pointer;
+  transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+}
+#modal-archive-confirm .modal-head .icon-btn:hover{
+  background:#f8fafc; transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+#modal-archive-confirm .modal-head .icon-btn:active{
+  transform:translateY(0); box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+/* Body spacing */
+#modal-archive-confirm .modal-body p{ margin:0 0 8px; }
+
+/* Footer: push buttons to the right */
+#modal-archive-confirm .modal-foot{
+  display:flex; justify-content:flex-end !important; gap:10px;
+  margin-top: 4px;
+}
+
+/* Danger button look (kept from previous, included for completeness) */
+#modal-archive-confirm .btn.btn-danger{
+  border-color:#e11d48;
+  color:#fff;
+  background: linear-gradient(180deg,#f43f5e 0%, #e11d48 100%);
+}
+#modal-archive-confirm .btn.btn-danger:hover{ filter:brightness(.97); }
+
+/* Green action button in confirm modal */
+.btn.btn-success{
+  border-color:#16a34a;
+  color:#fff;
+  background: linear-gradient(180deg,#22c55e 0%, #16a34a 100%);
+}
+.btn.btn-success:hover{ filter: brightness(.97); }
+
+/* Table row button styles */
+#modal-list-accounts .activate-btn.btn{
+  border-color:#16a34a; color:#16a34a; background:#fff;
+}
+#modal-list-accounts .activate-btn.btn:hover{ background:#ecfdf5; }
+
+#modal-list-accounts .archive-btn.btn{
+  border-color:#e11d48; color:#e11d48; background:#fff;
+}
+#modal-list-accounts .archive-btn.btn:hover{ background:#fff1f2; }
+
+/* (optional) keep admin create/reset grids neat like the others */
+#modal-admin-create .form-grid,
+#modal-admin-reset  .form-grid{ display:grid; gap:12px; }
+
+#modal-admin-reset .pw-wrap{ position:relative; }
+#modal-admin-reset .pw-ico{
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border-radius:10px; border:1px solid #e5e7eb;
+  background:#fff; display:grid; place-items:center; cursor:pointer;
+}
+#modal-admin-reset .pw-ico svg{ width:18px; height:18px; }
+
+/* Admin reset modal: compact width */
+#modal-admin-reset .modal-box{
+  width: clamp(460px, 42vw, 640px) !important; /* shorter and responsive */
+}
+
+/* Use a tidy 2-col grid; first row (identifier) spans full width */
+#modal-admin-reset .form-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+}
+#modal-admin-reset .form-grid > label:first-child{ grid-column: 1 / -1; } /* ID/Email full width */
+#modal-admin-reset .modal-foot{ grid-column: 1 / -1; display:flex; gap:10px; justify-content:flex-end; }
+
+/* Proper close icon like the other modals */
+#modal-admin-reset .modal-head .icon-btn{
+  appearance:none; border:1px solid #e5e7eb; background:#fff;
+  width:36px; height:36px; border-radius:10px;
+  display:inline-grid; place-items:center; color:#111827; cursor:pointer;
+  transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+}
+#modal-admin-reset .modal-head .icon-btn:hover{
+  background:#f8fafc; transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+#modal-admin-reset .modal-head .icon-btn:active{
+  transform:translateY(0); box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+/* Eye icon: keep it inside the input and fix the “bugged” width */
+#modal-admin-reset .pw-wrap{ position:relative; }
+#modal-admin-reset .pw-wrap input{ padding-right:44px; } /* space for eye button */
+#modal-admin-reset .pw-ico{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border-radius:10px; border:1px solid #e5e7eb;
+  background:#fff; display:grid; place-items:center; cursor:pointer;
+}
+#modal-admin-reset .pw-ico:hover{ background:#f8fafc; }
+
+/* --- Admin reset: compact modal and tidy grid --- */
+#modal-admin-reset .modal-box{
+  width: clamp(460px, 42vw, 640px) !important; /* short & responsive */
+}
+
+#modal-admin-reset .form-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;   /* identifier | password */
+  gap:12px;
+}
+#modal-admin-reset .form-grid > label:first-child{
+  grid-column: 1 / -1;              /* identifier full width on first row */
+}
+#modal-admin-reset .modal-foot{
+  grid-column: 1 / -1;
+  display:flex; gap:10px; justify-content:flex-end;
+}
+
+/* Close button (same look as other modals) */
+#modal-admin-reset .modal-head .icon-btn{
+  appearance:none; border:1px solid #e5e7eb; background:#fff;
+  width:36px; height:36px; border-radius:10px;
+  display:inline-grid; place-items:center; color:#111827; cursor:pointer;
+  transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+}
+#modal-admin-reset .modal-head .icon-btn:hover{
+  background:#f8fafc; transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+#modal-admin-reset .modal-head .icon-btn:active{
+  transform:translateY(0); box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+/* Eye icon button + fix the input's padding so it doesn't look "bugged" */
+#modal-admin-reset .pw-wrap{ position:relative; }
+#modal-admin-reset .pw-wrap input{ padding-right:44px; }
+#modal-admin-reset .pw-ico{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:36px; height:36px; border-radius:10px; border:1px solid #e5e7eb;
+  background:#fff; display:grid; place-items:center; cursor:pointer;
+}
+#modal-admin-reset .pw-ico:hover{ background:#f8fafc; }
+
+#modal-admin-create .modal-box {
+  width: clamp(460px, 42vw, 640px);
+}
+
+/* Pretty ✕ button for every modal */
+.modal .modal-head .icon-btn{
+  appearance:none; border:1px solid #e5e7eb; background:#fff;
+  width:36px; height:36px; border-radius:10px;
+  display:inline-grid; place-items:center; color:#111827; cursor:pointer;
+  transition:transform .06s ease, box-shadow .12s ease, background .12s ease;
+}
+.modal .modal-head .icon-btn:hover{
+  background:#f8fafc; transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+.modal .modal-head .icon-btn:active{
+  transform:translateY(0); box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+/* --- Make Admin reset look like Student reset --- */
+#modal-admin-reset .modal-box{
+  /* same wide footprint as your student reset */
+  width: clamp(700px, 70vw, 980px) !important;
+}
+
+/* two columns (ID/email on the left, password on the right) */
+#modal-admin-reset .form-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: end;
+}
+
+/* undo the old "span full width" rule on the first label */
+#modal-admin-reset .form-grid > label:first-child{
+  grid-column: auto !important;
+}
+
+/* match the password-eye control to the other modals */
+#modal-admin-reset .pw-wrap{ position: relative; }
+#modal-admin-reset .pw-wrap input{ padding-right: 44px; }
+#modal-admin-reset .pw-ico{
+  position: absolute;
+  right: 8px; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 1px solid #e5e7eb; background: #fff;
+  display: grid; place-items: center; cursor: pointer;
+}
+#modal-admin-reset .pw-ico:hover{ background: #f8fafc; }
+
+/* ensure all modals share the same close (✕) styling */
+.modal .modal-head .icon-btn{
+  appearance: none; border: 1px solid #e5e7eb; background: #fff;
+  width: 36px; height: 36px; border-radius: 10px;
+  display: inline-grid; place-items: center; color: #111827; cursor: pointer;
+  transition: transform .06s ease, box-shadow .12s ease, background .12s ease;
+}
+.modal .modal-head .icon-btn:hover{
+  background: #f8fafc; transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+.modal .modal-head .icon-btn:active{
+  transform: translateY(0); box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+/* Unify password-eye overlay across all modals (student/adviser/admin) */
+.modal .pw-wrap{
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.modal .pw-wrap > input{
+  width: 100%;
+  padding-right: 48px;           /* room for the eye button */
+}
+
+/* Force the eye control to overlay INSIDE the input on the right */
+.modal .pw-wrap > .pw-ico{
+  position: absolute !important; /* beat any generic button styles */
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.modal .pw-wrap > .pw-ico:hover{ background: #f8fafc; }
+.modal .pw-wrap > .pw-ico svg{ pointer-events: none; }
+/* Make the eye icon an overlaid icon, not a button block */
+.modal .pw-wrap{
+  position: relative;
+  display: block;
+}
+.modal .pw-wrap > input{
+  width: 100%;
+  padding-right: 48px;                 /* room for the icon */
+  background-clip: padding-box;        /* avoids odd right-side fills in some browsers */
+}
+
+/* Remove the button "area" look */
+.modal .pw-wrap > .pw-ico{
+  position: absolute !important;
+  right: 10px;                          /* sit well inside the field */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;                          /* smaller, like adviser */
+  height: 28px;
+  padding: 0;
+  margin: 0;
+  appearance: none;
+  border: 0 !important;                 /* kill border line */
+  background: transparent !important;   /* kill white button bg */
+  box-shadow: none !important;          /* kill any shadow ring */
+  outline: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+/* Keep the icon crisp and clickable without affecting layout */
+.modal .pw-wrap > .pw-ico svg{ pointer-events: none; }
+.modal .pw-wrap > .pw-ico:hover{ opacity: .8; }
+
+/* In case any “input-group” style drew a fake right segment */
+.modal .pw-wrap::after{ content: none !important; }
+
+/* Make Admin reset layout identical to Student/Adviser */
+#modal-admin-reset .modal-box { width: clamp(700px, 70vw, 980px); }
+#modal-admin-reset .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Header: place title/desc at left and Logout at right */
+.admin-header{
+  padding:20px 16px 8px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.admin-header .header-left{ display:flex; flex-direction:column; gap:4px }
+
+/* Center the Admins card on the second row of the 3-column grid */
+.admin-card.admins{
+  grid-column: 2;                 /* second column of the row → centered */
+  justify-self: center;
+}
+
+/* Responsive fallbacks */
+@media (max-width: 900px){
+  /* grid becomes 2 cols → let Admins span both and stay centered with a nice width */
+  .admin-card.admins{ grid-column: 1 / -1; max-width: 560px; width:100%; justify-self:center; }
+}
+@media (max-width: 560px){
+  /* single column: it already centers naturally */
+  .admin-card.admins{ max-width: none; }
+}
+
+/* Trim the extra space above "Admins" so it matches the other cards */
+.admin-card.admins { padding-top: 16px; }         /* same as the others */
+.admin-card.admins > h3 { margin-top: 0; }        /* kill the default h3 top margin */
+
+/* Ensure each card reserves space for ~2 lines of intro text */
+.admin-card > .muted { line-height: 1.35; min-height: calc(1.35em * 2); }
+
+/* Clubs: place "List" on the bottom-left (row 2, col 1) */
+.admin-card.clubs .btn-row{
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: 8px 12px;
+  justify-content: start;
+}
+
+.admin-card.clubs .btn-row .btn:nth-of-type(1){ grid-column: 1; grid-row: 1; } /* Create */
+.admin-card.clubs .btn-row .btn:nth-of-type(2){ grid-column: 2; grid-row: 1; } /* Edit   */
+.admin-card.clubs .btn-row .btn:nth-of-type(3){ grid-column: 1; grid-row: 2; } /* List   */
+
+/* Make the list table use fixed column sizing */
+.list-table {
+  width: 100%;
+  table-layout: fixed;              /* ← critical: columns obey widths */
+  border-collapse: collapse;
+}
+
+/* (Optional) keep the whole table from nudging due to wrapping */
+.list-table th, .list-table td {
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+/* Lock the STATUS and ACTION columns */
+:root {
+  --status-col: 108px;              /* tweak to taste */
+  --action-col: 112px;              /* tweak to taste */
+}
+
+.list-table th:nth-last-child(2),
+.list-table td:nth-last-child(2) {  /* STATUS column */
+}
+
+.list-table th:last-child,
+.list-table td:last-child {          /* ACTION column */
+  width: var(--action-col);
+  text-align: center;
+}
+
+/* Give the status a consistent visual width even if it's just plain text */
+.list-table td:nth-last-child(2) {
+  display: inline-block;            /* isolates the cell’s text width */
+  min-width: var(--status-col);
+}
+
+/* If you render a badge element inside, keep it consistent too */
+.list-table td:nth-last-child(2) .badge {
+  display: inline-block;
+  min-width: calc(var(--status-col) - 16px);
+  text-align: center;
+}
+
+/* Lock the layout */
+.list-table{
+  width: 100%;
+  table-layout: fixed;             /* columns obey widths */
+  border-collapse: collapse;
+}
+
+/* General cell styling */
+.list-table th,
+.list-table td{
+  box-sizing: border-box;
+  white-space: nowrap;             /* prevent reflow on short/long labels */
+  vertical-align: middle;
+}
+
+/* Make the last two columns fixed width and centered */
+:root{
+  --status-col: 108px;             /* adjust to taste */
+  --action-col: 112px;             /* adjust to taste */
+}
+
+.list-table th:nth-last-child(2),
+.list-table td:nth-last-child(2){  /* STATUS */
+  width: var(--status-col);
+  text-align: center;
+}
+
+.list-table th:last-child,
+.list-table td:last-child{          /* ACTION */
+  width: var(--action-col);
+  text-align: center;
+}
+
+/* Optional: uniform badge width inside the status cell (doesn't affect column width) */
+.status-badge{
+  display: inline-block;
+  min-width: calc(var(--status-col) - 16px); /* minus typical cell padding */
+  text-align: center;
+}
+
+/* ===== Clubs list: lock STATUS + ACTION column widths and alignment ===== */
+#modal-list-accounts .list-table{
+  table-layout: fixed !important;   /* columns obey explicit widths */
+  width: 100%;
+}
+
+#modal-list-accounts .list-table th,
+#modal-list-accounts .list-table td{
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  padding: 10px 14px !important;
+}
+
+/* last column = ACTION */
+#modal-list-accounts .list-table th:last-child,
+#modal-list-accounts .list-table td:last-child{
+  width: 120px !important;
+  text-align: center !important;
+}
+
+/* second-to-last column = STATUS */
+#modal-list-accounts .list-table th:nth-last-child(2),
+#modal-list-accounts .list-table td:nth-last-child(2){
+  width: 110px !important;
+  text-align: center !important;
+}
+/* ===== List modal: lock last two columns (STATUS + ACTION) for all tables ===== */
+#modal-list-accounts .list-table{
+  table-layout: fixed !important; /* columns obey set widths */
+  width: 100%;
+}
+
+/* General cell behaviour inside the list table */
+#modal-list-accounts .list-table th,
+#modal-list-accounts .list-table td{
+  box-sizing: border-box;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  padding: 10px 14px !important;
+}
+
+/* ACTION = last column */
+#modal-list-accounts .list-table th:last-child,
+#modal-list-accounts .list-table td:last-child{
+  width: 120px !important;
+  text-align: center !important;
+}
+
+/* STATUS = second-to-last column */
+#modal-list-accounts .list-table th:nth-last-child(2),
+#modal-list-accounts .list-table td:nth-last-child(2){
+  width: 110px !important;
+  text-align: center !important;
+}
+
+/* Undo the old inline-block hack that was breaking alignment */
+#modal-list-accounts .list-table td:nth-last-child(2){
+  display: table-cell !important;
+  min-width: auto !important;
+}
+
+/* Optional: bold red text when archived (keeps alignment) */
+#modal-list-accounts .list-table td.status-archived{
+  color:#7f1d1d; font-weight:700;
+}
+
+#modal-list-accounts .list-tools.status-filter{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+
+#modal-list-accounts .status-filter .filter-label{
+  font-weight: 600;
+  color: #334155;
+  margin-right: 2px;
+}
+
+#modal-list-accounts .filter-pill{
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid #d0d5dd;
+  background: #fff;
+  color: #111827;
+  font-weight: 600;
+  font-size: 12.5px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+#modal-list-accounts .filter-pill:hover{
+  border-color: #b5bcd0;
+}
+
+#modal-list-accounts .filter-pill.active{
+  background: #111c64;    /* your primary */
+  border-color: #111c64;
+  color: #fff;
+}
+
+/* optional */
+#list-status { margin-left: .5rem; padding: .35rem .5rem; border-radius: .5rem; }
+
+.inline-error{color:#d93025;font-size:12px;margin-top:4px;display:block}
+
+/* (optional) keep admin create/reset grids neat like the others */
+#modal-admin-create .form-grid,
+#modal-admin-reset  .form-grid{ display:grid; gap:12px; }
+
+/* Add this block for #modal-admin-create buttons */
+#modal-admin-create .modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* Adjust gap as needed */
+  grid-column: 1 / -1; /* Ensure it spans full width if form-grid is multi-column */
+}
+.inline-error {
+  color: red;
+  font-size: 0.85em;
+  margin-top: 4px;
+  display: block; /* or inline-block if preferred */
+}
+
+#modal-admin-reset .form-grid{
+  display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap:16px; align-items:start;
+}
+#modal-admin-reset .form-grid > label:first-child{ grid-column:1 / -1; }
+
+/* Inline error (same red look you use elsewhere) */
+.inline-error{ color:#7f1d1d; font-weight:700; }
+
+/* Eye icon inside password field */
+#modal-admin-reset .pw-wrap{ position:relative; display:block; }
+#modal-admin-reset .pw-wrap input{ width:100%; padding-right:42px; }
+#modal-admin-reset .pw-ico{
+  position:absolute; right:8px; top:50%; transform:translateY(-50%);
+  width:24px; height:24px; border:none; background:transparent; cursor:pointer;
+}
+
+/* Keep the admin reset modal reasonably compact */
+#modal-admin-reset .modal-box{
+  width: clamp(560px, 48vw, 720px);
+}
+/* Admin reset tooltip (same as student/adviser) */
+#modal-admin-reset .field-note{
+  display:block;
+  margin-top:6px;
+  font-size:14px;
+  line-height:1.25;
+  color:#64748b;               /* grey helper text */
+}
+#modal-admin-reset .field-note.error{
+  color:#7f1d1d;               /* red when invalid */
+  font-weight:700;
+}
+
+#modal-admin-reset .inline-error{
+  color:#64748b !important; /* gray for "Last name: ..." */
+}
+
+/* When JS adds .error, turn it red like the other modals */
+#modal-admin-reset .inline-error.error{
+  color:#7f1d1d !important;
+}
+
+/* ===== Clubs list: column sizing + alignment ===== */
+#modal-list-accounts[data-kind="club"] .list-table th,
+#modal-list-accounts[data-kind="club"] .list-table td {
+  vertical-align: middle !important; /* keep rows nicely centered */
+}
+
+/* Col 2 = club name: let it breathe (override generic 160px rule) */
+#modal-list-accounts[data-kind="club"] .list-table th:nth-child(2),
+#modal-list-accounts[data-kind="club"] .list-table td:nth-child(2){
+  width: auto !important;
+  min-width: 260px !important;
+}
+
+/* Col 3 = tags/categories: add a little minimum width so it’s not tight */
+#modal-list-accounts[data-kind="club"] .list-table th:nth-child(3),
+#modal-list-accounts[data-kind="club"] .list-table td:nth-child(3){
+  min-width: 220px !important;
+}
+
+/* Col 5/6 = status / Action: center them for Clubs (6-column table) */
+#modal-list-accounts[data-kind="club"] .list-table th:nth-child(5),
+#modal-list-accounts[data-kind="club"] .list-table td:nth-child(5),
+#modal-list-accounts[data-kind="club"] .list-table th:nth-child(6),
+#modal-list-accounts[data-kind="club"] .list-table td:nth-child(6){
+  text-align: center !important;
+  width: 120px !important;
+}
+/* === Club List modal: make the status filter row horizontally scrollable === */
+#modal-list-accounts .list-tools.status-filter{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  /* scrolling */
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+
+#modal-list-accounts .list-tools.status-filter > *{
+  flex: 0 0 auto;            /* keep chips from shrinking/wrapping */
+}
+
+/* keep the pills compact so more fit before scrolling */
+#modal-list-accounts .filter-pill{
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+/* Club List modal: visible thin scrollbar for the active filters bar */
+#club-active-filters::-webkit-scrollbar { height: 8px; }
+#club-active-filters::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+#club-active-filters { scrollbar-width: thin; }
+/* ===== FINAL OVERRIDES: unify List modal behavior (all kinds incl. Clubs) ===== */
+
+/* Modal: fixed height like the working lists; modal itself never scrolls */
+#modal-list-accounts .modal-box{
+  height: 86vh !important;
+  overflow: hidden !important;
+  width: clamp(1100px, 95vw, 1500px); /* keep your wide layout */
+}
+
+/* Table wrapper: always own the scrollbars (both axes if needed) */
+#modal-list-accounts #list-table-wrap{
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Do NOT disable scrolling when .long-table is absent */
+#modal-list-accounts:not(.long-table) #list-table-wrap{
+  overflow-y: auto !important;
+}
+
+/* Keep table wide enough to avoid a bottom scrollbar on the modal itself */
+#modal-list-accounts .list-table{
+  width: 100% !important;
+  min-width: 1200px !important; /* or 1400px if you prefer your wider version */
+}
+
+/* Sticky header and neat cells (same as your working ones) */
+#modal-list-accounts .list-table thead th{
+  position: sticky; top: 0; z-index: 1;
+}
+
+/* Optional: ensure the tools/search row never causes the modal to scroll */
+#modal-list-accounts .list-tools{ flex: 0 0 auto; }
+/* last_login column = third from the end on people tables */
+#modal-list-accounts[data-kind="student"] .list-table th:nth-last-child(3),
+#modal-list-accounts[data-kind="student"] .list-table td:nth-last-child(3),
+#modal-list-accounts[data-kind="adviser"] .list-table th:nth-last-child(3),
+#modal-list-accounts[data-kind="adviser"] .list-table td:nth-last-child(3),
+#modal-list-accounts[data-kind="admin"]   .list-table th:nth-last-child(3),
+#modal-list-accounts[data-kind="admin"]   .list-table td:nth-last-child(3){
+  width: 180px !important;
+}
+
+/* Dashboard modal look */
+#modal-admin-dashboard .modal-box.wide { width: clamp(900px, 92vw, 1180px); }
+#modal-admin-dashboard .db-tabs { display:flex; gap:8px; margin:8px 0 12px; }
+#modal-admin-dashboard .db-tab{
+  padding:8px 12px; border:1px solid #d0d5dd; border-radius:9999px; background:#fff; cursor:pointer;
+  font-weight:600; font-size:13px;
+}
+#modal-admin-dashboard .db-tab.is-active{ background:#111c64; color:#fff; border-color:#111c64; }
+#modal-admin-dashboard .db-panes .db-pane{ display:none; }
+#modal-admin-dashboard .db-panes .db-pane.is-active{ display:block; }
+#modal-admin-dashboard .dash-grid{
+  display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+.metric-card{
+  border:1px solid #e5e7eb; border-radius:12px; padding:14px; background:#fff;
+}
+.metric-card h4{ margin:0 0 6px; font-size:14px; color:#334155; }
+.metric-card .big{ font-size:32px; font-weight:800; line-height:1.05; }
+.metric-card .sub{ color:#64748b; font-size:12.5px; }
+.bar{ height:8px; background:#eef2ff; border-radius:6px; overflow:hidden; }
+.bar > i{ display:block; height:100%; width:0; background:#111c64; }
+/* Keep Status & Action tight */
+#modal-list-accounts .list-table tr > *:nth-last-child(2),
+#modal-list-accounts .list-table tr > *:last-child{
+  width: 120px !important;
+  text-align: center !important;
+}
+
+/* Give Last login (3rd from last) comfortable width on people tables */
+#modal-list-accounts[data-kind="student"] .list-table th:nth-last-child(3),
+#modal-list-accounts[data-kind="student"] .list-table td:nth-last-child(3),
+#modal-list-accounts[data-kind="adviser"] .list-table th:nth-last-child(3),
+#modal-list-accounts[data-kind="adviser"] .list-table td:nth-last-child(3),
+#modal-list-accounts[data-kind="admin"]   .list-table th:nth-last-child(3),
+#modal-list-accounts[data-kind="admin"]   .list-table td:nth-last-child(3){
+  width: 180px !important;
+  white-space: nowrap;
+}
+/* Ellipsis ONLY for Students/Advisers email cells (col #6) */
+#modal-list-accounts[data-kind="student"] .list-table td:nth-child(6) .clip,
+#modal-list-accounts[data-kind="adviser"] .list-table td:nth-child(6) .clip{
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: min(44vw, 600px);   /* flexible lane; doesn't force the table layout */
+  padding-right: 8px;            /* little gap before last_login */
+}
+.metric-card{ background:#fff;border:1px solid #e9e9f3;border-radius:10px;padding:14px 16px; }
+.metric-card h4{ margin:0 0 6px 0;font-weight:600;font-size:14px;color:#222; }
+.metric-card .big{ font-size:28px;font-weight:800;line-height:1.1; }
+.metric-card .sub{ margin-top:4px;color:#6b6f7b;font-size:12px; }
+.metric-card .bar{ margin-top:10px;height:6px;background:#eef1fb;border-radius:8px;overflow:hidden; }
+.metric-card .bar i{ display:block;height:100%;background:#0c1e72; }
+.db-grid{ display:grid; grid-template-columns: repeat(2, minmax(240px,1fr)); gap:12px; }
+@media (max-width: 900px){ .db-grid{ grid-template-columns:1fr; } }
+/* ===== Dashboard layout ===== */
+#modal-admin-dashboard .db-tabs{
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+
+#modal-admin-dashboard .db-panes{ margin-top:12px; }
+
+/* hide non-active panes */
+/* NEW – only hide SHOW the panes inside .db-panes */
+#modal-admin-dashboard .db-panes > .db-pane { display:none; }
+#modal-admin-dashboard .db-panes > .db-pane.is-active { display:block; }
+
+
+/* grid of cards inside each pane */
+#modal-admin-dashboard .db-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap:12px;
+  align-items:start;
+  width:100%;
+}
+
+/* card styling (safe if already present) */
+#modal-admin-dashboard .metric-card{
+  background:#fff;
+  border:1px solid #e9eaf3;
+  border-radius:10px;
+  padding:12px 14px;
+}
+#modal-admin-dashboard .metric-card h4{
+  margin:0 0 6px 0; font-weight:600; font-size:14px; color:#222;
+}
+#modal-admin-dashboard .metric-card .big{
+  font-size:26px; font-weight:800; line-height:1.1;
+}
+#modal-admin-dashboard .metric-card .sub{
+  margin-top:4px; color:#6b6f7b; font-size:12px;
+}
+#modal-admin-dashboard .metric-card .bar{
+  margin-top:10px; height:6px; background:#eef1fb; border-radius:8px; overflow:hidden;
+}
+#modal-admin-dashboard .metric-card .bar i{
+  display:block; height:100%; background:#0c1e72;
+}
+#modal-admin-dashboard .db-tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+#modal-admin-dashboard .db-tab{
+  appearance:none; border:1px solid #dfe3f1; background:#fff; color:#111;
+  padding:6px 12px; border-radius:999px; font-weight:600; cursor:pointer;
+}
+#modal-admin-dashboard .db-tab.is-active{
+  background:#0c1e72; color:#fff; border-color:#0c1e72;
+}
+/* Dashboard: section title + compact per-club grid */
+#modal-dashboard .metric-section-title{
+  margin: 12px 6px 4px; font-weight: 700; color: #111827;
+}
+
+#modal-dashboard .metric-row.by-club{
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+#modal-dashboard .metric-row.by-club .metric-card.sm .label{
+  font-size: 13px; font-weight: 600; color:#111827;
+}
+#modal-dashboard .metric-row.by-club .metric-card.sm .value{
+  font-size: 22px; font-weight: 700; line-height: 1.2;
+}
+#modal-dashboard .metric-row.by-club .metric-card.sm .sub{
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color:#6b7280; font-size:12px;
+}
+#modal-admin-dashboard .db-pane[data-pane="clubs"] .db-grid {
+  max-height: 50vh;
+  overflow: auto;
+}
+/* Dashboard: per-club compact grid */
+#modal-dashboard .dash-pane[data-pane="clubs"] .by-club {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  max-height: 260px;         /* keeps the modal from getting too tall */
+  overflow: auto;            /* scrollbar if the list is long */
+  padding-right: 6px;        /* room for scrollbar */
+}
+
+/* small card */
+#modal-dashboard .metric-card.sm {
+  padding: 10px 12px;
+  border: 1px solid #eef0f4;
+  border-radius: 10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+}
+
+#modal-dashboard .metric-card.sm .label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#modal-dashboard .metric-card.sm .value {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 2px 0 6px;
+}
+
+#modal-dashboard .metric-card.sm .sub {
+  font-size: 12px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* small title before the grid */
+#modal-dashboard .metric-section-title {
+  margin: 12px 4px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+/* Admin Dashboard: section title + compact per-club grid */
+#modal-admin-dashboard .metric-section-title{
+  margin: 12px 6px 4px; font-weight: 700; color:#111827;
+}
+#modal-admin-dashboard .metric-row.by-club{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap:12px;
+  max-height:260px;    /* keeps the modal from getting too tall */
+  overflow:auto;
+  padding-right:6px;   /* room for scrollbar */
+}
+
+/* Small per-club cards */
+#modal-admin-dashboard .metric-row.by-club .metric-card.sm .label{font-size:13px;font-weight:600;color:#111827}
+#modal-admin-dashboard .metric-row.by-club .metric-card.sm .value{font-size:22px;font-weight:700;line-height:1.2}
+#modal-admin-dashboard .metric-row.by-club .metric-card.sm .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#6b7280;font-size:12px}
+/* In Admin.css */
+#modal-admin-dashboard .db-grid > .metric-section-title,
+#modal-admin-dashboard .db-grid > .metric-row.by-club{
+  grid-column: 1 / -1;   /* full width across the grid */
+}
+
+#modal-admin-dashboard .metric-section-title{
+  margin:12px 6px 4px;
+  font-weight:700;
+  color:#111827;
+}
+
+#modal-admin-dashboard .metric-row.by-club{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap:12px;
+  max-height:260px;
+  overflow:auto;
+  padding-right:6px;
+}
+/* Drawer sits inside the Admin Dashboard modal */
+#modal-admin-dashboard .modal-box { position: relative; }
+
+#modal-admin-dashboard .club-drawer{
+  position:absolute; right:12px; top:60px; bottom:12px; width:380px;
+  background:#fff; border:1px solid #e5e7f1; border-radius:12px;
+  box-shadow:0 10px 25px rgba(16,24,40,.1); overflow:auto;
+  transform:translateX(110%); transition:transform .22s ease-in-out;
+  display:flex; flex-direction:column;
+}
+#modal-admin-dashboard .club-drawer.open{ transform:translateX(0); }
+#modal-admin-dashboard .club-drawer .cd-head{
+  position:sticky; top:0; background:#fff; z-index:1;
+  padding:14px 16px; border-bottom:1px solid #eef1fb; display:flex; gap:8px; align-items:center;
+}
+#modal-admin-dashboard .club-drawer .cd-title{ font-weight:800; font-size:16px; color:#111827; }
+#modal-admin-dashboard .club-drawer .cd-close{ margin-left:auto; border:0; background:transparent; font-size:20px; cursor:pointer; }
+#modal-admin-dashboard .club-drawer .cd-body{ padding:12px 16px; display:grid; gap:10px; }
+
+#modal-admin-dashboard .metric-card.sm{ cursor:pointer; user-select:none; }
+#modal-admin-dashboard .metric-card.sm:focus,
+#modal-admin-dashboard .metric-card.sm:hover{ outline:2px solid #c9d3ff; outline-offset:2px; }
+/* Make the modal a positioning context for the drawer */
+#modal-admin-dashboard .modal-box { position: relative; overflow: visible; }
+
+/* Drawer defaults: HIDDEN (off-canvas), non-interactive */
+#modal-admin-dashboard .club-drawer{
+  position: absolute; right:12px; top:60px; bottom:12px; width:380px;
+  background:#fff; border:1px solid #e5e7f1; border-radius:12px;
+  box-shadow:0 10px 25px rgba(16,24,40,.1);
+  display:flex; flex-direction:column; overflow:auto;
+  transform: translateX(120%);         /* off-canvas */
+  opacity: 0;                          /* invisible */
+  pointer-events: none;                /* ignore clicks */
+  transition: transform .22s ease, opacity .18s ease;
+  z-index: 3;                          /* above pane contents */
+}
+
+/* When opened */
+#modal-admin-dashboard .club-drawer.open{
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+/* top-clubs chips on General tab are read-only */
+.metric-row[data-topclubs] .metric-card.sm { cursor: default; }
+/* Make each tab's pane scroll within the modal */
+#modal-admin-dashboard .db-pane{
+  /* Adjust the 100vh subtraction if your header/footer height differs */
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+  padding-right: 6px; /* avoid bar overlap on narrow OS scrollbars */
+}
+
+/* Optional: slightly tighter card spacing when scroll is active */
+#modal-admin-dashboard .db-grid { row-gap: 12px; }
+#modal-admin-dashboard .metric-card.static-top:focus {
+  outline: none;
+  box-shadow: none;
+}
+/* Edit Organization modal: align Status to the right column */
+#modal-org-edit .form-grid{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 16px;
+}
+
+#modal-org-edit #org-edit-status{
+  grid-column: 2; /* put Status in the right column */
+}
+
+@media (max-width: 720px){
+  /* on small screens, go back to one column */
+  #modal-org-edit #org-edit-status{ grid-column: 1; }
+}
+/* Edit Organization modal grid */
+#modal-org-edit .form-grid{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 16px;
+}
+
+#modal-org-edit #org-edit-status{
+  grid-column: 2;        /* put Status in the right column */
+  align-self: start;
+}
+
+#modal-org-edit #org-edit-status select{
+  width: 100%;           /* full width like other inputs */
+  min-height: 40px;      /* match your input height */
+}
+
+/* Mobile: single column */
+@media (max-width: 720px){
+  #modal-org-edit #org-edit-status{ grid-column: 1; }
+}
+/* Edit Organization modal grid */
+#modal-org-edit .form-grid{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 16px;
+}
+
+/* Put STATUS on the LEFT, one row below Organization (i.e., row 2 left) */
+#modal-org-edit #org-edit-status{
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+}
+
+#modal-org-edit #org-edit-status select{
+  width: 100%;
+  min-height: 40px;
+}
+
+/* Push TYPE below Status (still left column) */
+#modal-org-edit #org-edit-type{
+  grid-column: 1;
+  grid-row: 3;
+}
+
+/* Keep mobile single-column natural order */
+@media (max-width: 720px){
+  #modal-org-edit #org-edit-status,
+  #modal-org-edit #org-edit-type{
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+/* Edit organization: place Status on the left and tighten spacing */
+#modal-org-edit .form-grid { grid-template-columns: 1fr 1fr; }
+#modal-org-edit .status-row { grid-column: 1; margin-top: 0; } /* adjust -2px..0..4px to taste */
+#modal-org-edit .status-row select { width: 100%; }
+/* --- Edit Organization modal layout --- */
+#modal-org-edit .form-grid{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* Row/column placement */
+#modal-org-edit #org-edit-status  { grid-column: 1; grid-row: 2; }
+#modal-org-edit #org-edit-type    { grid-column: 1; grid-row: 3; }
+#modal-org-edit #org-edit-adviser { grid-column: 2; grid-row: 3; }
+
+/* Put the checkbox right under Adviser email, aligned left */
+#modal-org-edit #org-edit-clear{
+  grid-column: 2; 
+  grid-row: 4;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: -6px;  /* pull it a bit closer to the field above */
+}
+
+/* Ensure controls fill the column width */
+#modal-org-edit input,
+#modal-org-edit select,
+#modal-org-edit textarea{
+  width: 100%;
+}
+
+/* Make the description tall enough to feel balanced */
+#modal-org-edit textarea[name="description"]{
+  min-height: 110px;
+}
+
+/* Mobile: stack naturally */
+@media (max-width: 720px){
+  #modal-org-edit #org-edit-status,
+  #modal-org-edit #org-edit-type,
+  #modal-org-edit #org-edit-adviser,
+  #modal-org-edit #org-edit-clear{
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 0;
+  }
+}
+/* === Report Builder modal additions === */
+#modal-report-builder .modal-box.wide{ width:clamp(720px, 86vw, 1200px); }
+#modal-report-builder .form-grid.grid-2{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
+#modal-report-builder .form-grid .span-2{ grid-column:1 / -1; }
+#modal-report-builder fieldset{ border:1px solid var(--border, #e5e7eb); border-radius:10px; padding:10px 12px; }
+#modal-report-builder legend{ font-weight:700; color:#111827; padding:0 6px; }
+#modal-report-builder label.check{ display:flex; gap:8px; align-items:center; margin:6px 0; }
+#modal-report-builder .modal-actions{ display:flex; gap:10px; justify-content:flex-end; }
+
+
+/* chart staging area stays offscreen */
+#report-stage{ position:fixed; left:-9999px; top:-9999px; }
+
+/* Report Builder layout polish */
+#modal-report-builder .modal-box.wide { max-width: 960px; }
+#modal-report-builder .form-grid.grid-2 {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 14px 18px;
+  align-items: start;
+}
+#modal-report-builder fieldset.seg { 
+  margin-top: 6px; 
+  padding-top: 8px; 
+  border-top: 1px solid #e5e7eb;
+}
+#modal-report-builder label.check {
+  display: flex; 
+  gap: 10px; 
+  align-items: center; 
+  line-height: 1.25;
+}
+#modal-report-builder label.check input[type="checkbox"] { margin-top: 2px; }
+#modal-report-builder .seg .check + .check { margin-top: 4px; }
+#modal-report-builder .modal-actions { margin-top: 12px; }
+
+/* The two-column row inside Appendices */
+#modal-report-builder .seg > div[style*="grid-template-columns"] {
+  align-items: start;
+}
+#modal-report-builder .seg small { display: block; color:#6b7280; margin-top: 2px; }
+/* Report Builder layout tweaks */
+.seg .check { display:flex; gap:10px; align-items:center; }
+.seg .check.top { align-items:flex-start; }
+.app-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px; align-items:start; }
+#form-report-builder label > small { color:#6b7280; display:block; }
+#modal-report-builder .form-grid.grid-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 18px;align-items:start}
+#modal-report-builder fieldset.seg{margin-top:6px;padding-top:8px;border-top:1px solid #e5e7eb}
+#modal-report-builder label.check{display:flex;gap:10px;align-items:center;line-height:1.25}
+#modal-report-builder label.check input[type="checkbox"]{margin-top:2px}
+#modal-report-builder .app-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;align-items:start}
+#modal-report-builder .seg small{display:block;color:#6b7280;margin-top:2px}
+/* Report Builder — compact, even spacing */
+#modal-report-builder .form-grid.grid-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 18px;align-items:start}
+#modal-report-builder fieldset.seg{margin-top:6px;padding-top:8px;border-top:1px solid #e5e7eb}
+#modal-report-builder label.check{display:flex;gap:10px;align-items:center;line-height:1.25}
+#modal-report-builder label.check input[type="checkbox"]{margin-top:2px}
+#modal-report-builder select.rb-scroll { max-height:220px; overflow-y:auto; }
+#modal-report-builder #rb-club-select { width:100%; box-sizing:border-box; }
+#modal-report-builder .app-grid.rb-club-row { grid-template-columns:280px minmax(0,1fr); align-items:start; }
+#modal-report-builder .app-grid.rb-club-row .check.top input[type="checkbox"]{
+  margin-top: 0;
+}
+#modal-report-builder .app-grid.rb-club-row .check.top input[type="checkbox"]{
+  margin-top: 0; /* wins by both order and specificity */
+}
+/* Report Builder — custom 10-row dropdown just for the club selector */
+#modal-report-builder .rb-combo{ position:relative; width:100%; }
+#modal-report-builder .rb-combo-btn{
+  width:100%; text-align:left;
+  padding:8px 10px;
+  border:1px solid #d1d5db; border-radius:10px; background:#fff;
+  font: inherit; line-height:1.25; color:#111827;
+}
+#modal-report-builder .rb-combo-btn:focus{ outline: 2px solid #00008B33; outline-offset: 2px; }
+
+#modal-report-builder .rb-combo-panel{
+  position:absolute; left:0; right:0; top: calc(100% + 4px);
+  background:#fff; border:1px solid #e5e7eb; border-radius:10px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+  z-index: 50;
+  max-height: 320px;           /* ~10 rows at ~32px each */
+  overflow-y: auto;
+}
+
+#modal-report-builder .rb-combo-list{ list-style:none; margin:0; padding:6px 0; }
+#modal-report-builder .rb-combo-item{
+  padding:8px 10px; cursor:pointer; white-space:nowrap;
+}
+#modal-report-builder .rb-combo-item:hover,
+#modal-report-builder .rb-combo-item.is-active{ background:#eef2f7; }
+#modal-report-builder .rb-combo-item.is-placeholder{ color:#6b7280; }
+/* Appendices — stack the club row and align neatly */
+#modal-report-builder .rb-club-row {
+  /* keep the same two-column grid definition */
+  grid-template-columns: 280px minmax(0,1fr) !important;
+  align-items: start;
+}
+
+/* Make the "List members of a club" checkbox+label span both columns */
+#modal-report-builder .rb-club-row .check.top {
+  grid-column: 1 / -1;
+  align-items: flex-start;
+}
+
+/* Put the dropdown on the next row, aligned to the text column (right column) */
+#modal-report-builder .rb-club-row > label:not(.check) {
+  grid-column: 2;               /* under the label’s text, not under the checkbox */
+  max-width: 360px;             /* SHORTER box */
+}
+
+/* Cap the width of either the native select or the enhanced combobox */
+#modal-report-builder #rb-club-select,
+#modal-report-builder .rb-combo {
+  max-width: 360px;
+}
+
+/* Make the button a bit more compact so it looks shorter */
+#modal-report-builder .rb-combo-btn {
+  padding: 6px 10px;            /* was 8px 10px */
+  line-height: 1.2;
+}
+/* Center “List members of a club” line in Appendices */
+#modal-report-builder .rb-club-row .check.top{
+  grid-column: 1 / -1 !important;   /* make the label span the whole row */
+  justify-content: center !important;
+  text-align: center !important;
+}
+#modal-report-builder .rb-club-row .check.top > span{
+  text-align: inherit;               /* center the text + small note */
+}
+/* --- Fix Appendices alignment (club row) --- */
+#modal-report-builder .rb-club-row .check.top{
+  grid-column: 1 / -1;               /* span both columns */
+  justify-content: center !important; /* override global flex-start */
+  text-align: center;                 /* center multiline label text */
+  align-items: center;
+}
+
+/* === Approvals === */
+.admin-card.approvals .btn-row .btn{ min-width:160px; }
+
+#modal-approvals .modal-box.wide{ width:clamp(720px,80vw,1100px) !important; }
+#modal-approvals .preview-table-wrap{ max-height:62vh; overflow:auto; }
+#modal-approvals table{ width:100%; border-collapse:collapse; }
+#modal-approvals th, #modal-approvals td{
+  padding:10px 14px; text-align:left; border-bottom:1px solid #e5e7eb;
+}
+#modal-approvals td.actions{ text-align:center; white-space:nowrap; }
+#modal-approvals .btn.approve{ border-color:#16a34a; color:#16a34a; background:#fff; }
+#modal-approvals .btn.approve:hover{ background:#ecfdf5; }
+#modal-approvals .btn.decline{ border-color:#e11d48; color:#e11d48; background:#fff; }
+#modal-approvals .btn.decline:hover{ background:#fff1f2; }
+#modal-approvals a.view-link{ color:#2563eb; text-decoration:underline; cursor:pointer; }
+
+/* Fullscreen image viewer */
+#img-viewer{
+  position:fixed; inset:0; background:rgba(0,0,0,.8);
+  display:none; align-items:center; justify-content:center; z-index:9999;
+}
+#img-viewer.show{ display:flex; }
+#img-viewer .img-view-box{ position:relative; max-width:92vw; max-height:92vh; }
+#img-viewer img{
+  display:block; max-width:92vw; max-height:92vh; object-fit:contain;
+  border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+#img-viewer .img-view-x{
+  position:absolute; top:-12px; right:-12px; width:40px; height:40px;
+  border-radius:50%; background:#fff; border:1px solid #e5e7eb; font-size:22px; cursor:pointer;
+}
+/* === Approvals modal polish === */
+#modal-approvals .modal-box{
+  width: clamp(820px, 88vw, 1100px) !important;   /* wider */
+  max-height: 80vh;                                /* taller */
+  display: flex; flex-direction: column;
+}
+
+#modal-approvals .preview-tools{ margin: 6px 0 10px; }
+#modal-approvals #ap-count{ margin-left: 6px; }
+
+#modal-approvals .preview-table-wrap{
+  flex: 1 1 auto; min-height: 0;
+  max-height: 58vh;                               /* tall list area */
+}
+
+#modal-approvals .preview-table{
+  min-width: 920px;                                /* keep columns comfy */
+}
+
+#modal-approvals .preview-table th,
+#modal-approvals .preview-table td{
+  padding: 10px 12px;
+}
+
+#modal-approvals .preview-table td.actions{
+  white-space: nowrap; text-align: center;
+}
+
+#modal-approvals .preview-table td .view-link{
+  display:inline-block; max-width: 260px; overflow:hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+  color:#2563eb; text-decoration: underline;
+}
+
+/* Approve / Decline buttons: compact and colored */
+#modal-approvals .btn.approve{
+  border-color:#16a34a; color:#16a34a; background:#fff;
+  padding:6px 10px; border-radius:9px; font-weight:800;
+}
+#modal-approvals .btn.approve:hover{ background:#ecfdf5; }
+
+#modal-approvals .btn.decline{
+  border-color:#e11d48; color:#e11d48; background:#fff;
+  padding:6px 10px; border-radius:9px; font-weight:800;
+}
+#modal-approvals .btn.decline:hover{ background:#fff1f2; }
+#modal-approvals .modal-head h3{ font-size:1.25rem; }
+#modal-list-accounts .list-table td:nth-child(8) .btn + .btn{ margin-left:8px; }
+/* Stack + shrink action buttons inside list modal */
+#modal-list-accounts .list-table td:last-child{
+  display:flex;
+  flex-direction:column;      /* stack */
+  gap:6px;
+  align-items:center;
+  justify-content:center;
+}
+#modal-list-accounts .list-table td:last-child .btn{
+  font-size:12px;
+  padding:4px 10px;
+  line-height:1.2;
+  border-radius:8px;
+  min-width:auto;
+}
+
+/* Red outline for Delete (same style family as others) */
+#modal-list-accounts .list-table td:last-child .delete-btn{
+  border-color:#ef4444;
+  color:#ef4444;
+  background:#fff;
+}
+#modal-list-accounts .list-table td:last-child .delete-btn:hover{
+  background:#fff1f2;
+}
+/* === List modal: stack action buttons (keep existing size) === */
+#modal-list-accounts td.actions-cell .btn {
+  display: block;
+  width: 100%;
+  margin: 4px 0;
+}
+/* Stack action buttons in list modal (keeps your current size/look) */
+#modal-list-accounts .actions-cell .btn {
+  display: block;
+  width: 100%;
+  margin: 4px 0;
+}
+/* Make confirmation modals sit above any other modal */
+#modal-archive-confirm,
+#modal-delete-confirm {
+  z-index: 10000; /* higher than the edit modals */
+}
+/* Confirm modals must sit above edit modals */
+#modal-archive-confirm,
+#modal-delete-confirm { z-index: 10000; }
+#modal-org-edit { z-index: 9000; } /* stays below confirm but remains visible */
+/* === Approvals: multiselect UI === */
+#modal-approvals .ap-bulkbar{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; margin:6px 0 10px;
+  background:#f8fafc; border:1px solid var(--border); border-radius:10px;
+}
+#modal-approvals .ap-bulkbar .spacer{ flex:1 1 auto; }
+
+#modal-approvals .preview-table th.sel,
+#modal-approvals .preview-table td.sel{
+  width:34px; text-align:center;
+}
+#modal-approvals .preview-table td.sel input[type="checkbox"]{
+  inline-size:16px; block-size:16px; cursor:pointer;
+}
+#modal-approvals .modal-foot{
+  display:flex; align-items:center; gap:10px;
+}
+#modal-approvals .modal-foot .foot-spacer{
+  flex:1 1 auto;
+}
+#modal-approvals .bulk-actions[hidden]{ display:none !important; }
+#modal-approvals .bulk-actions .btn{ /* optional polish */ }

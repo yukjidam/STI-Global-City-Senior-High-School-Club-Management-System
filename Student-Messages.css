@@ -1,0 +1,1671 @@
+/* ===== page fill + no outer scrollbar ===== */
+.page{
+  padding-top:12px;              /* breathing room below navbar */
+  padding-bottom:0;
+  height: calc(100dvh - var(--navbar-height, 0px)); /* fill viewport below fixed navbar */
+  overflow: hidden;              /* prevent page scroll; inner panes will scroll */
+}
+
+/* layout: keep 2 columns, fill remaining height */
+.messages-layout{
+  display:grid;
+  grid-template-columns: 280px minmax(0,1fr);  /* ← slightly slimmer left pane */
+  gap:12px;
+  height: 100%;                  /* fill .page */
+  overflow:hidden;               /* keep scroll inside child panes */
+}
+
+/* cards */
+.card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(2,6,23,.06);
+}
+
+/* ===== LEFT PANE: Threads (smaller rows) ===== */
+.threads{ display:flex; flex-direction:column; height:100%; min-height:0; }
+.threads-head{ padding:12px; border-bottom:1px solid #eef0f2; }
+.threads-head h3{ margin:0; font-size:16px; font-weight:800; }
+
+.threads-search{
+  display:flex; gap:8px; align-items:center;
+  padding:8px 12px; border-bottom:1px solid #eef0f2;
+}
+.threads-search input{
+  flex:1 1 auto; min-width:0;
+  border:1px solid #e5e7eb; border-radius:10px; padding:8px 10px; font:inherit;
+}
+.threads-search button{
+  border:0; background:#111; color:#fff; border-radius:10px; padding:8px 10px; font-weight:700;
+}
+
+.thread-list{
+  list-style:none; margin:0; padding:6px;
+  display:grid; gap:4px;
+  flex:1 1 auto; min-height:0; overflow:auto;   /* ← scroll only here */
+}
+.thread{
+  display:grid; grid-template-columns:34px 1fr auto;
+  gap:8px; padding:6px; border-radius:12px; cursor:pointer; align-items:center;
+}
+.thread:hover{ background:#f6f7f9; }
+.thread.is-active{ background:#eef2ff; border:1px solid #dbe1ff; }
+.thread .avatar{ width:34px; height:34px; border-radius:9999px; background:#e5e7eb; }
+.thread .name{ font-weight:700; font-size:14px; line-height:1.2; }
+.thread .snippet{ color:#6b7280; font-size:12px; line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.thread .time{ color:#9ca3af; font-size:11px; }
+
+/* ===== RIGHT PANE: Conversation (dynamic bubbles) ===== */
+.conversation{ display:flex; flex-direction:column; height:100%; min-height:0; }
+.conv-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px; border-bottom:1px solid #eef0f2;
+}
+.conv-user{ display:flex; align-items:center; gap:10px; }
+.conv-user .avatar{ width:36px; height:36px; border-radius:9999px; background:#e5e7eb; }
+.conv-user .name{ font-weight:800; }
+.conv-user .sub{ color:#9ca3af; font-size:12px; }
+.kebab{ border:0; background:transparent; font-size:20px; padding:6px 8px; border-radius:8px; }
+.kebab:hover{ background:#f3f4f6; }
+
+/* Make the message list the ONLY scroller on the right */
+.conv-body{
+  flex:1 1 auto; min-height:0; overflow:auto;      /* ← scroll here */
+  padding:14px;
+  display:flex; flex-direction:column; row-gap:10px; /* ← no grid-stretching */
+  background:
+    radial-gradient(50% 20% at 100% 0%, rgba(67,56,202,.05), transparent 70%) no-repeat,
+    radial-gradient(60% 30% at 0% 100%, rgba(2,132,199,.04), transparent 70%) no-repeat;
+}
+
+/* Dynamic bubbles that hug text */
+.msg{
+  width: fit-content;                 /* shrink to content */
+  max-width: min(70%, 70ch);          /* wrap long text nicely */
+  padding:10px 12px; border-radius:14px;
+  line-height:1.35;
+  overflow-wrap:anywhere; word-break:break-word;
+}
+.msg p{ margin:0; white-space:pre-wrap; }     /* keep user line breaks */
+.msg time{ display:block; font-size:11px; opacity:.7; margin-top:6px; }
+
+.msg.them{ background:#f3f4f6; color:#111; border-top-left-radius:6px; align-self:flex-start; }
+.msg.you { background:#4338ca; color:#fff; border-top-right-radius:6px; align-self:flex-end; }
+
+/* composer pinned at bottom; no growth */
+.composer{
+  display:flex; gap:8px; align-items:center; padding:10px; border-top:1px solid #eef0f2;
+  flex:0 0 auto;
+}
+.msg-text{
+  flex:1 1 auto; min-width:0;
+  border:1px solid #e5e7eb; border-radius:9999px; padding:10px 14px; font:inherit;
+}
+.msg-send{
+  border:0; background:#111; color:#fff; font-weight:800; border-radius:12px; padding:10px 14px;
+}
+
+/* responsive */
+@media (max-width: 900px){
+  .messages-layout{ grid-template-columns: 1fr; }
+  .threads{ order:2; }
+  .conversation{ order:1; }
+}
+/* --- Fix: no outer page scrollbar (only inner panes scroll) --- */
+html, body { height: 100%; overflow: hidden; }              /* hide page scroll */
+.content-wrapper { padding-bottom: 0 !important; }          /* shell adds bottom padding; remove it for Messages */
+.page { height: calc(100dvh - var(--navbar-height, 0px)); } /* fill below fixed navbar */
+
+/* --- Fix: left list rows are too tall (reset margins/heights) --- */
+.thread-list { grid-auto-rows: min-content; }               /* rows size to content */
+.thread-list > li { margin: 0 !important; }                 /* kill any global li margins */
+
+.thread{
+  grid-template-columns: 34px 1fr auto;
+  gap: 8px;
+  padding: 6px 8px;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+/* Optional: even denser look (reduce avatar & text sizes a touch) */
+.thread .avatar{ width: 32px; height: 32px; }
+.thread .name{ font-size: 13.5px; font-weight: 700; }
+.thread .snippet{ font-size: 12px; }
+.thread .time{ font-size: 11px; }
+
+/* --- Fix: make sure bubbles hug their text even if globals style `.msg` elsewhere --- */
+.conv-body .msg{
+  height: auto !important;
+  min-height: 0 !important;
+  width: fit-content !important;
+  max-width: min(70%, 70ch) !important;
+  padding: 10px 12px !important;
+}
+/* 1) Make the user list (left pane) a little wider */
+.messages-layout{
+  grid-template-columns: 300px minmax(0,1fr);   /* was 280px */
+}
+
+/* Slightly taller/roomier rows */
+.thread{
+  grid-template-columns: 36px 1fr auto;         /* bump avatar column */
+  gap: 10px;
+  padding: 8px;                                  /* was 6px */
+}
+.thread .avatar{ width: 36px; height: 36px; }    /* was 32px */
+.thread .name{ font-size: 14px; }                /* subtle bump */
+.thread .snippet{ font-size: 12.5px; }
+
+/* 2) Add some breathing room at the very bottom without reintroducing a page scrollbar */
+.page{
+  padding-bottom: 12px;                           /* space under the cards */
+  height: calc(100dvh - var(--navbar-height, 0px) - 12px); /* keep total height constant */
+}
+/* + attach button */
+.msg-plus{
+  flex:0 0 auto;
+  width:36px; height:36px;
+  border-radius:9999px;
+  border:1px solid #e5e7eb;
+  background:#fff; color:#111; font-weight:800;
+}
+.msg-plus:hover{ background:#f3f4f6; }
+
+/* attachment bubbles */
+.msg.att{ padding:6px; }
+.att-img img,
+.att-video video{
+  display:block;
+  max-width: min(60vw, 320px);  /* scales with viewport */
+  height:auto;
+  border-radius:12px;
+}
+/* keep “you/them” alignment/colouring for attachments too */
+.msg.you.att{ align-self:flex-end; background:transparent; }
+.msg.them.att{ align-self:flex-start; background:transparent; }
+/* + attach button */
+.msg-plus{
+  flex:0 0 auto;
+  width:36px; height:36px;
+  border-radius:9999px;
+  border:1px solid #e5e7eb;
+  background:#fff; color:#111; font-weight:800;
+}
+.msg-plus:hover{ background:#f3f4f6; }
+
+/* attachment bubbles */
+.msg.att{ padding:6px; }
+.att-img img,
+.att-video video{
+  display:block;
+  max-width: min(60vw, 320px);  /* scales with viewport */
+  height:auto;
+  border-radius:12px;
+}
+/* keep “you/them” alignment/colouring for attachments too */
+.msg.you.att{ align-self:flex-end; background:transparent; }
+.msg.them.att{ align-self:flex-start; background:transparent; }
+/* composer needs positioning for the floating menu */
+.composer{ position: relative; }
+
+/* + attach button */
+.msg-plus{
+  flex:0 0 auto; width:36px; height:36px;
+  border-radius:9999px; border:1px solid #e5e7eb;
+  background:#fff; color:#111; font-weight:800;
+}
+.msg-plus:hover{ background:#f3f4f6; }
+
+/* floating + menu */
+.plus-menu{
+  position:absolute; left:8px; bottom:52px;      /* sits above the composer */
+  background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+  box-shadow:0 10px 24px rgba(15,23,42,.12);
+  padding:6px; display:grid; gap:4px; z-index:2;
+}
+.plus-menu button{
+  text-align:left; background:none; border:0; padding:8px 10px;
+  border-radius:10px; font-weight:600; cursor:pointer;
+}
+.plus-menu button:hover{ background:#f3f4f6; }
+
+/* attachment bubbles */
+.msg.att{ padding:6px; background:transparent; }
+.att-img img,
+.att-video video{
+  display:block;
+  max-width:min(60vw, 320px);
+  height:auto; border-radius:12px;
+}
+.msg.you.att{ align-self:flex-end; }
+.msg.them.att{ align-self:flex-start; }
+/* Make the conversation a simple vertical flow (no overlap) */
+.conv-body{
+  display:flex !important;
+  flex-direction:column;
+  row-gap:10px;
+  align-items:flex-start;        /* base; 'you' items align themselves to end */
+}
+
+/* Generic bubble */
+.msg{
+  display:inline-block;
+  width:fit-content;
+  max-width:min(70%, 70ch);
+}
+.msg .bubble{
+  padding:10px 12px;
+  border-radius:14px;
+  overflow:hidden;               /* clips media to radius */
+}
+.msg.them .bubble{ background:#f3f4f6; color:#111; border-top-left-radius:6px; }
+.msg.you  .bubble{ background:#4338ca; color:#fff; border-top-right-radius:6px; }
+.msg.you  { align-self:flex-end; }
+.msg.them { align-self:flex-start; }
+
+/* Attachments inside the bubble */
+.msg.att .bubble{ padding:0; }
+.msg.att .bubble img,
+.msg.att .bubble video{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* Timestamp under the same bubble, right-aligned */
+.msg time{
+  display:block;
+  font-size:11px;
+  opacity:.7;
+  margin-top:6px;
+  text-align:right;
+}
+.msg.att{ padding:6px; background:transparent; }
+.att-img img, .att-video video{ display:block; max-width:min(60vw,320px); height:auto; border-radius:12px; }
+.msg.you.att{ align-self:flex-end; } .msg.them.att{ align-self:flex-start; }
+/* make the conversation a simple vertical feed (no overlap/shifts) */
+.conv-body{
+  display: flex !important;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: flex-start;               /* 'you' will self-align to end */
+}
+
+/* generic bubble + alignment */
+.msg{ max-width: min(70%, 70ch); width: fit-content; }
+.msg .bubble{
+  padding: 10px 12px;
+  border-radius: 14px;
+  overflow: hidden;                      /* clips media to bubble radius */
+}
+.msg.them .bubble{ background: #f3f4f6; color:#111; border-top-left-radius:6px; }
+.msg.you  .bubble{ background: #4338ca; color:#fff; border-top-right-radius:6px; }
+.msg.them { align-self: flex-start; }
+.msg.you  { align-self: flex-end; }
+
+/* attachments INSIDE the same bubble, with a sane max size */
+.msg.att .bubble{ padding: 0; max-width: min(60vw, 360px); } /* cap media bubble width */
+.msg.att .bubble img,
+.msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+/* timestamp sits under the bubble, right-aligned */
+.msg time{
+  display: block;
+  font-size: 11px;
+  opacity: .7;
+  margin-top: 6px;
+  text-align: right;
+}
+/* 1) Make the conversation a constrained scroller again */
+.messages-layout { min-height: 0; }
+.conversation    { display:flex; flex-direction:column; height:100%; min-height:0; }
+.conv-body{
+  flex:1 1 auto;
+  min-height:0;                 /* ← critical for flex children to scroll */
+  overflow:auto;                /* ← the scrollbar lives here */
+  -webkit-overflow-scrolling:touch;
+}
+
+/* 2) Non-overlapping vertical feed */
+.conv-body{
+  display:flex !important;
+  flex-direction:column;
+  gap:12px;
+  align-items:stretch;          /* one row per message */
+}
+.conv-body .msg{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;       /* base; 'you' will align to the end */
+  position:relative;
+  clear:both;                   /* neutralize any global floats */
+}
+.conv-body .msg.you{ align-items:flex-end; }
+
+/* 3) Bubble wrapper (text + media use the same bubble) */
+.conv-body .msg .bubble{
+  padding:10px 12px;
+  border-radius:14px;
+  overflow:hidden;              /* clip media to rounded corners */
+  max-width:min(64%, 44ch);     /* cap text bubble */
+  background:#f3f4f6; color:#111; border-top-left-radius:6px;
+}
+.conv-body .msg.you .bubble{
+  background:#4338ca; color:#fff; border-top-left-radius:14px; border-top-right-radius:6px;
+}
+
+/* 4) Media INSIDE the bubble – fixed size & no cropping/overlap */
+:root{ --media-bubble-max: 320px; }     /* tweak this for smaller/bigger media */
+.conv-body .msg.att .bubble{
+  padding:0; max-width:var(--media-bubble-max);
+}
+.conv-body .msg .bubble figure{ margin:0; }  /* reset any global figure margins */
+.conv-body .msg.att .bubble img,
+.conv-body .msg.att .bubble video{
+  display:block;
+  width:100%;
+  height:auto !important;       /* cancel any global fixed heights */
+  max-height:70vh;              /* keep very tall portraits sane */
+  object-fit:contain !important;
+  float:none !important;        /* cancel any global float */
+}
+
+/* 5) Timestamp below each bubble */
+.conv-body .msg time{
+  margin-top:6px;
+  font-size:11px;
+  opacity:.7;
+  text-align:right;
+}
+.conv-body .msg.them time{ text-align:left; }
+/* ==== FINAL message feed overrides (paste at very bottom) ==== */
+
+/* ensure the inner pane can actually scroll */
+.content-wrapper, .page, .messages-layout, .conversation { min-height: 0; }
+.conv-body{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* simple vertical feed; left/right alignment per author */
+.conv-body{
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch; /* one row per message */
+}
+.msg{
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  clear: both; /* neutralize any stray floats from globals */
+  max-width: min(70%, 70ch);
+}
+.msg.you{ align-self: flex-end; }
+
+/* unified bubble styles (text + media) */
+.msg .bubble{
+  padding: 10px 12px;
+  border-radius: 14px;
+  overflow: hidden; /* clip media to rounded corners */
+  background: #f3f4f6; color: #111; border-top-left-radius: 6px;
+}
+.msg.you .bubble{
+  background: #4338ca; color: #fff; border-top-left-radius: 14px; border-top-right-radius: 6px;
+}
+
+/* media inside the SAME bubble, with a sane cap */
+.msg.att .bubble{ padding: 0; max-width: min(60vw, 360px); }
+.msg.att .bubble img,
+.msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto !important;
+  max-height: 70vh;              /* tall portraits won’t be cropped */
+  object-fit: contain !important;
+}
+
+/* timestamp stays with the bubble */
+.msg time{
+  display: block;
+  font-size: 11px;
+  opacity: .7;
+  margin-top: 6px;
+  text-align: right;
+}
+.msg.them time{ text-align: left; }
+
+/* neutralize the older figure-based attachment styles (if any slipped through) */
+.att-img img, .att-video video{
+  max-width: none !important;
+  border-radius: 0 !important;
+}
+/* conversation pane can actually scroll */
+.page, .messages-layout, .conversation { min-height: 0; }
+.conversation { display: flex; flex-direction: column; }
+
+/* the scrollbar LIVES here, always; width stays stable (no shifting) */
+#convBody,
+.conv-body{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: scroll;                 /* key: not auto */
+  scrollbar-gutter: stable both-edges;/* keep a reserved gutter */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+/* legacy attachment wrappers */
+.att-img, .att-video{ display:block; margin:0; }
+
+/* images/videos fit the bubble area and trigger the pane scroll, not crop */
+.att-img img,
+.att-video video{
+  display:block;
+  width:100%;
+  height:auto !important;
+  max-width:min(60vw, 360px);   /* keep your current size vibe */
+  max-height:70vh;              /* tall portraits stay visible */
+  object-fit:contain !important;
+}
+/* simple vertical feed; align by author, look unchanged */
+.conv-body{ display:flex; flex-direction:column; gap:10px; }
+.conv-body .msg.them{ align-self:flex-start; }
+.conv-body .msg.you { align-self:flex-end;  }
+
+/* if any global styles set floats, neutralize them here */
+.conv-body .msg{ clear:both; float:none !important; }
+.att-img img, .att-video video { max-width: min(50vw, 300px); }
+/* === Messages: make the right pane the ONLY scroller + solid rows === */
+
+/* 1) Let the flex child actually scroll and keep a permanent gutter */
+.page, .messages-layout, .conversation { min-height: 0; }
+.conversation { display:flex; flex-direction:column; }
+#convBody, .conv-body{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: scroll;                 /* not auto → gutter is always there */
+  scrollbar-gutter: stable both-edges;/* prevents bubble "shifts" */
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 14px 88px;            /* bottom space so last image isn't under the composer */
+}
+
+/* 2) Never scroll/crop individual bubbles (root cause of “scrollbar only on text”) */
+.conv-body .msg,
+.conv-body .bubble{ overflow: visible !important; }
+
+/* 3) Solid vertical feed: one row per message, alignment unchanged */
+.conv-body{
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;               /* each message gets its own row */
+}
+.conv-body .msg{
+  display: flex;
+  flex-direction: column;
+  clear: both;                        /* kill any stray floats */
+  align-items: flex-start;            /* base alignment */
+}
+.conv-body .msg.you{ align-items: flex-end; }
+
+/* 4) Legacy <figure> attachments — fit instead of crop (no JS changes needed) */
+.conv-body .att-img,
+.conv-body .att-video{ display:block; margin:0; }
+.conv-body .att-img img,
+.conv-body .att-video video{
+  display:block;
+  width: 100%;
+  height: auto !important;
+  max-width: min(60vw, 360px);        /* keep your current size vibe */
+  max-height: 70vh;                   /* tall portraits become scroll, not crop */
+  object-fit: contain !important;
+}
+/* 1) Make the conversation pane the only scroller (no page shift) */
+.page, .messages-layout, .conversation { min-height: 0; }
+.conversation { display:flex; flex-direction:column; }
+.conv-body{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable both-edges; /* reserve gutter so bubbles don't shift */
+}
+
+/* 2) One message per row (prevents media “stacking/overlap”) */
+.conv-body{
+  display:flex !important;
+  flex-direction:column;
+  gap:12px;
+  align-items:stretch;
+}
+.conv-body .msg{
+  display:flex;
+  flex-direction:column;
+  align-self:flex-start;
+  clear:both;                 /* cancel any stray floats */
+  float:none !important;      /* …just in case */
+  position:static !important; /* avoid accidental absolute positioning */
+  max-width:min(70%, 70ch);
+}
+.conv-body .msg.you{ align-self:flex-end; }
+
+/* 3) Unified bubble for text AND media (solid width, rounded, non-cropping) */
+.msg .bubble{
+  padding:10px 12px;
+  border-radius:14px;
+  overflow:hidden;            /* clips media to the same radius */
+  background:#f3f4f6; color:#111; border-top-left-radius:6px;
+}
+.msg.you .bubble{
+  background:#4338ca; color:#fff; border-top-left-radius:14px; border-top-right-radius:6px;
+}
+
+/* Media lives INSIDE the same bubble */
+.msg.att .bubble{ padding:0; max-width:min(60vw, 360px); }
+.msg .bubble figure{ margin:0; }
+.msg.att .bubble img,
+.msg.att .bubble video{
+  display:block;
+  width:100%;
+  height:auto !important;
+  max-height:70vh;            /* tall portraits still fit */
+  object-fit:contain !important;
+  float:none !important;
+  position:static !important;
+}
+
+/* Timestamp stays with each bubble */
+.msg time{
+  margin-top:6px; font-size:11px; opacity:.7; text-align:right;
+}
+.msg.them time{ text-align:left; }
+/* ===== HARD LOCK: one scroller, solid rows, no cropping (paste LAST) ===== */
+
+/* Let the flex child actually scroll */
+.messages-layout, .conversation { min-height: 0; }
+.conversation { display: flex; flex-direction: column; }
+
+/* 1) The scrollbar ALWAYS lives here (and keeps a reserved gutter) */
+#convBody,
+.conv-body{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: scroll !important;      /* not auto → gutter always present */
+  overflow-x: hidden !important;
+  scrollbar-gutter: stable both-edges;
+  -webkit-overflow-scrolling: touch;
+  display: flex !important;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;               /* one full row per message */
+}
+
+/* 2) One message = one row (prevents “stacking”) */
+#convBody > .msg{
+  display: flex !important;
+  flex-direction: column;
+  align-self: flex-start;
+  clear: both;
+  float: none !important;
+  position: static !important;
+  width: fit-content;
+  max-width: min(70%, 70ch);
+}
+#convBody > .msg.you{ align-self: flex-end; }
+
+/* 3) Unified bubble wrapper (text + media) */
+#convBody > .msg .bubble{
+  padding: 10px 12px;
+  border-radius: 14px;
+  overflow: hidden;                   /* round corners also clip media */
+  background: #f3f4f6; color: #111; border-top-left-radius: 6px;
+}
+#convBody > .msg.you .bubble{
+  background: #4338ca; color: #fff; border-top-left-radius: 14px; border-top-right-radius: 6px;
+}
+
+/* 4) Media inside the bubble: fit, never crop */
+#convBody > .msg.att .bubble{ padding: 0; max-width: min(60vw, 360px); }
+#convBody > .msg .bubble figure{ margin: 0; }    /* if figure is used */
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto !important;
+  max-height: 70vh;
+  object-fit: contain !important;
+}
+
+/* 5) Timestamps */
+#convBody > .msg time{ margin-top: 6px; font-size: 11px; opacity: .7; text-align: right; }
+#convBody > .msg.them time{ text-align: left; }
+#convBody > .msg.you{ align-self: flex-end; }
+
+/* Unified bubble (text and media share SAME wrapper) */
+#convBody > .msg .bubble{
+  padding: 10px 12px;
+  border-radius: 14px;
+  overflow: hidden;                     /* clip media to rounded corners */
+  background: #f3f4f6; color: #111; border-top-left-radius: 6px;
+}
+#convBody > .msg.you .bubble{
+  background: #4338ca; color: #fff;
+  border-top-left-radius: 14px; border-top-right-radius: 6px;
+}
+
+/* Media INSIDE the bubble — fits, never overlaps nor crops */
+#convBody > .msg.att .bubble{ padding: 0; max-width: min(60vw, 360px); }
+#convBody > .msg .bubble figure{ margin: 0; } /* if <figure> exists */
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto !important;
+  max-height: 70vh;                     /* tall portraits stay sane */
+  object-fit: contain !important;
+  float: none !important;
+  position: static !important;
+}
+
+/* Timestamp stays with the bubble */
+#convBody > .msg time{
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: .7;
+  text-align: right;
+}
+#convBody > .msg.them time{ text-align: left; }
+/* === Restore original bubbles & fix media stacking (scoped overrides) === */
+.conversation, .conv-body { min-height: 0; }
+
+.conv-body{
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                    /* space between messages */
+}
+
+/* One message = one row; keep your original look */
+.conv-body > .msg{
+  align-self: flex-start;
+  width: fit-content;
+  max-width: none !important;   /* undo any 70% / 70ch rules */
+  clear: both;                  /* kill stray floats from globals */
+  position: relative; z-index: 0;
+}
+.conv-body > .msg.you{ align-self: flex-end; }
+
+/* Media messages live in a bubble, but DO NOT touch text-bubble styles */
+.conv-body > .msg.att{ background: transparent; padding: 0; }
+.conv-body > .msg.att .bubble{
+  padding: 0;
+  background: transparent;      /* let your .msg.you/.them colors stay as-is */
+  border-radius: 14px;
+  overflow: hidden;             /* nice rounded corners for media */
+  max-width: min(60vw, 320px);  /* sane cap like Messenger */
+}
+.conv-body > .msg.att .bubble img,
+.conv-body > .msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto !important;
+  object-fit: contain;
+}
+
+#convBody .msg.you{ align-self: flex-end; }
+
+/* --- Attachments: keep text bubbles untouched; style media only --- */
+#convBody .msg.att{
+  background: transparent !important;
+  padding: 0 !important;
+}
+#convBody .msg.att .bubble{
+  padding: 0;
+  background: transparent;          /* do NOT repaint like text bubbles */
+  border-radius: 14px;
+  overflow: hidden;                 /* rounded media corners */
+  max-width: min(60vw, 320px);      /* sane cap like Messenger */
+}
+#convBody .msg.att .bubble img,
+#convBody .msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto !important;
+  max-height: 70vh;                 /* tall portraits stay sane */
+  object-fit: contain !important;
+}
+
+/* Timestamps (unchanged look) */
+#convBody .msg time{
+  display: block;
+  font-size: 11px;
+  opacity: .7;
+  margin-top: 6px;
+  text-align: right;
+}
+#convBody .msg.them time{ text-align: left; }
+
+/* Neutralize any legacy attachment wrappers so they don't fight this */
+.att-img, .att-video { display: block; margin: 0; }
+/* ===== ONE TRUE MESSAGES LAYOUT (keep last) ===== */
+
+/* Conversation pane = the only scroller */
+#convBody{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable both-edges;    /* prevents width jump */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;                               /* space between messages */
+  padding: 14px 14px 88px;                 /* keep input clear */
+}
+
+/* One message = one row; never float/overlap */
+#convBody .msg{
+  position: static !important;
+  float: none !important;
+  clear: both;
+  display: inline-flex;
+  flex-direction: column;
+  align-self: flex-start;                  /* default left */
+  width: auto;                             /* preserve original bubble width */
+  max-width: none !important;              /* neutralize old 70% rules */
+  z-index: 0;
+}
+#convBody .msg.you{ align-self: flex-end; }/* right for your own messages */
+
+/* Keep your original bubble visuals (we DO NOT repaint them).
+   We only ensure media sits inside a rounded bubble and never stacks. */
+#convBody .msg.att{
+  background: transparent !important;      /* avoid double backgrounds */
+  padding: 0 !important;
+}
+#convBody .msg.att .bubble{
+  padding: 0;
+  background: transparent;
+  border-radius: 14px;
+  overflow: hidden;                        /* rounded corners for media */
+  display: inline-block;
+  max-width: min(60vw, 320px);             /* sane cap like Messenger */
+}
+#convBody .msg.att .bubble img,
+#convBody .msg.att .bubble video{
+  display: block;
+  width: 100%;
+  height: auto !important;
+  max-height: 70vh;                        /* portrait-safe */
+  object-fit: contain !important;
+}
+
+/* Timestamps (unchanged look) */
+#convBody .msg time{
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: .7;
+  text-align: right;
+}
+#convBody .msg.them time{ text-align: left; }
+
+/* Neutralize any legacy attachment wrappers so they don't interfere */
+.att-img, .att-video { display: block; margin: 0; }
+/* ==== Chat: one scroller + no media overflow (paste LAST) ==== */
+
+/* Right pane is the only scroller, with a permanent gutter */
+.conversation{ display:flex; flex-direction:column; min-height:0; }
+#convBody{
+  flex:1 1 auto; min-height:0;
+  overflow-y: scroll;                 /* always show scroll area */
+  overflow-x: hidden;
+  scrollbar-gutter: stable both-edges;/* prevents width jump when long */
+  -webkit-overflow-scrolling: touch;
+  display:flex; flex-direction:column; gap:12px;
+  align-items:flex-start;             /* never stretch rows */
+  padding:14px 14px 88px;
+}
+
+/* One message = one row; keep your original bubble visuals */
+#convBody .msg{
+  display:inline-flex; flex-direction:column;
+  align-self:flex-start;
+  clear:both; float:none !important; position:static !important;
+  width:fit-content; max-width:min(70%, 70ch);
+}
+#convBody .msg.you{ align-self:flex-end; }
+
+/* Attachments: inside a clipped bubble; never spill/stack */
+#convBody .msg.att{ background:transparent; padding:0; }
+#convBody .msg.att .bubble{
+  padding:0; border-radius:14px; overflow:hidden;
+  display:inline-block;
+  max-width:min(60vw, 320px);         /* cap media bubble width */
+}
+#convBody .msg.att .bubble img,
+#convBody .msg.att .bubble video{
+  display:block; width:100%; height:auto !important;
+  max-height:70vh; object-fit:contain !important;
+  float:none !important; position:static !important; /* kill legacy floats */
+}
+
+/* Timestamp (unchanged) */
+#convBody .msg time{ margin-top:6px; font-size:11px; opacity:.7; text-align:right; }
+#convBody .msg.them time{ text-align:left; }
+/* === Messages: lock scroll + stop bubble shrink + clamp media === */
+
+/* Let the right pane actually scroll and always reserve a gutter */
+.conversation { display:flex; flex-direction:column; min-height:0; }
+#convBody{
+  flex:1 1 auto; min-height:0;
+  overflow-y: scroll;                 /* not auto → gutter always present */
+  overflow-x: hidden;
+  scrollbar-gutter: stable both-edges;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  display:flex; flex-direction:column; gap:12px;
+  align-items:flex-start;             /* one message per row; no stretch */
+  padding:14px 14px 88px;
+}
+
+/* Each bubble is a non-shrinking flex item (prevents width “accordion”) */
+#convBody > .msg,
+#convBody > .msg .bubble{
+  flex: 0 0 auto;          /* equivalent to flex-shrink: 0 */
+}
+
+/* Neutralize any floats / positions that could cause stacking */
+#convBody > .msg{ clear:both; float:none !important; position:static !important; }
+
+/* Text wrapping for long URLs (prevents super-wide blue pills) */
+#convBody > .msg p{ white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; }
+
+/* Attachments live inside the bubble and cannot overflow it */
+#convBody > .msg.att .bubble{
+  padding:0; border-radius:14px; overflow:hidden;
+  max-width: 20rem;                   /* ~max-w-xs */
+}
+@media (min-width:1024px){
+  #convBody > .msg.att .bubble{ max-width: 28rem; }  /* ~lg:max-w-md */
+}
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  display:block; width:100%; height:auto !important;
+  max-height:70vh; object-fit:contain !important;
+}
+/* === Compact media bubbles (smaller, calmer) === */
+
+/* Tune once here */
+:root{
+  --media-max-w: 14rem;    /* ~224px on mobile */
+  --media-max-w-lg: 20rem; /* ~320px on large screens */
+  --media-max-h: 40vh;     /* cap tall portraits/videos */
+}
+
+#convBody > .msg.att .bubble{
+  max-width: var(--media-max-w);
+}
+
+@media (min-width: 1024px){
+  #convBody > .msg.att .bubble{
+    max-width: var(--media-max-w-lg);
+  }
+}
+
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  max-height: var(--media-max-h);
+  width: 100%;
+  height: auto !important;
+  object-fit: contain !important;
+}
+/* search popover under the search bar */
+.search-pop{
+  position:absolute; left:0; right:0; top:calc(100% + 6px);
+  background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+  box-shadow:0 12px 24px rgba(2,6,23,.12); padding:6px; z-index:10;
+}
+.search-pop[hidden]{ display:none; }
+.search-pop ul{ list-style:none; margin:0; padding:0; display:grid; gap:4px; }
+.search-pop li{ padding:6px; border-radius:10px; }
+.search-pop li:hover{ background:#f6f7f9; }
+.sp-row{ display:flex; align-items:center; gap:10px; }
+.sp-ava{ width:34px; height:34px; border-radius:9999px; object-fit:cover; background:#e5e7eb; }
+.sp-name{ font-weight:700; line-height:1; }
+.sp-sub{ color:#6b7280; font-size:12px; line-height:1.1; }
+.sp-start{ margin-left:auto; border:0; background:#111; color:#fff; font-weight:700; border-radius:10px; padding:8px 10px; }
+
+/* typing dots bubble (UI-ready, plug WebSocket later) */
+.msg.typing .bubble{ background:#f3f4f6; }
+.msg.typing .bubble::after{
+  content:'•••'; letter-spacing:2px; font-weight:800; display:inline-block; animation:blink 1s infinite;
+}
+@keyframes blink{ 0%,100%{ opacity:.35 } 50%{ opacity:1 } }
+/* conversation bubbles */
+#convBody { padding: 12px 16px; }
+.msg { display:flex; flex-direction:column; align-items:flex-start; margin:10px 0; }
+.msg.you { align-items:flex-end; }
+.msg .bubble {
+  display:inline-block;
+  max-width: min(65ch, 72%);  /* wide enough for sentences */
+  padding:12px 14px; border-radius:16px; background:#f3f4f6; line-height:1.35;
+  white-space: pre-wrap;      /* keep \n but wrap long lines */
+  word-break: normal;         /* don't break on every character */
+  overflow-wrap: anywhere;    /* break only when needed */
+}
+.msg.you .bubble { background:#4f46e5; color:#fff; }
+.msg time { font-size:12px; opacity:.6; margin-top:4px; }
+/* Keep user-intended paragraphs if present; otherwise avoid one-letter lines */
+.conv-body .msg .bubble p {
+  margin: 0;
+  white-space: normal;        /* ← switch from pre-wrap */
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Make sure bubbles don’t force ultra-narrow widths */
+.conv-body .msg {
+  width: fit-content;
+  max-width: min(70%, 70ch);
+}
+.bubble {
+  writing-mode: horizontal-tb !important; /* normal horizontal text */
+  white-space: normal !important;         /* allow normal wrapping */
+  word-break: break-word !important;      /* break words only if needed */
+  overflow-wrap: anywhere !important;     /* allow breaking long words */
+  max-width: min(70%, 70ch);
+  display: inline-block;
+  border-radius: 16px;
+  padding: 12px 14px;
+  line-height: 1.35;
+}
+.bubble p {
+  margin: 0;
+  white-space: normal;
+}
+.bubble {
+  writing-mode: horizontal-tb !important; /* normal horizontal text */
+  white-space: normal !important;         /* allow normal wrapping */
+  word-break: break-word !important;      /* break words only if needed */
+  overflow-wrap: anywhere !important;     /* allow breaking long words */
+  max-width: min(70%, 70ch);
+  display: inline-block;
+  border-radius: 16px;
+  padding: 12px 14px;
+  line-height: 1.35;
+}
+
+.bubble p {
+  margin: 0;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+.msg p {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  margin: 0;
+}
+.msg {
+  display: inline-flex;
+  flex-direction: column;
+  align-self: flex-start;
+  max-width: min(70%, 70ch);
+  width: fit-content;
+  clear: both;
+  position: static !important;
+  float: none !important;
+}
+
+.msg.you {
+  align-self: flex-end;
+}
+/* ——— Chat text should be normal horizontal lines ——— */
+#convBody .bubble,
+#convBody .bubble *,
+#convBody .msg p {
+  writing-mode: horizontal-tb !important;
+  white-space: normal !important;       /* keep long sentences on lines */
+  word-break: break-word !important;    /* only break when needed */
+  overflow-wrap: anywhere !important;   /* wrap long URLs/words */
+}
+#convBody .bubble {
+  display:inline-block !important;
+  width:auto !important;
+  min-width: max(8ch, 120px) !important;
+  max-width: min(70%, 640px) !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+#convBody .bubble p { margin:0 !important; white-space: normal !important; }
+/* Make the header avatar actually show the image */
+.conv-user .avatar{
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+/* === FINAL: restore original bubble sizing === */
+#convBody > .msg{
+  display:inline-flex !important;
+  flex-direction:column;
+  align-self:flex-start !important;
+  width:fit-content !important;
+  max-width:min(64%, 44ch) !important;   /* original cap vibe */
+  clear:both; float:none !important; position:static !important;
+}
+#convBody > .msg.you{ align-self:flex-end !important; }
+#convBody > .msg .bubble{
+  display:inline-block !important;
+  max-width:100% !important;   /* bubble respects the row cap */
+  white-space:normal !important; word-break:break-word !important; overflow-wrap:anywhere !important;
+}
+/* === DEMO MATCH: slim, hug-content bubbles (FINAL OVERRIDE) === */
+
+/* Right pane remains the only scroller (safe) */
+#convBody{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable both-edges;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 14px 88px;
+}
+
+/* One message = one shrinking row; default left, 'you' to the right */
+#convBody > .msg{
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 6px 0 !important;
+
+  display: inline-flex !important;      /* shrink-to-content */
+  flex-direction: column !important;
+  align-self: flex-start !important;
+
+  width: max-content !important;        /* grow only to fit text */
+  max-width: min(40ch, 60%) !important; /* demo-like slim cap */
+  clear: both; float: none !important; position: static !important;
+}
+#convBody > .msg.you{ align-self: flex-end !important; }
+
+/* Bubble visuals; keep them slim and robust */
+#convBody > .msg .bubble{
+  display: inline-block !important;
+  max-width: 100% !important;           /* obey row cap */
+  padding: 8px 12px !important;         /* slimmer padding */
+  line-height: 1.25 !important;
+
+  /* text wrapping that never “stacks” letters */
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+
+  /* theme colors (match your current palette) */
+  background: #f3f4f6 !important; color: #111 !important; border-radius: 14px !important;
+  border-top-left-radius: 6px !important;
+}
+#convBody > .msg.you .bubble{
+  background: #4f46e5 !important; color: #fff !important;
+  border-top-left-radius: 14px !important; border-top-right-radius: 6px !important;
+}
+
+/* Timestamp sits under the same bubble edge */
+#convBody > .msg > time{
+  margin-top: 6px !important;
+  font-size: 12px !important;
+  opacity: .65 !important;
+  line-height: 1 !important;
+  text-align: right !important;
+}
+#convBody > .msg.them > time{ text-align: left !important; }
+
+/* Attachments live INSIDE a bubble with a smaller media cap */
+:root{ --media-max-w: 20rem; }           /* tweak as you like (~320px) */
+#convBody > .msg.att .bubble{
+  padding: 0 !important;
+  max-width: var(--media-max-w) !important;
+}
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 70vh !important;
+  object-fit: contain !important;
+  border-radius: 12px !important;
+}
+/* === SLIM, HUG-CONTENT BUBBLES + IN-BUBBLE TIMESTAMP (FINAL) === */
+
+/* Conversation column */
+#convBody{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding-block:4px;      /* light breathing */
+}
+
+/* One message = one shrinking row */
+#convBody > .msg{
+  display:inline-flex;             /* shrink-to-content */
+  flex-direction:column;
+  align-self:flex-start;
+  width:max-content;               /* grow only to fit text */
+  max-width:min(34ch, 56%);        /* compact cap; tweak 32–40ch / 50–60% if you want */
+  margin:6px 0;
+}
+#convBody > .msg.you{
+  align-self:flex-end;
+  align-items:flex-end;
+}
+
+/* Bubble visuals — keep padding tight so it doesn’t feel “fat” */
+#convBody > .msg .bubble{
+  display:inline-block;
+  max-width:100%;
+  padding:6px 10px;                /* compact */
+  line-height:1.25;
+  white-space:normal;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  border-radius:14px;
+}
+#convBody > .msg.them .bubble{
+  background:#f3f4f6; color:#111;
+  border-top-left-radius:6px;
+}
+#convBody > .msg.you .bubble{
+  background:#4f46e5; color:#fff;
+  border-top-right-radius:6px;
+}
+
+/* Timestamp now lives inside the bubble */
+#convBody > .msg .bubble .msg-time{
+  margin-top:4px;
+  font-size:11px;
+  opacity:.70;
+  line-height:1;
+  text-align:right;                 /* sits at bubble’s edge */
+}
+#convBody > .msg.them .bubble .msg-time{ text-align:left; }  /* left bubbles align left */
+
+/* Media messages: image/video then a compact timestamp bar inside the same bubble */
+#convBody > .msg.att .bubble{ padding:0; }
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  display:block; width:100%; height:auto; border-radius:12px 12px 8px 8px;
+}
+#convBody > .msg.att .bubble .msg-time{
+  padding:6px 8px;                  /* add padding since bubble padding is 0 for media */
+  margin:0;
+  border-radius:0 0 12px 12px;
+}
+/* === FINAL OVERRIDES: right-hug for "you", compact pills, time in/out === */
+
+/* Conversation column */
+#convBody{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:8px 14px 88px;     /* right padding sets the "hug" offset */
+}
+
+/* Each message shrinks to content */
+#convBody > .msg{
+  display:inline-flex;
+  flex-direction:column;
+  align-self:flex-start;
+  width:max-content;                 /* hug text */
+  max-width:min(34ch, 56%);          /* slim cap (tweak to 32–40ch / 50–60%) */
+  margin:6px 0;
+}
+#convBody > .msg.you{
+  align-self:flex-end;               /* push to right edge */
+  margin-left:auto;                  /* ensure right-hug even if other rules exist */
+  align-items:flex-end;
+}
+
+/* Bubble look — tight padding so it's not "fat" */
+#convBody > .msg .bubble{
+  display:inline-block;
+  max-width:100%;
+  padding:6px 10px;                  /* compact */
+  line-height:1.25;
+  white-space:normal;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  border-radius:14px;
+}
+#convBody > .msg.them .bubble{
+  background:#f3f4f6; color:#111;
+  border-top-left-radius:6px;
+}
+#convBody > .msg.you .bubble{
+  background:#4f46e5; color:#fff;
+  border-top-right-radius:6px;
+}
+
+/* In-bubble timestamp (text messages) */
+#convBody > .msg .bubble .msg-time.in{
+  margin-top:4px;
+  font-size:11px;
+  opacity:.72;
+  line-height:1;
+  text-align:right;                  /* aligns to the bubble edge */
+}
+#convBody > .msg.them .bubble .msg-time.in{
+  text-align:left;
+}
+
+/* Outside timestamp (media messages) */
+#convBody > .msg .msg-time.out{
+  margin-top:6px;
+  font-size:12px;
+  opacity:.7;
+  line-height:1;
+}
+#convBody > .msg.you .msg-time.out{ text-align:right; padding-right:2px; }
+#convBody > .msg.them .msg-time.out{ text-align:left;  padding-left:2px; }
+
+/* Media bubble: image/video inside, then outside time */
+#convBody > .msg.att .bubble{
+  padding:0;                          /* media shouldn’t add fat padding */
+  max-width:min(22rem, 70vw);         /* optional: separate media cap */
+}
+#convBody > .msg.att .bubble img,
+#convBody > .msg.att .bubble video{
+  display:block; width:100%; height:auto;
+  border-radius:12px;
+}
+
+/* Safety: no margins on paragraph text inside bubble */
+#convBody > .msg .bubble p{ margin:0; }
+/* ---- Tiny text should hug; kill old min-widths on bubbles ---- */
+#convBody > .msg .bubble{
+  min-width: 0 !important;           /* overrides bundle's 8ch/120px */
+  width: max-content !important;      /* grow only to its contents */
+  max-width: 100% !important;         /* still respect row cap */
+}
+
+/* keep rows slim and right-hug for your messages (if not already) */
+#convBody > .msg{
+  display: inline-flex !important;
+  flex-direction: column !important;
+  width: max-content !important;
+  max-width: min(34ch, 56%) !important;   /* adjust to taste */
+}
+#convBody > .msg.you{
+  align-self: flex-end !important;
+  margin-left: auto !important;
+}
+
+/* text messages: timestamp INSIDE bubble (inherits white-on-blue for .you) */
+#convBody > .msg .bubble .msg-time.in{
+  margin-top: 4px; font-size: 11px; line-height: 1;
+  opacity: .72;
+  text-align: right;
+}
+#convBody > .msg.them .bubble .msg-time.in{ text-align: left; }
+
+/* media messages: timestamp OUTSIDE bubble, always readable */
+#convBody > .msg .msg-time.out{
+  margin-top: 6px; font-size: 12px; line-height: 1; opacity: .8;
+  color: #111 !important;              /* black on white background */
+  text-align: right;
+}
+#convBody > .msg.them .msg-time.out{ text-align: left; }
+/* Kill the old text-based dots */
+.msg.typing .bubble::after { content: none !important; }
+
+/* Make sure the three dots are spaced nicely */
+.typing-dots{
+  display:inline-flex;
+  gap:6px;            /* a little more breathing room */
+  align-items:center;
+  line-height:0;      /* keeps them perfectly centered vertically */
+}
+.typing-dots i{
+  width:6px; height:6px; border-radius:50%;
+  background: currentColor; opacity:.4;
+  display:inline-block; animation: typing-blink 1.2s infinite;
+}
+/* gap fallback for older browsers (keeps spacing even if gap isn't supported) */
+.typing-dots i + i { margin-left:6px; }
+/* tighter typing dots */
+.typing-dots { 
+  gap: 3px !important;      /* was 6px */
+  line-height: 0; 
+}
+.typing-dots i { 
+  width: 5px !important;     /* was 6px */
+  height: 5px !important; 
+}
+/* fallback for older browsers without flex gap */
+.typing-dots i + i { margin-left: 3px !important; }
+#convBody{
+  display:flex; flex-direction:column; gap:10px;
+  padding: 8px 14px calc(var(--composer-pad, 56px));
+}
+/* Compact bottom gutter for the conversation list */
+:root { --conv-bottom-pad: 22px; }           /* fallback if JS can't measure */
+
+#convBody{
+  padding: 8px 14px var(--conv-bottom-pad) !important;  /* override 88px */
+}
+
+/* Tiny tweak so the very last bubble doesn’t add extra space */
+#convBody > .msg:last-child { margin-bottom: 4px !important; }
+/* Conversation list: layout + ellipsis */
+#threadList .thread{
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  column-gap: 10px;
+}
+
+#threadList .thread .avatar{
+  width: 36px; height: 36px; border-radius: 50%;
+  background-size: cover; background-position: center;
+}
+
+#threadList .thread > div:nth-child(2){ min-width: 0; }      /* allow ellipsis */
+#threadList .thread .name{ font-weight: 600; line-height: 1.2; }
+#threadList .thread .snippet{
+  color: #6b7280; font-size: 12px; line-height: 1.2;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;  /* ← ellipsis */
+}
+#threadList .thread .time{
+  color:#9ca3af; font-size:12px; white-space:nowrap; margin-left:8px;
+}
+/* Search results popover: show ~6 rows, then scroll */
+.search-pop{
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(100% + 6px);
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  padding: 6px;
+  overflow-y: auto;              /* enable scrolling when tall */
+  max-height: 360px;             /* fallback – JS below will set exact height for 6 rows */
+  z-index: 50;
+}
+
+.search-pop ul{ list-style: none; margin: 0; padding: 0; }
+.search-pop li{ margin: 0; }
+
+.search-pop .sp-row{
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 10px;
+}
+.search-pop .sp-row:hover{ background: #f3f4f6; }
+.search-pop .sp-ava{ width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+.search-pop .sp-text{ flex: 1; min-width: 0; }
+.search-pop .sp-name{ font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.search-pop .sp-sub{ font-size: 12px; color: #6b7280; }
+.search-pop .sp-start{ white-space: nowrap; }
+/* Keep the results popover inside the left panel; no horizontal scroll */
+.search-pop{
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;          /* prevent horizontal scrollbar */
+}
+
+/* Also ensure the left list never shows an x-scrollbar */
+#threadList{ overflow-x: hidden; }
+
+/* Tighter row layout */
+.search-pop .sp-row{
+  display: flex;
+  align-items: center;
+  gap: 8px;                    /* was ~10px */
+  padding: 6px 8px;            /* a bit slimmer */
+}
+
+/* Text block may shrink without forcing extra space */
+.search-pop .sp-text{ flex: 1 1 auto; min-width: 0; }
+.search-pop .sp-name{
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;     /* long names won’t push width */
+}
+.search-pop .sp-sub{ font-size: 12px; color: #6b7280; }
+
+/* Compact button */
+.search-pop .sp-start{
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+/* keep the popover inside the panel; never show horizontal scroll */
+.search-pop{
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  z-index: 9999; /* sit on top of the list */
+}
+
+/* row layout: text shrinks, button stays visible on the right */
+.search-pop .sp-row{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+}
+
+.search-pop .sp-ava{ width:36px; height:36px; border-radius:50%; object-fit:cover; }
+.search-pop .sp-text{ flex: 1 1 auto; min-width: 0; }             /* allow ellipsis */
+.search-pop .sp-name{
+  font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.search-pop .sp-sub{ font-size:12px; color:#6b7280; }
+
+/* visible, compact button that never collapses */
+.search-pop .sp-start{
+  flex: 0 0 auto;              /* don't shrink */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;             /* guarantees room */
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 9999px;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.search-pop .sp-start:hover{ background:#000; }
+/* Search popover rows (no button) */
+.search-pop{ box-sizing:border-box; width:100%; max-width:100%; overflow-x:hidden; }
+.search-pop ul{ list-style:none; margin:0; padding:0; }
+.search-pop li{ margin:0; }
+.search-pop .sp-row{
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:10px; cursor:pointer;
+}
+.search-pop .sp-row:hover{ background:#f3f4f6; }
+.search-pop .sp-ava{ width:36px; height:36px; border-radius:50%; object-fit:cover; }
+.search-pop .sp-text{ flex:1 1 auto; min-width:0; }
+.search-pop .sp-name{ font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.search-pop .sp-sub{ font-size:12px; color:#6b7280; }
+
+/* keep pop at ~6 rows then scroll (JS sets exact height) */
+.search-pop{ max-height:360px; overflow-y:auto; }
+/* Hide the unused + button */
+#msgNewBtn { display: none !important; }
+
+/* Let the search input span full width */
+#msgSearch { width: 100% !important; }
+
+/* If the container was a 2-col grid (input + button), collapse it */
+#msgSearch.parentNode,
+#msgSearch:where(*) { /* fallback if parent has a classless wrapper */
+  grid-template-columns: 1fr !important;
+}
+/* Simple image viewer overlay */
+#img-viewer{
+  position: fixed; inset: 0;
+  background: rgba(15,15,15,.9);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 99999;
+  opacity: 0; animation: imgv-fade .12s ease forwards;
+}
+#img-viewer img{
+  max-width: 96vw; max-height: 96vh;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.5);
+}
+#img-viewer .imgv-close{
+  position: absolute; top: 14px; right: 14px;
+  padding: 8px 12px; border: 0; border-radius: 9999px;
+  background: rgba(0,0,0,.6); color: #fff; font-weight: 600;
+  cursor: pointer;
+}
+@keyframes imgv-fade { to { opacity: 1 } }
+
+body.no-scroll{ overflow: hidden; }
+/* kebab menu */
+#convMenuWrap{ position:relative; }
+.conv-menu{
+  position:absolute; top:100%; right:0;
+  background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  padding:6px; min-width: 200px; z-index:60; display:none;
+}
+.conv-menu.open{ display:block; }
+.conv-menu button{
+  width:100%; display:flex; align-items:center; gap:8px;
+  padding:8px 10px; border-radius:8px; background:transparent; border:0; cursor:pointer;
+}
+.conv-menu button:hover{ background:#f3f4f6; }
+.conv-menu .danger{ color:#b91c1c; }
+
+/* confirm modal */
+#confirm-modal{
+  position:fixed; inset:0; background:rgba(0,0,0,.45);
+  display:flex; align-items:center; justify-content:center; z-index:99999;
+}
+#confirm-modal .card{
+  background:#fff; border-radius:12px; padding:16px; width:min(420px,92vw);
+  box-shadow:0 12px 40px rgba(0,0,0,.3);
+}
+#confirm-modal h3{ margin:0 0 6px; font-size:16px; }
+#confirm-modal p{ margin:0; color:#6b7280; }
+#confirm-modal .actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:14px; }
+#confirm-modal .btn{ padding:8px 12px; border-radius:10px; border:0; cursor:pointer; }
+#confirm-modal .btn.cancel{ background:#e5e7eb; color:#111; }
+#confirm-modal .btn.danger{ background:#b91c1c; color:#fff; }
+.conv-menu{ z-index: 99999; }
+.conv-menu{
+  background:#fff; border:1px solid #e5e7eb; border-radius:12px;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  padding:6px; min-width:200px; display:none;
+}
+.conv-menu.open{ display:block; }
+.conv-menu button{
+  width:100%; display:flex; align-items:center; gap:8px;
+  padding:8px 10px; border-radius:8px; background:transparent; border:0; cursor:pointer;
+}
+.conv-menu button:hover{ background:#f3f4f6; }
+.conv-menu .danger{ color:#b91c1c; }
+/* tighter kebab menu */
+.conv-menu{
+  width: auto;              /* shrink to content */
+  min-width: 140px;         /* was ~180px */
+  max-width: 200px;
+  padding: 4px;             /* was 6px */
+  border-radius: 10px;      /* a bit tighter */
+}
+.conv-menu button{
+  padding: 8px 10px;        /* was ~10–12px */
+  font-size: 14px;          /* slightly smaller text */
+  white-space: nowrap;      /* keep single line */
+}
+/* Send button → blue */
+#msgComposer button[type="submit"]{
+  background:#2563eb;           /* blue */
+  border:1px solid #2563eb;
+  color:#fff;
+  transition:background .15s, border-color .15s, box-shadow .15s;
+}
+#msgComposer button[type="submit"]:hover{  background:#1d4ed8; border-color:#1d4ed8; }
+#msgComposer button[type="submit"]:active{  background:#1e40af; border-color:#1e40af; }
+#msgComposer button[type="submit"]:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37,99,235,.35);
+}
+
+/* Confirm modal "Yes/Delete" button → red */
+.confirm-actions .btn.primary{
+  background:#dc2626;            /* red */
+  border-color:#dc2626;
+  color:#fff;
+}
+.confirm-actions .btn.primary:hover{ background:#b91c1c; border-color:#b91c1c; }
+.confirm-actions .btn.primary:active{ background:#991b1b; border-color:#991b1b; }
+/* Left list & header avatar */
+.thread .avatar, .conv-head .avatar, .sp-ava {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  flex: 0 0 36px;
+}
+/* Sender label for group chats */
+#convBody > .msg .bubble .gc-from{
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  opacity: .85;
+  color: #111;
+}
+/* Never show a name on your own bubbles */
+#convBody > .msg.you .bubble .gc-from{ display:none; }
+/* Centered system notes (join/leave/remove) */
+#convBody .sys-note{
+  margin:6px auto; max-width:80%; text-align:center;
+  font-size:12px; opacity:.9;
+}
+#convBody .sys-note.event{
+  padding:4px 8px; border:1px solid #e5e7eb; border-radius:8px;
+  background:#f9fafb; color:#374151;
+}
+#convBody .sys-note{
+  margin:6px auto; max-width:80%; text-align:center;
+  font-size:12px; line-height:1.4; opacity:.95;
+}
+#convBody .sys-note.event{
+  padding:4px 8px; border:1px solid #e5e7eb; border-radius:8px;
+  background:#f9fafb; color:#374151;
+}
+/* GC sender label when rendered OUTSIDE the bubble (for images/videos) */
+#convBody > .msg .gc-from{
+  font-size: 12px;
+  font-weight: 600;
+  opacity: .85;
+  color: #111;
+  line-height: 1.1;
+}

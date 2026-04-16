@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Event • Details</title>
+   <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="Student-EventDetails.css?v=1" />
+  <link rel="stylesheet" href="shell.js" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <script defer src="auth-guard.js"></script>
+<script defer src="logout-confirm.js"></script>
+  <script src="Student-EventDetails.js?v=1" defer></script>
+  <script src="Student-Search.js" defer></script>
+  <script defer src="shell.js"></script>
+</head>
+<body>
+
+ <!-- SIDEBAR (updated shell) -->
+<aside id="sideNav" class="side-nav" role="navigation" aria-label="Sidebar">
+  <div class="side-nav__top">
+    <nav id="mobileNavLinks" class="side-nav__primary-links" aria-label="Navigation (mobile)"></nav>
+    <button id="sidebarHamburger" class="hamburger" aria-label="Toggle sidebar" title="Toggle sidebar">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="3" y1="6"  x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    <img src="Images/stiLogo.png" alt="STI Logo" class="side-nav__logo" />
+    <span class="side-nav__brand">STI Global City</span>
+  </div>
+
+  <!-- Profile card -->
+  <div class="side-nav__profile">
+    <img class="profile__avatar" src="Images/profile.png" alt="Profile" />
+    <div class="profile__meta">
+      <span class="profile__name">Your Name</span>
+      <div class="profile__status"></div>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <nav class="side-nav__menu">
+    <a class="side-nav__item" href="Student-HomeNews.html" aria-label="Newsfeed" data-label="Newsfeed">
+      <img class="item__icon" src="Images/newsfeed.png" alt="" />
+      <span class="item__label">Newsfeed</span>
+    </a>
+    <a class="side-nav__item" href="Student-Chat.html" aria-label="Chat" data-label="Chat">
+      <img class="item__icon" src="Images/chat.png" alt="" />
+      <span class="item__label">Chat</span>
+    </a>
+    <a class="side-nav__item" href="Student-ListOfClub.html" aria-label="Club" data-label="Club">
+      <img class="item__icon" src="Images/club.png" alt="" />
+      <span class="item__label">Club</span>
+    </a>
+    <a class="side-nav__item" href="#" id="openSettings" aria-label="Settings" data-label="Settings">
+      <img class="item__icon" src="Images/setting.png" alt="" />
+      <span class="item__label">Settings</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <div class="side-nav__footer">
+    <div class="side-nav__divider" aria-hidden="true"></div>
+    <a class="side-nav__item side-nav__logout logout-link" href="index.html" aria-label="Logout" data-label="Logout">
+      <img class="item__icon" src="Images/out.png" alt="" />
+      <span class="item__label">Logout</span>
+    </a>
+  </div>
+</aside>
+
+<!-- mobile trigger + backdrop (shell) -->
+<button id="mobileSidebarToggle" class="mobile-hamburger" aria-label="Open menu" aria-controls="sideNav" aria-expanded="false">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <line x1="3" y1="6"  x2="21" y2="6"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+</button>
+<div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
+
+<!-- TOP NAVBAR -->
+<nav class="pill-nav">
+  <ul class="pill-nav__links">
+    <li class="pill-nav__item"><a href="Student-HomeNews.html">Home</a></li>
+    <li class="pill-nav__item"><a href="Student-ListOfClub.html">List of Clubs</a></li>
+    <li class="pill-nav__item"><a href="Student-DiscoverYourClub.html">Discover your Club</a></li>
+    <li class="pill-nav__item"><a href="Student-About.html">About</a></li>
+
+    <li class="pill-nav__item dropdown">
+      <a href="#" class="dropdown-toggle">Account <span class="pill-nav__arrow">▾</span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="index.html" class="logout-link">Logout</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <!-- Sliding / popover search -->
+  <div id="pillSearchTray" class="pill-search-tray" aria-hidden="true">
+    <form role="search" class="pill-search-form" id="pillSearchForm" action="#" method="get">
+      <input id="navSearchInput" name="q" type="search" placeholder="Search…" aria-label="Search" autocomplete="off" />
+      <button type="button" class="pill-search-close" aria-label="Close search">×</button>
+    </form>
+  </div>
+
+  <div class="pill-nav__icons">
+    <button class="pill-nav__icon-btn" aria-label="Search">
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <button class="pill-nav__icon-btn" aria-label="Notifications">
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+  <!-- PAGE CONTENT -->
+  <main class="content-wrapper">
+    <div class="page-grid">
+
+      <!-- LEFT: EVENT -->
+      <section class="article-wrap">
+        <div class="article-headbar">
+          <a href="Student-HomeNews.html" class="back-link">← Back to Home</a>
+        </div>
+
+        <header class="article-header">
+          <h1 id="eventTitle">Loading…</h1>
+
+          <!-- Event info row (now includes Club) -->
+          <div class="event-meta" aria-label="Event information">
+            <div class="em"><span class="em-ic">🏫</span><span id="evClub">—</span></div>
+            <div class="em"><span class="em-ic">📅</span><span id="evDate">—</span></div>
+            <div class="em"><span class="em-ic">🕒</span><span id="evStart">—</span> – <span id="evEnd">—</span></div>
+            <div class="em"><span class="em-ic">👥</span><span id="evMax">—</span></div>
+            <div class="em"><span class="em-ic">⏳</span><span id="evDeadline">—</span></div>
+          </div>
+
+          <div class="meta">
+            <time id="eventDate" datetime=""></time>
+          </div>
+        </header>
+
+        <figure class="cover">
+          <img id="eventImage" alt="" />
+        </figure>
+
+        <article class="article-body" id="eventContent"></article>
+
+        <div class="article-actions">
+          <button id="eventRegisterBtn" type="button" class="btn-primary">Register</button>
+        </div>
+      </section>
+
+      <!-- RIGHT: SIDEBAR (Recent News on top, Recent Events below) -->
+      <aside class="aside-right">
+        <div class="aside-stack">
+          <div class="aside-card">
+            <h3>Recent News</h3>
+            <ul id="recentNews" class="mini-list"></ul>
+          </div>
+          <div class="aside-card">
+            <h3>Recent Events</h3>
+            <ul id="recentEvents" class="mini-list"></ul>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- LOGOUT CONFIRM MODAL (hidden by default) -->
+<div id="logoutConfirmOverlay" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="logout-ttl">
+    <h4 id="logout-ttl">Do you want to logout?</h4>
+    <div class="btns">
+      <button class="btn-no" type="button">No</button>
+      <button class="btn-yes" type="button">Yes</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL (shell) -->
+<div id="settingsModalOverlay" class="settings-modal__overlay" aria-hidden="true">
+  <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-modal__header">
+      <h2 id="settingsTitle">Settings</h2>
+      <button type="button" class="settings-modal__close" aria-label="Close">×</button>
+    </div>
+
+    <div class="settings-tabs" role="tablist">
+      <button type="button" class="settings-tab is-active" role="tab" aria-selected="true" data-tab="account">Account Settings</button>
+      <button type="button" class="settings-tab" role="tab" aria-selected="false" data-tab="profile">Profile Settings</button>
+    </div>
+
+    <div class="settings-panels">
+      <section class="settings-panel is-active" data-panel="account" aria-labelledby="settingsTitle">
+        <ol class="settings-chooser vertical" id="acctList">
+          <li><button type="button" class="choose-item link-btn" data-key="name"><span class="num">1.</span> <span>Name</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="email"><span class="num">2.</span> <span>Email</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="password"><span class="num">3.</span> <span>Password</span></button></li>
+        </ol>
+      </section>
+
+      <section class="settings-panel" data-panel="profile" aria-labelledby="settingsTitle">
+        <ol class="settings-chooser vertical" id="profList">
+          <li><button type="button" class="choose-item link-btn" data-key="bio"><span class="num">1.</span> <span>Bio</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="nickname"><span class="num">2.</span> <span>Nickname</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="birthdate"><span class="num">3.</span> <span>Birthdate</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="about_city"><span class="num">4.</span> <span>Town / City</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="contact_email"><span class="num">5.</span> <span>Contact Email</span></button></li>
+          <li><button type="button" class="choose-item link-btn" data-key="student_id_display"><span class="num">6.</span> <span>Student ID</span></button></li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- ================== FIELD TEMPLATES ================== -->
+<template id="tpl-name">
+  <form class="slot-form" data-field="name" novalidate>
+    <div class="grid-2 gap">
+      <label>First name
+        <input type="text" name="first_name" required />
+      </label>
+      <label>Last name
+        <input type="text" name="last_name" required />
+      </label>
+    </div>
+    <label>Middle name (optional)
+      <input type="text" name="middle_name" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-email">
+  <form class="slot-form" data-field="email" novalidate>
+    <label>Account email
+      <input type="email" name="sti_email" required />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-password">
+  <form class="slot-form" data-field="password" novalidate>
+    <label>Current password
+      <input type="password" name="current_password" autocomplete="current-password" required />
+    </label>
+    <div class="grid-2 gap">
+      <label>New password
+        <input type="password" name="new_password" autocomplete="new-password" required minlength="6" />
+      </label>
+      <label>Confirm new password
+        <input type="password" name="confirm_password" autocomplete="new-password" required minlength="6" />
+      </label>
+    </div>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-bio">
+  <form class="slot-form" data-field="bio" novalidate>
+    <label>Bio (max 100 chars)
+      <textarea name="bio" maxlength="100" rows="3"></textarea>
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-nickname">
+  <form class="slot-form" data-field="nickname" novalidate>
+    <label>Nickname
+      <input type="text" name="nickname" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-birthdate">
+  <form class="slot-form" data-field="birthdate" novalidate>
+    <label>Birthdate
+      <input type="date" name="birthdate" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-about_city">
+  <form class="slot-form" data-field="about_city" novalidate>
+    <label>Town / City
+      <input type="text" name="about_city" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-contact_email">
+  <form class="slot-form" data-field="contact_email" novalidate>
+    <label>Contact email
+      <input type="email" name="contact_email" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-student_id_display">
+  <form class="slot-form" data-field="student_id_display" novalidate>
+    <label>Student ID
+      <input type="text" name="student_id_display" />
+    </label>
+    <div class="slot-actions"><!-- read-only --></div>
+  </form>
+</template>
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" stroke="#2563eb" fill="#eaf1ff"></circle>
+        <line x1="12" y1="7.5" x2="12" y2="13" stroke="#2563eb"></line>
+        <circle cx="12" cy="17" r="1.2" fill="#2563eb"></circle>
+      </svg>
+    </div>
+    <h4 id="confirmTitle" style="margin:0 0 1rem;font-size:1.15rem;font-weight:800;color:#222;">
+      Apply these changes?
+    </h4>
+    <div class="btns">
+      <button class="btn-no" type="button" id="btnConfirmNo">Cancel</button>
+      <button class="btn-yes" type="button" id="btnConfirmYes">Yes, save</button>
+    </div>
+  </div>
+</div>
+
+<nav id="mobileBottomTabs" class="mobile-bottom-tabs" aria-label="Sidebar tabs (mobile)">
+  <a class="mbtab" href="Student-HomeNews.html" aria-label="News"><img src="Images/newsfeed.png" alt=""><span>News</span></a>
+  <a class="mbtab" href="Student-Chat.html" aria-label="Chat"><img src="Images/chat.png" alt=""><span>Chat</span></a>
+  <a class="mbtab" href="Student-ListOfClub.html" aria-label="Club"><img src="Images/club.png" alt=""><span>Club</span></a>
+  <a class="mbtab" href="#" aria-label="Settings" id="openSettingsTab"><img src="Images/setting.png" alt=""><span>Settings</span></a>
+</nav>
+
+<div id="mobileNavDrawer" class="mobile-nav-drawer" hidden aria-hidden="true">
+  <nav class="mobile-nav-list" aria-label="Navigation"></nav>
+</div>
+
+<style>
+/* ——— Student profile card fixes ——— */
+
+/* 1) Never show the “club” row */
+.side-nav__profile .profile__club{ display:none !important; }
+
+/* 2) Center the STUDENT pill row */
+.side-nav .side-nav__profile .profile__status{
+  display:flex !important;
+  justify-content:center !important;
+}
+
+/* 3) Make the pill itself centered and text-only */
+.side-nav .side-nav__profile .profile__status .profile-chip,
+.side-nav .side-nav__profile .profile__status > .role-pill,
+.side-nav .side-nav__profile .profile__status > .pill,
+.side-nav .side-nav__profile .profile__status > .chip,
+.side-nav .side-nav__profile .profile__status > .badge{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:0 !important;
+  margin:8px auto 0 !important;
+  max-width:100%;
+}
+
+/* 4) Remove any icon that might be injected */
+.side-nav .side-nav__profile .profile__status .profile-chip :is(svg,i,img,[class*="icon"]),
+.side-nav .side-nav__profile .profile__status > :is(svg,i,img,[class*="icon"]){
+  display:none !important;
+  width:0 !important;
+  margin:0 !important;
+}
+</style>
+
+<script>
+/* Keep the pill centered even if the shell re-renders it */
+(() => {
+  const host = document.querySelector('.side-nav .side-nav__profile .profile__status');
+  if (!host) return;
+
+  const fix = () => {
+    const chip = host.querySelector('.profile-chip, .role-pill, .pill, .chip, .badge') || host.firstElementChild;
+    if (!chip) return;
+    chip.style.display = 'inline-flex';
+    chip.style.alignItems = 'center';
+    chip.style.justifyContent = 'center';
+    chip.style.margin = '8px auto 0';
+    chip.style.gap = '0';
+    chip.querySelectorAll('svg,i,img,[class*="icon"]').forEach(n => n.remove());
+  };
+
+  fix();
+  new MutationObserver(fix).observe(host, { childList:true, subtree:true });
+})();
+</script>
+
+</body>
+</html>

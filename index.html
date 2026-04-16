@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STI SHS Club Management</title>
+  <link rel="stylesheet" href="styles.css?v=fpFix1">
+  <script src="script.js?v=fpFix1" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="wrapper">
+    <main>
+      <div class="top-gap"></div>
+
+      <header class="main-header">
+        <div class="header-content">
+     
+          <h1>STI SHS Club Management</h1>
+        </div>
+      </header>
+
+      <div class="login-box">
+        <img class="login-logo" src="Images/stiLogo.png" alt="STI Logo" />
+        <button class="login-btn" onclick="showLoginForm()">Login / Signup</button>
+
+        <!-- LOGIN / REGISTER POPUP -->
+        <div class="login-popup" id="loginPopup">
+          <div class="login-popup-content">
+            <!-- ALL VIEWS -->
+            <div class="views">
+              <!-- STUDENT ROLE -->
+              <div class="role-view student-view active">
+                <!-- STUDENT LOGIN -->
+                <div id="student-login" class="view active">
+                  <h2 class="popup-title">LOGIN YOUR ACCOUNT</h2>
+                  <form class="popup-form">
+                    <label for="stu-email">STI Email</label>
+                    <input id="stu-email" type="email" placeholder="you@globalcity.sti.edu.ph" required />
+
+                    <label for="stu-pass">Password</label>
+                    <div class="password-wrapper">
+                      <input id="stu-pass" type="password" placeholder="********" required />
+                      <button type="button" class="toggle-pw" aria-label="Show password">👁</button>
+                    </div>
+
+                    <a href="#" class="forgot-link"><u>Forgot password?</u></a>
+                    <button type="submit" class="btn-login">LOGIN</button>
+                  </form>
+                </div><!-- /#student-login -->
+              </div><!-- /.student-view -->
+            </div><!-- /.views -->
+          </div><!-- /.login-popup-content -->
+        </div><!-- /#loginPopup -->
+      </div><!-- /.login-box -->
+    </main>
+
+    <footer class="main-footer">
+      <p>STI GLOBAL CITY Website | &copy; 2025 STI GLOBAL CITY | STI SHS Club Management</p>
+    </footer>
+  </div><!-- /.wrapper -->
+
+  <!-- ===== Forgot Password Modal (kept OUTSIDE loginPopup) ===== -->
+  <div class="modal-overlay" id="forgotModal" aria-hidden="true">
+    <div class="modal-box forgot-box" role="dialog" aria-labelledby="fpTitle">
+
+      <h3 id="fpTitle">Reset your password</h3>
+
+      <!-- STEP 2: Code -->
+      <form id="fpStep2" class="fp-form is-hidden" autocomplete="off">
+        <label class="fp-label" for="fpCode">Verification Code</label>
+        <input id="fpCode" type="text" inputmode="numeric" maxlength="6"
+               class="fp-input" placeholder="123456" required />
+        <div class="fp-actions">
+          <button type="button" class="modal-btn fp-secondary js-fp-back1">Back</button>
+          <button type="submit" class="modal-btn">Continue</button>
+        </div>
+      </form>
+
+      <!-- STEP 3: New password -->
+      <form id="fpStep3" class="fp-form is-hidden" autocomplete="off">
+        <label class="fp-label" for="fpPass">New Password</label>
+        <div class="password-wrapper">
+          <input id="fpPass" type="password" class="fp-input" placeholder="••••••••" required />
+          <button type="button" class="toggle-pw" aria-label="Show password">👁</button>
+        </div>
+
+        <label class="fp-label" for="fpPass2">Confirm Password</label>
+        <div class="password-wrapper">
+          <input id="fpPass2" type="password" class="fp-input" placeholder="••••••••" required />
+          <button type="button" class="toggle-pw" aria-label="Show password">👁</button>
+        </div>
+
+        <ul class="fp-hint-list">
+          <li>At least 8 characters</li>
+          <li>Use letters and numbers</li>
+        </ul>
+
+        <div class="fp-actions">
+          <button type="button" class="modal-btn fp-secondary js-fp-back2">Back</button>
+          <button type="submit" class="modal-btn">Reset Password</button>
+        </div>
+      </form>
+
+      <!-- Help / Contact --> 
+      <div class="fp-help">
+        <h4>Need help?</h4>
+        <p>If you can’t access your STI email, contact the administrator:</p>
+        <div class="fp-contact">
+          <div><strong>Email:</strong> <a href="mailto:admin@globalcity.sti.edu.ph">admin@globalcity.sti.edu.ph</a></div>
+          <div><strong>Office:</strong> Student Affairs / IT Helpdesk</div>
+          <div><strong>Note:</strong> Bring a valid ID to verify ownership.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

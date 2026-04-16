@@ -1,0 +1,522 @@
+/* ── RESET & BASE ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+/* ── ABOUT PAGE: HERO ── */
+.about-hero {
+  background: linear-gradient(135deg, #1e3a8a, #3b4cca);
+  color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.about-hero h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+.about-hero__lead {
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 600px;
+}
+.about-hero__cta a {
+  display: inline-block;
+  margin-right: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-yellow {
+  background: #ff0;
+  color: #000;
+}
+.btn-yellow:hover {
+  background: #e6e600;
+  transform: translateY(-1px);
+}
+.btn-white {
+  background: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+}
+.btn-white:hover {
+  background: #f4f4f4;
+  transform: translateY(-1px);
+}
+
+/* ── “Why Join a Club?” ── */
+.why-join {
+  margin-bottom: 2rem;
+}
+.why-join__title {
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+.why-join__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 1.5rem;
+}
+.feature-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.feature-card__icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+.feature-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.feature-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #444;
+}
+
+/* ── FEATURED CLUBS ── */
+.featured-clubs__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.featured-clubs__header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+.featured-clubs__header .view-all {
+  text-decoration: none;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+.club-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.club-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.club-card img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+.club-card h3 {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.club-card p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 0.75rem;
+}
+.club-card__meta {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+.club-card__btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid #1e3a8a;
+  color: #1e3a8a;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.club-card__btn:hover {
+  background: #1e3a8a;
+  color: #fff;
+}
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: flex;
+  justify-content: space-evenly;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.stat__number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+.stat__label {
+  font-size: 0.95rem;
+  color: #444;
+}
+/* ——— Design polish ——— */
+.featured-clubs { margin-bottom: 2rem; }
+.club-card { transition: transform .15s ease, box-shadow .15s ease; }
+.club-card:hover { transform: translateY(-3px); box-shadow: 0 10px 18px rgba(0,0,0,.08); }
+.club-card h3 { font-size: 1.05rem; }
+.club-card__meta { font-variant-numeric: tabular-nums; }
+
+/* ——— Skeleton loaders ——— */
+.skel-card .skel { background: linear-gradient(90deg, #eee, #f5f5f5, #eee);
+  background-size: 200% 100%; animation: skel 1.2s linear infinite; border-radius: 6px; }
+.skel-card .skel-img { width:64px; height:64px; margin-bottom:.75rem; }
+.skel-card .skel-line { height:14px; margin:.4rem 0; }
+.skel-card .skel-btn  { height:36px; width:120px; margin-top:.5rem; border-radius: 6px; }
+@keyframes skel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* If you keep .stats-row in CSS, it won’t display anymore because we removed it from HTML */
+/* Space below fixed/top nav */
+.pill-nav + .content-wrapper { margin-top: 16px; }
+
+/* Larger, softer hero like your reference */
+.about-hero {
+  background: linear-gradient(135deg, #1e3a8a, #2648cc 40%, #3b6cff 100%);
+  border-radius: 16px;
+  padding: 2.25rem 2rem;
+  margin-top: 8px;               /* small space from the nav */
+  margin-bottom: 2rem;
+  box-shadow: 0 12px 28px rgba(30,58,138,.25);
+}
+.about-hero h1 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
+.about-hero__lead { max-width: 720px; opacity: .95; }
+.about-hero__cta a { border-radius: 10px; }
+/* Slim, left-aligned hero */
+.about-hero{
+  background: linear-gradient(135deg,#1e3a8a,#3657e6 45%,#4d74ff 100%);
+  border-radius: 14px;
+  padding: 18px 20px;        /* ↓ was large; now compact */
+  margin: 10px 0 18px;
+  box-shadow: 0 8px 22px rgba(30,58,138,.18);
+}
+.about-hero__content{
+  max-width: 680px;
+  display: grid;
+  gap: 10px;
+}
+.about-hero h1{
+  margin: 0;
+  font-size: clamp(1.45rem,2.2vw,2.05rem);
+  line-height: 1.18;
+}
+.about-hero__lead{ opacity:.92; font-size:.98rem; }
+.about-hero__cta{ display:flex; gap:.75rem; flex-wrap:wrap; }
+
+/* Featured: exactly 3 large cards */
+.club-card-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+@media (max-width:1024px){ .club-card-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){  .club-card-grid{ grid-template-columns:1fr; } }
+
+.club-card--lg{ display:flex; gap:16px; align-items:flex-start; padding:14px 16px; }
+.club-card__avatar{ width:72px; height:72px; border-radius:12px; object-fit:cover; flex:0 0 auto; }
+.club-card__body{ display:grid; gap:.45rem; }
+.club-card--lg h3{ margin:0; font-size:1.08rem; }
+.club-card--lg p{ margin:0; line-height:1.35; }
+/* FINAL OVERRIDE: slim, left-aligned hero */
+.about-hero {
+  padding: 12px 18px !important;
+  margin: 8px 0 16px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg,#1e3a8a,#3657e6 45%,#4d74ff 100%) !important;
+  box-shadow: 0 8px 22px rgba(30,58,138,.18) !important;
+}
+.about-hero__content { max-width: 640px !important; display: grid; gap: 10px; }
+.about-hero h1 { font-size: clamp(1.35rem,2vw,1.9rem) !important; line-height: 1.18 !important; margin: 0 !important; }
+.about-hero__lead { font-size: .98rem !important; opacity: .92 !important; }
+.about-hero__cta { display: flex !important; gap: .75rem !important; flex-wrap: wrap !important; }
+/* --- Hero alignment (final) --- */
+.about-hero { display:block !important; }
+.about-hero__content { max-width: 760px !important; text-align: left !important; }
+
+/* --- Featured header with count --- */
+.featured-clubs__header { display:flex; justify-content:space-between; align-items:flex-end; margin: 0 0 12px; }
+.featured-title { display:flex; flex-direction:column; gap:4px; }
+.featured-title h2 { margin:0; }
+.featured-count { font-size:.95rem; color:#667085; }
+
+/* --- Monogram avatar (used when no logo) --- */
+.club-card__avatar--mono {
+  width:72px; height:72px; border-radius:12px;
+  display:grid; place-items:center;
+  background:#eef1f4; color:#2b2f38; font-weight:700; font-size:22px;
+  letter-spacing:.5px; user-select:none;
+}
+/* === ABOUT hero: padded, left-aligned, with proper CTA layout === */
+.about-hero {
+  background: linear-gradient(135deg,#1e3a8a,#2f57e5 50%,#4b73ff 100%) !important;
+  border-radius: 16px !important;
+  padding: 24px 28px !important;
+  margin: 10px 0 18px !important;
+  box-shadow: 0 10px 24px rgba(30,58,138,.20) !important;
+}
+.about-hero__content { max-width: 820px !important; display: grid !important; gap: 12px !important; }
+.about-hero h1 { margin: 0 !important; font-size: clamp(1.6rem,2.4vw,2.2rem) !important; line-height: 1.2 !important; }
+.about-hero__lead { font-size: 1rem !important; opacity: .95 !important; }
+.about-hero__cta { display: flex !important; gap: 12px !important; flex-wrap: wrap !important; }
+
+/* Buttons used in the hero */
+.btn { display: inline-block; padding: 12px 18px; border-radius: 10px; font-weight: 700; text-decoration: none; }
+.btn-yellow { background: #ffd400; color: #111; }
+.btn-yellow:hover { background: #ffc700; }
+.btn-white  { background: #fff; color: #0f172a; border: 1px solid #e5e7eb; }
+.btn-white:hover { background: #f8fafc; }
+
+/* Ensure sections don’t sit flush with the left edge under some shells */
+.content-wrapper { padding: 0 14px; }
+/* === HERO (final override): padding, left alignment, nice shadow === */
+.about-hero {
+  background: linear-gradient(135deg,#1e3a8a,#2f57e5 50%,#4b73ff 100%) !important;
+  border-radius: 16px !important;
+  padding: 24px 28px !important;
+  margin: 10px 0 18px !important;
+  box-shadow: 0 10px 24px rgba(30,58,138,.20) !important;
+}
+.about-hero__content { max-width: 820px !important; display: grid !important; gap: 12px !important; text-align: left !important; }
+.about-hero h1 { margin: 0 !important; font-size: clamp(1.6rem,2.4vw,2.2rem) !important; line-height: 1.2 !important; }
+.about-hero__lead { font-size: 1rem !important; opacity: .95 !important; }
+.about-hero__cta { display: flex !important; gap: 12px !important; flex-wrap: wrap !important; }
+
+/* Buttons used in the hero */
+.btn { display:inline-block; padding:12px 18px; border-radius:10px; font-weight:700; text-decoration:none; }
+.btn-yellow { background:#ffd400; color:#111; }
+.btn-yellow:hover { background:#ffc700; }
+.btn-white { background:#fff; color:#0f172a; border:1px solid #e5e7eb; }
+.btn-white:hover { background:#f8fafc; }
+
+/* Featured header & edge padding so the title isn't clipped */
+.featured-clubs { padding: 0 14px; }
+.featured-clubs__header { display:flex; justify-content:space-between; align-items:flex-end; margin:0 0 12px; }
+.featured-title { display:flex; flex-direction:column; gap:4px; }
+.featured-title h2 { margin:0; }
+.featured-count { font-size:.95rem; color:#667085; }
+
+/* Monogram avatar fallback (kept from earlier fix) */
+.club-card__avatar--mono {
+  width:72px; height:72px; border-radius:12px;
+  display:grid; place-items:center; background:#eef1f4; color:#2b2f38;
+  font-weight:700; font-size:22px; letter-spacing:.5px; user-select:none;
+}
+/* ==== AUTHORITATIVE HERO (keep this LAST in the file) ==== */
+:root{
+  --hero-pad-y: 22px;
+  --hero-pad-x: 28px;
+}
+
+.about-hero{
+  background: linear-gradient(135deg,#1e3a8a,#2f57e5 50%,#4b73ff 100%) !important;
+  border-radius: 16px !important;
+  padding: var(--hero-pad-y) var(--hero-pad-x) !important;
+  margin: 12px 0 18px !important;
+  box-shadow: 0 10px 24px rgba(30,58,138,.20) !important;
+  color: #fff !important;
+  display: block !important;
+}
+
+.about-hero__content{
+  max-width: 860px !important;
+  display: grid !important;
+  gap: 12px !important;
+  text-align: left !important;
+}
+
+.about-hero h1{
+  margin: 0 !important;
+  font-size: clamp(1.7rem,2.4vw,2.25rem) !important;
+  line-height: 1.2 !important;
+}
+
+.about-hero__lead{
+  font-size: 1rem !important;
+  opacity: .95 !important;
+}
+
+.about-hero__cta{
+  display: flex !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+/* Buttons used in the hero */
+.about-hero .btn{
+  display: inline-flex !important;
+  align-items: center;
+  gap: .35rem;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none !important; /* kill global underline rules */
+}
+
+.about-hero .btn-yellow{
+  background: #ffd400; color:#111;
+}
+.about-hero .btn-yellow:hover{ background:#ffc700; }
+
+.about-hero .btn-white{
+  background:#fff; color:#0f172a; border:1px solid #e5e7eb;
+}
+.about-hero .btn-white:hover{ background:#f8fafc; }
+
+/* Featured header spacing so title doesn't look clipped */
+.featured-clubs{ padding: 0 16px; }
+/* ==== About: reuse Discover page hero styling ==== */
+.discover-hero{
+  /* same gradient + rounded + shadow as Discover page */
+  background: linear-gradient(135deg, #00008B, #1e3a8a 50%, #2563eb) !important;
+  color:#fff !important;
+  border:0 !important;
+  border-radius:12px !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.12) !important;
+
+  display:block !important;
+  padding:24px 28px 22px !important; /* top-heavy spacing */
+  min-height:160px !important;
+  margin:10px 0 1.5rem !important;   /* small gap under navbar */
+}
+
+.discover-hero::before{ content:none !important; display:none !important; }
+
+.discover-hero h1{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  font-weight:800 !important;
+  letter-spacing:-.02em !important;
+  font-size:1.6rem !important;
+  line-height:1.15 !important;
+  margin:0 0 6px !important;
+  color:#fff !important;
+}
+
+.discover-hero .lead{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  font-size:.98rem !important;
+  line-height:1.5 !important;
+  color:#eaf1ff !important;
+  opacity:.95;
+  margin:0 !important;
+  max-width:70ch;
+}
+
+/* On small screens keep it compact */
+@media (max-width: 768px){
+  .discover-hero{ padding:18px 18px 16px !important; min-height:auto !important; }
+  .discover-hero h1{ font-size:1.4rem !important; }
+}
+
+/* ==== CTA buttons inside the hero ==== */
+.discover-hero .hero-cta{
+  margin-top:12px; display:flex; gap:12px; flex-wrap:wrap;
+}
+.discover-hero .hero-cta .btn{
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:12px 18px; border-radius:10px; font-weight:700; text-decoration:none !important;
+}
+.discover-hero .hero-cta .btn-yellow{
+  background:#ffd400; color:#111;
+}
+.discover-hero .hero-cta .btn-yellow:hover{ background:#ffc700; }
+.discover-hero .hero-cta .btn-white{
+  background:#fff; color:#0f172a; border:1px solid #e5e7eb;
+}
+.discover-hero .hero-cta .btn-white:hover{ background:#f8fafc; }
+/* === Hero layout: text on the left, slim CTAs on the right === */
+.discover-hero { padding: 22px 26px !important; }
+.discover-hero .hero-inner{
+  display:flex; align-items:center; justify-content:space-between; gap:24px;
+}
+.discover-hero .hero-left{ flex:1 1 auto; min-width:0; text-align:left; }
+.discover-hero .hero-left .lead{ max-width:70ch; }
+
+.discover-hero .hero-right{
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; flex:0 0 auto;
+}
+
+/* Slim buttons */
+.discover-hero .btn{
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:10px 14px; border-radius:8px; font-weight:700; font-size:.95rem;
+  text-decoration:none !important; line-height:1;
+}
+.discover-hero .btn-yellow{ background:#ffd400; color:#111; }
+.discover-hero .btn-yellow:hover{ background:#ffc700; }
+.discover-hero .btn-white{ background:#fff; color:#0f172a; border:1px solid #e5e7eb; }
+.discover-hero .btn-white:hover{ background:#f8fafc; }
+
+/* Stack on smaller screens */
+@media (max-width: 900px){
+  .discover-hero .hero-inner{ flex-direction:column; align-items:flex-start; gap:14px; }
+  .discover-hero .hero-right{ justify-content:flex-start; }
+}
+/* === Center the hero content vertically like the "Find Your Club" banner === */
+.discover-hero { padding: 20px 26px !important; }
+
+.discover-hero .hero-inner{
+  display:flex !important;
+  justify-content:space-between !important;
+  align-items:center !important;          /* vertical centering */
+  gap:24px !important;
+  min-height:140px !important;            /* give it height to center within */
+}
+
+/* keep text left, but center it vertically within the hero */
+.discover-hero .hero-left{
+  flex:1 1 auto !important;
+  min-width:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;      /* vertical centering for text */
+}
+
+/* keep CTAs on the right, vertically centered */
+.discover-hero .hero-right{
+  display:flex !important;
+  flex:0 0 auto !important;
+  align-items:center !important;          /* vertical centering for buttons */
+  gap:10px !important;
+}
+
+/* slim buttons (already present, kept here for completeness) */
+.discover-hero .btn{
+  display:inline-flex !important; align-items:center !important;
+  gap:.35rem; padding:10px 14px !important; border-radius:8px !important;
+  font-weight:700 !important; font-size:.95rem !important;
+  text-decoration:none !important; line-height:1 !important;
+}
+.discover-hero .btn-yellow{ background:#ffd400; color:#111; }
+.discover-hero .btn-yellow:hover{ background:#ffc700; }
+.discover-hero .btn-white{ background:#fff; color:#0f172a; border:1px solid #e5e7eb; }
+.discover-hero .btn-white:hover{ background:#f8fafc; }
+
+/* stack nicely on smaller screens */
+@media (max-width: 900px){
+  .discover-hero .hero-inner{ flex-direction:column; align-items:flex-start !important; gap:14px !important; }
+  .discover-hero .hero-right{ justify-content:flex-start !important; }
+}

@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Events Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script defer src="auth-guard.js"></script>
+<script defer src="logout-confirm.js"></script>
+  <link rel="stylesheet" href="adviser-shell.css" />
+<link rel="stylesheet" href="ManageContent-EventsManagement.css?v=ui1" />
+<script src="adviser-shell.js" defer></script>
+<script src="ManageContent-EventsManagement.js?v=ui1" defer></script>
+<script src="Adviser-Search.js" defer></script>
+
+</head>
+<body>
+ <!-- SIDEBAR (unchanged structure; just added id="sideNav") -->
+  <aside id="sideNav" class="side-nav" role="navigation" aria-label="Sidebar">
+    <div class="side-nav__top">
+      <nav id="mobileNavLinks" class="side-nav__primary-links" aria-label="Navigation (mobile)"></nav>
+      <button id="sidebarHamburger" class="hamburger" aria-label="Toggle sidebar" title="Toggle sidebar">
+        <!-- small SVG, large hit area -->
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <img src="Images/stiLogo.png" alt="STI Logo" class="side-nav__logo" />
+      <span class="side-nav__brand">STI Global City</span>
+    </div>
+
+    <!-- Profile: PFP over Name -->
+    <div class="side-nav__profile">
+      <img class="profile__avatar" src="Images/profile.png" alt="Profile" />
+      <div class="profile__meta">
+        <span class="profile__name">Your Name</span>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <nav class="side-nav__menu">
+      <a class="side-nav__item" href="#" aria-label="Newsfeed" data-label="Newsfeed">
+        <img class="item__icon" src="Images/newsfeed.png" alt="" />
+        <span class="item__label">Newsfeed</span>
+      </a>
+      <a class="side-nav__item" href="#" aria-label="Chat" data-label="Chat">
+        <img class="item__icon" src="Images/chat.png" alt="" />
+        <span class="item__label">Chat</span>
+      </a>
+      <a class="side-nav__item" href="#" aria-label="Club" data-label="Club">
+        <img class="item__icon" src="Images/club.png" alt="" />
+        <span class="item__label">Club</span>
+      </a>
+      <a class="side-nav__item" href="#" aria-label="Settings" data-label="Settings">
+        <img class="item__icon" src="Images/setting.png" alt="" />
+        <span class="item__label">Settings</span>
+      </a>
+    </nav>
+
+    <!-- Footer with divider and Logout -->
+    <div class="side-nav__footer">
+      <div class="side-nav__divider" aria-hidden="true"></div>
+      <a class="side-nav__item side-nav__logout logout-link" href="#" aria-label="Logout" data-label="Logout">
+        <img class="item__icon" src="Images/out.png" alt="" />
+        <span class="item__label">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- TOP NAV (unchanged) -->
+  <nav class="pill-nav">
+    <ul class="pill-nav__links">
+      <li class="pill-nav__item"><a href="HomeNews.html" class="active-link">Home</a></li>
+      <li class="pill-nav__item"><a href="ManageContent-NewsManagement.html">Manage Content</a></li>
+      <li class="pill-nav__item"><a href="ClubDirectory.html">Club Directory</a></li>
+      <li class="pill-nav__item"><a href="Request.html">Request</a></li>
+
+      
+      
+
+      <li class="pill-nav__item dropdown">
+        <a href="#" class="dropdown-toggle">Account <span class="pill-nav__arrow">▾</span></a>
+        <ul class="dropdown-menu">
+          <li><a href="">Profile</a></li>
+          <li><a href="">Settings</a></li>
+          <li><a href="#" class="logout-link">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    
+
+    
+
+    <div class="pill-nav__icons">
+      <button class="pill-nav__icon-btn" aria-label="Search">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+      <button class="pill-nav__icon-btn" aria-label="Notifications">
+        <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sliding / popover search (desktop = popover under icon; mobile = sliding tray) -->
+<div id="pillSearchTray" class="pill-search-tray" aria-hidden="true">
+  <form role="search" class="pill-search-form" id="pillSearchForm" action="#" method="get">
+    <input id="navSearchInput" name="q" type="search" placeholder="Search…" aria-label="Search" autocomplete="off" />
+    <button type="button" class="pill-search-close" aria-label="Close search">×</button>
+  </form>
+</div>
+
+
+  <!-- ── PAGE CONTENT ── -->
+  <main class="content-wrapper">
+    <div class="toggle-tabs">
+      <a href="ManageContent-NewsManagement.html"><button class="toggle-btn">Content Management</button></a>
+      <button class="toggle-btn active">Events Management</button>
+    </div>
+
+    <section class="events-management-section">
+      <!-- Title intentionally omitted to match prior page -->
+      <div class="filter-create-row">
+        <div class="filters">
+          <label> Status:
+            <select id="status-select">
+              <option>All</option>
+              <option>Upcoming</option>
+              <option>Ongoing</option>
+              <option>Past</option>
+              <option>Draft</option>
+            </select>
+          </label>
+          <label> Club:
+            <select id="club-select">
+              <option>All Clubs</option>
+            </select>
+          </label>
+          <label class="date-filter">
+  <span class="date-label">Date *</span>
+  <div class="input-with-button">
+    <input id="date-input" type="text" placeholder="mm/dd/yyyy" />
+    <button id="filter-date-btn" type="button" class="calendar-btn">📅</button>
+    <input id="filter-date-ymd" type="hidden" />
+  </div>
+</label>
+
+          <a href="#" class="reset-filters">Reset Filters</a>
+        </div>
+        <button class="create-event-btn">Create Event</button>
+      </div>
+
+      <div id="emptyState" class="empty-state hidden">No Events Available</div>
+
+      <div class="events-table-container">
+        <table class="events-table">
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Club</th>
+              <th>Date &amp; Time</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="events-tbody">
+            <!-- sample rows (static) -->
+            <tr>
+              <td>
+                <div class="title-cell">
+                  <div class="thumb-placeholder"></div>
+                  <span class="event-name">Dance Workshop</span>
+                </div>
+              </td>
+              <td>Artist Global Dance &amp; Drama</td>
+              <td>
+                April 10, 2025<br>
+                <span class="event-time">1:00 PM – 2:00 PM</span><br>
+                <span class="created-time">Created: Apr 1, 2025 1:43 PM</span>
+              </td>
+              <td>Gym</td>
+              <td><span class="status-badge status-past">Past</span></td>
+              <td class="actions-cell">
+                <a href="#" class="action-btn action-edit">Edit</a>
+                <a href="#" class="action-btn action-delete">Delete</a>
+                <a href="#" class="action-btn action-more">Participants</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="title-cell">
+                  <div class="thumb-placeholder"></div>
+                  <span class="event-name">Business Innovation Summit</span>
+                </div>
+              </td>
+              <td>ABM Club</td>
+              <td>
+                April 22, 2025<br>
+                <span class="event-time">8:00 AM – 3:00 PM</span><br>
+                <span class="created-time">Created: Apr 2, 2025 1:43 PM</span>
+              </td>
+              <td>Auditorium</td>
+              <td><span class="status-badge status-ongoing">Ongoing</span></td>
+              <td class="actions-cell">
+                <a href="#" class="action-btn action-edit">Edit</a>
+                <a href="#" class="action-btn action-delete">Delete</a>
+                <a href="#" class="action-btn action-more">Participants</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="title-cell">
+                  <div class="thumb-placeholder"></div>
+                  <span class="event-name">Culinary Creativity Expo</span>
+                </div>
+              </td>
+              <td>Cooks Club</td>
+              <td>
+                April 29, 2025<br>
+                <span class="event-time">9:00 AM – 4:00 PM</span><br>
+                <span class="created-time">Created: Apr 3, 2025 1:43 PM</span>
+              </td>
+              <td>Room 412</td>
+              <td><span class="status-badge status-draft">Draft</span></td>
+              <td class="actions-cell">
+                <a href="#" class="action-btn action-edit">Edit</a>
+                <a href="#" class="action-btn action-delete">Delete</a>
+                <a href="#" class="action-btn action-more">Participants</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Participants Modal Keep --> 
+<div class="modal-overlay" id="participantsModal" aria-hidden="true">
+  <div class="modal-box modal-large participants-box" role="dialog" aria-modal="true" aria-labelledby="participantsTitle">
+    <div class="modal-header">
+      <h3 id="participantsTitle">Participants</h3>
+      <button class="close-btn" type="button" data-part-close>&times;</button>
+    </div>
+
+    <div class="participants-toolbar">
+      <input id="partAddInput" type="text" placeholder="Enter Student ID(s), comma-separated" />
+      <button id="partAddBtn" class="btn btn-secondary" type="button" title="Add Participants">Add</button>
+    </div>
+
+    <div class="participants-body">
+      <table class="participants-table" id="participantsTable">
+        <thead>
+          <tr>
+            <th style="width: 22%">Student ID</th>
+            <th style="width: 28%">Name</th>
+            <th style="width: 35%">Email</th>
+            <th style="width: 15%">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="participantsTbody">
+          <tr class="participants-empty"><td colspan="4">No participants yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" data-part-close>Close</button>
+      <button class="btn btn-primary"  type="button" id="participantsSaveBtn" disabled>Save</button>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- VIEW EVENT MODAL (read-only; same sizing as create modal) -->
+<div class="modal-overlay" id="viewEventModal">
+  <div class="modal-box modal-large">
+    <button class="close-btn" aria-label="Close" data-view-close>&times;</button>
+    <h2 class="modal-title" id="v-title">Event</h2>
+
+    <!-- Banner -->
+    <div id="v-banner"
+         style="width:100%;aspect-ratio:16/9;border-radius:8px;background:#f0f0f0;margin-bottom:12px;
+                background-size:cover;background-position:center;"></div>
+
+    <!-- Meta -->
+    <div class="meta-info"
+         style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem 1rem;margin-bottom:.5rem;">
+      <div><strong>Club:</strong> <span id="v-club"></span></div>
+      <div><strong>Location:</strong> <span id="v-location"></span></div>
+      <div><strong>Date:</strong> <span id="v-date"></span></div>
+      <div><strong>Time:</strong> <span id="v-time"></span></div>
+      <div><strong>Status:</strong> <span id="v-status" class="status-badge"></span></div>
+      <div><strong>Max Participants:</strong> <span id="v-max"></span></div>
+      <div><strong>Registration Deadline:</strong> <span id="v-deadline"></span></div>
+    </div>
+
+    <!-- Description -->
+    <div class="modal-body" style="overflow:auto;padding-right:8px;max-height:40vh;">
+      <p id="v-desc" style="white-space:pre-wrap;"></p>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" class="btn-secondary" data-view-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal-overlay" id="confirmDeleteModal">
+  <div class="modal-box confirm-delete">
+    <button class="close-btn" aria-label="Close" data-del-close>&times;</button>
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#d9534f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" stroke="#d9534f" fill="#fff5f5"></circle>
+        <line x1="12" y1="7" x2="12" y2="13" stroke="#d9534f"></line>
+        <circle cx="12" cy="17" r="0.6" fill="#d9534f" stroke="#d9534f"></circle>
+      </svg>
+    </div>
+    <h3>Confirm Deletion</h3>
+    <p id="confirmDeleteText">Are you sure you want to delete this item? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" data-action="cancel" type="button">Cancel</button>
+      <button class="btn-danger" data-action="confirm" type="button">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- EDIT EVENT MODAL (overlay version so .active works) -->
+<div class="modal-overlay" id="editEventModal">
+  <div class="modal-box modal-large">
+    <button class="close-btn" aria-label="Close" data-edit-close>&times;</button>
+    <h2 class="modal-title">Edit Event</h2>
+
+    <form id="editEventForm" class="modal-form" enctype="multipart/form-data">
+      <input type="hidden" id="edit-id" name="event-id" />
+
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="edit-title">Event Title *</label>
+          <input id="edit-title" name="title" type="text" required />
+        </div>
+
+        <div class="form-group">
+  <label for="edit-club">Club *</label>
+  <select id="edit-club" name="ev-club" required>
+    <option value="" disabled>Select club...</option>
+    <option>Artist Global Dance & Drama</option>
+    <option>ABM Club</option>
+    <option>Cooks Club</option>
+  </select>
+</div>
+
+        <div class="form-group">
+          <label for="edit-location">Location *</label>
+          <input id="edit-location" name="location" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="edit-date">Date *</label>
+          <div class="input-with-button">
+            <input id="edit-date" type="text" placeholder="mm/dd/yyyy" required />
+            <button type="button" id="edit-date-btn" class="calendar-btn" aria-label="Open calendar">📅</button>
+            <input type="hidden" id="edit-date-ymd" name="date" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-deadline">Registration Deadline *</label>
+          <div class="input-with-button">
+            <input id="edit-deadline" type="text" placeholder="mm/dd/yyyy" required />
+            <button type="button" id="edit-deadline-btn" class="calendar-btn" aria-label="Open calendar">📅</button>
+            <input type="hidden" id="edit-deadline-ymd" name="deadline" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="edit-start">Start Time *</label>
+          <input id="edit-start" name="start_time" type="time" required />
+        </div>
+
+        <div class="form-group">
+          <label for="edit-end">End Time *</label>
+          <input id="edit-end" name="end_time" type="time" required />
+        </div>
+
+        <div class="form-group">
+          <label for="edit-max">Maximum Participants *</label>
+          <input id="edit-max" name="max_participants" type="number" min="1" step="1" required />
+        </div>
+
+       <div class="form-group">
+  <label for="edit-status">Status *</label>
+  <select id="edit-status" name="ev-status" required>
+    <option value="" disabled>Select status...</option>
+    <option>Upcoming</option>
+    <option>Ongoing</option>
+    <option>Past</option>
+    <option>Draft</option>
+  </select>
+</div>
+        <div class="form-group full file-upload-banner">
+          <label for="edit-banner">Event Banner *</label>
+          <div id="editBannerBox" class="file-input-placeholder">
+            <span class="file-placeholder-text">Preview</span>
+            <img id="editBannerPreview" class="file-preview" alt="Preview" />
+            <input id="edit-banner" name="banner" type="file" accept=".jpg,.jpeg,.png,.gif" class="file-input-real" />
+          </div>
+          <p class="file-hint">Recommended size: 1200×675 (16:9). Max 15MB. Supported: JPG, PNG, GIF.</p>
+        </div>
+
+        <div class="form-group full">
+          <label for="edit-desc">Description *</label>
+          <textarea id="edit-desc" name="description" rows="6" required></textarea>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" data-edit-close>Cancel</button>
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+  <!-- CREATE EVENT MODAL -->
+  <div class="modal-overlay" id="createEventModal">
+    <div class="modal-box modal-large">
+      <button class="close-btn" aria-label="Close">&times;</button>
+      <h2 class="modal-title">Create Event</h2>
+
+      <form id="createEventForm" class="modal-form">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="ev-title">Event Title *</label>
+            <input id="ev-title" type="text" placeholder="Enter event title" required />
+          </div>
+
+          <div class="form-group">
+            <label for="ev-club">Club *</label>
+            <select id="ev-club" required>
+              <option value="" disabled selected>Select club…</option>
+              <option>Artist Global Dance & Drama</option>
+              <option>ABM Club</option>
+              <option>Cooks Club</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ev-location">Location *</label>
+            <input id="ev-location" type="text" placeholder="Enter event location" required />
+          </div>
+
+         <div class="form-group">
+  <label for="ev-date">Date *</label>
+  <div class="input-with-button">
+    <input id="ev-date" type="text" placeholder="mm/dd/yyyy" required />
+    <button id="ev-date-btn" type="button" class="calendar-btn" aria-label="Open calendar">📅</button>
+    <input id="ev-date-native" type="date" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
+    <input id="ev-date-ymd" type="hidden" />
+  </div>
+</div>
+
+
+
+<div class="form-group">
+  <label for="ev-deadline">Registration Deadline *</label>
+  <div class="input-with-button">
+    <input id="ev-deadline" type="text" placeholder="mm/dd/yyyy" required />
+    <button id="ev-deadline-btn" type="button" class="calendar-btn" aria-label="Open calendar">📅</button>
+    <input id="ev-deadline-native" type="date" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
+    <input id="ev-deadline-ymd" type="hidden" />
+  </div>
+</div>
+
+          
+
+          <div class="form-group">
+            <label for="ev-start">Start Time *</label>
+            <input id="ev-start" type="time" required />
+          </div>
+
+          <div class="form-group">
+            <label for="ev-end">End Time *</label>
+            <input id="ev-end" type="time" required />
+          </div>
+
+          <div class="form-group">
+            <label for="ev-status">Status *</label>
+            <select id="ev-status" required>
+              <option value="" disabled selected>Select status…</option>
+              <option>Upcoming</option>
+              <option>Ongoing</option>
+              <option>Past</option>
+              <option>Draft</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+  <label for="ev-max">Maximum Participants *</label>
+  <input id="ev-max" type="number" min="0" step="1" required />
+</div>
+
+         <div class="form-group full file-upload-banner">
+  <label for="event-banner">Event Banner *</label>
+  <div class="file-input-stack">
+    <label id="bannerBox" class="file-input-placeholder">
+      <span class="file-placeholder-text">Preview</span>
+      <img id="bannerPreview" alt="" />
+      <input id="event-banner" name="event_banner" type="file" accept="image/*" class="file-input-real" required />
+    </label>
+  </div>
+  <p class="file-hint">
+    Recommended size: 1200×675 (16:9).<br />
+    Max file size: 15MB.<br />
+    Supported formats: JPG, PNG, GIF
+  </p>
+</div>
+
+
+          <div class="form-group full">
+            <label for="ev-desc">Description *</label>
+            <textarea id="ev-desc" rows="6" placeholder="Write event description here…" required></textarea>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" data-ev-cancel>Cancel</button>
+          <button type="submit" class="btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+<!-- Confirm Delete Modal -->
+<div id="confirmDeleteModal" class="modal-overlay" hidden>
+  <div class="modal-box confirm-delete">
+    <button class="close-btn" aria-label="Close">&times;</button>
+
+    <div class="modal-icon">
+      <!-- red alert icon -->
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#d9534f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" stroke="#d9534f" fill="#fff5f5"></circle>
+        <line x1="12" y1="7" x2="12" y2="13" stroke="#d9534f"></line>
+        <circle cx="12" cy="17" r="1" fill="#d9534f" stroke="#d9534f"></circle>
+      </svg>
+    </div>
+
+    <h3>Confirm Deletion</h3>
+    <p>Are you sure you want to delete this event? This action cannot be undone.</p>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" data-action="cancel" type="button">Cancel</button>
+      <button class="btn-danger" data-action="confirm" type="button">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+  <!-- LOGOUT CONFIRM MODAL -->
+  <div id="logoutConfirmOverlay">
+    <div class="modal-box">
+      <div class="modal-icon">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#d9534f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" stroke="#d9534f" fill="#fff5f5"></circle>
+          <line x1="12" y1="8" x2="12" y2="13" stroke="#d9534f"></line>
+          <circle cx="12" cy="17" r="1" fill="#d9534f"></circle>
+        </svg>
+      </div>
+      <h4>Do you want to logout?</h4>
+      <div class="btns">
+        <button class="btn-no" type="button">No</button>
+        <button class="btn-yes" type="button">Yes</button>
+      </div>
+    </div>
+  </div>
+
+    <!-- LOGOUT CONFIRM MODAL (unchanged) -->
+  <div id="logoutConfirmOverlay" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+      <div class="modal-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10" stroke="#d9534f" fill="#fff5f5"></circle>
+          <line x1="12" y1="8" x2="12" y2="13" stroke="#d9534f"></line>
+          <circle cx="12" cy="17" r="1" fill="#d9534f"></circle>
+        </svg>
+      </div>
+      <h4 id="logoutTitle">Do you want to logout?</h4>
+      <div class="btns">
+        <button class="btn-no" type="button">No</button>
+        <button class="btn-yes" type="button">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE drawer trigger + backdrop (added) -->
+  <button id="mobileSidebarToggle" class="mobile-hamburger" aria-label="Open menu" aria-controls="sideNav" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="3" y1="6"  x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+  <div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
+
+  <!-- Mobile bottom tabs (mirror of the sidebar icons) -->
+<nav id="mobileBottomTabs" class="mobile-bottom-tabs" aria-label="Sidebar tabs (mobile)">
+  <a class="mbtab" href="#" aria-label="Newsfeed">
+    <img src="Images/newsfeed.png" alt="" />
+    <span>News</span>
+  </a>
+  <a class="mbtab" href="#" aria-label="Chat">
+    <img src="Images/chat.png" alt="" />
+    <span>Chat</span>
+  </a>
+  <a class="mbtab" href="#" aria-label="Club">
+    <img src="Images/club.png" alt="" />
+    <span>Club</span>
+  </a>
+  <a class="mbtab" href="#" aria-label="Settings">
+    <img src="Images/setting.png" alt="" />
+    <span>Settings</span>
+  </a>
+</nav>
+
+<!-- Mobile Navigation Drawer (phones only) -->
+<div id="mobileNavDrawer" class="mobile-nav-drawer" hidden aria-hidden="true">
+  <nav class="mobile-nav-list" aria-label="Navigation"></nav>
+</div>
+
+<!-- ================== SETTINGS MODAL ================== -->
+<div id="settingsModalOverlay" class="settings-modal__overlay" aria-hidden="true">
+  <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+    <div class="settings-modal__header">
+      <h2 id="settingsTitle">Settings</h2>
+      <button type="button" class="settings-modal__close" aria-label="Close">×</button>
+    </div>
+
+    <!-- Tabs are buttons (so nothing navigates) -->
+    <div class="settings-tabs" role="tablist">
+      <button type="button" class="settings-tab is-active" role="tab" aria-selected="true" data-tab="account">
+        Account Settings
+      </button>
+      <button type="button" class="settings-tab" role="tab" aria-selected="false" data-tab="profile">
+        Profile Settings
+      </button>
+    </div>
+
+    <div class="settings-panels">
+      <!-- Account Settings -->
+      <section class="settings-panel is-active" data-panel="account" aria-labelledby="settingsTitle">
+        <ol class="settings-chooser vertical" id="acctList">
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="name">
+              <span class="num">1.</span> <span>Name</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="email">
+              <span class="num">2.</span> <span>Email</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="password">
+              <span class="num">3.</span> <span>Password</span>
+            </button>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Profile Settings -->
+      <section class="settings-panel" data-panel="profile" aria-labelledby="settingsTitle">
+        <ol class="settings-chooser vertical" id="profList">
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="bio">
+              <span class="num">1.</span> <span>Bio</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="nickname">
+              <span class="num">2.</span> <span>Nickname</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="birthdate">
+              <span class="num">3.</span> <span>Birthdate</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="about_city">
+              <span class="num">4.</span> <span>Town / City</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="contact_email">
+              <span class="num">5.</span> <span>Contact Email</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="choose-item link-btn" data-key="student_id_display">
+              <span class="num">6.</span> <span>Adviser ID</span>
+            </button>
+          </li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- ================== CONFIRM MODAL ================== -->
+<div id="confirmModal" class="confirm-modal__overlay" aria-hidden="true">
+  <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <h3 id="confirmTitle">Apply these changes?</h3>
+    <p id="confirmMsg" class="confirm-msg"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn" id="btnConfirmNo">Cancel</button>
+      <button type="button" class="btn btn-primary" id="btnConfirmYes">Yes, save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================== FIELD TEMPLATES ================== -->
+<template id="tpl-name">
+  <form class="slot-form" data-field="name" novalidate>
+    <div class="grid-2 gap">
+      <label>First name
+        <input type="text" name="first_name" required />
+      </label>
+      <label>Last name
+        <input type="text" name="last_name" required />
+      </label>
+    </div>
+    <label>Middle name (optional)
+      <input type="text" name="middle_name" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-email">
+  <form class="slot-form" data-field="email" novalidate>
+    <label>Account email
+      <input type="email" name="sti_email" required />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-password">
+  <form class="slot-form" data-field="password" novalidate>
+    <label>Current password
+      <input type="password" name="current_password" autocomplete="current-password" required />
+    </label>
+    <div class="grid-2 gap">
+      <label>New password
+        <input type="password" name="new_password" autocomplete="new-password" required minlength="6" />
+      </label>
+      <label>Confirm new password
+        <input type="password" name="confirm_password" autocomplete="new-password" required minlength="6" />
+      </label>
+    </div>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-bio">
+  <form class="slot-form" data-field="bio" novalidate>
+    <label>Bio (max 100 chars)
+      <textarea name="bio" maxlength="100" rows="3"></textarea>
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-nickname">
+  <form class="slot-form" data-field="nickname" novalidate>
+    <label>Nickname
+      <input type="text" name="nickname" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-birthdate">
+  <form class="slot-form" data-field="birthdate" novalidate>
+    <label>Birthdate
+      <input type="date" name="birthdate" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-about_city">
+  <form class="slot-form" data-field="about_city" novalidate>
+    <label>Town / City
+      <input type="text" name="about_city" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-contact_email">
+  <form class="slot-form" data-field="contact_email" novalidate>
+    <label>Contact email
+      <input type="email" name="contact_email" />
+    </label>
+    <div class="slot-actions">
+      <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+  </form>
+</template>
+
+<template id="tpl-student_id_display">
+  <form class="slot-form" data-field="student_id_display" novalidate>
+    <label>Adviser ID
+      <input
+  type="text"
+  name="adviser_id"
+  id="adviser_id"
+  readonly
+  aria-readonly="true"
+  inputmode="none"
+/>
+    </label>
+    <div class="slot-actions">
+      <!-- read-only: no save button will be added by JS -->
+    </div>
+  </form>
+</template>
+
+</body>
+</html>

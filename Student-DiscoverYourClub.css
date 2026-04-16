@@ -1,0 +1,1962 @@
+/* ── RESET & BASE ── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+.toggle-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
+  border-radius: 12px;
+  background: #f4f4f4;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.toggle-btn.active {
+  background: #ff0;
+  color: #000;
+  font-weight: 600;
+}
+
+/*replace when adding a photo 
+.news-card__photo {
+  background: url('path/to/your.jpg') center/cover no-repeat;
+  padding-top: 56.25%;
+}
+
+*/
+
+/* ── DROPDOWN UNDER “Home and settings” (fixed) ── */
+.pill-nav .dropdown {
+  position: relative;
+}
+
+.pill-nav .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;        /* sit flush below the pill */  
+  left: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  list-style: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 160px;
+  z-index: 500;
+  /* margin-top removed! */
+}
+
+.pill-nav .dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #000;
+  font-size: 0.95rem;
+}
+.pill-nav .dropdown-menu li a:hover {
+  background: #f4f4f4;
+}
+
+/* show on hover of either toggle or the menu itself */
+.pill-nav .dropdown:hover .dropdown-menu,
+.pill-nav .dropdown .dropdown-menu:hover {
+  display: block;
+}
+
+/* optional arrow flip */
+.pill-nav .dropdown:hover .pill-nav__arrow {
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+
+/* ── LOGOUT CONFIRM MODAL ── */
+#logoutConfirmOverlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+#logoutConfirmOverlay.active {
+  display: flex;
+}
+#logoutConfirmOverlay .modal-box {
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+}
+#logoutConfirmOverlay .modal-box h4 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+#logoutConfirmOverlay .modal-box .btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+#logoutConfirmOverlay .modal-box button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+#logoutConfirmOverlay .modal-box .btn-no {
+  background: #ccc;
+  color: #333;
+}
+#logoutConfirmOverlay .modal-box .btn-yes {
+  background: #d9534f;
+  color: #fff;
+}
+
+/* ── TWEAKED LOGOUT CONFIRM STYLING ── */
+#logoutConfirmOverlay .modal-box {
+  background: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  transform: translateY(-10px);
+  transition: transform 0.2s ease;
+}
+#logoutConfirmOverlay.active .modal-box {
+  transform: translateY(0);
+}
+
+#logoutConfirmOverlay .modal-box h4 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+}
+
+#logoutConfirmOverlay .modal-box .btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+#logoutConfirmOverlay .modal-box .btn-no,
+#logoutConfirmOverlay .modal-box .btn-yes {
+  min-width: 80px;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+#logoutConfirmOverlay .modal-box .btn-no {
+  background: #e0e0e0;
+  color: #333;
+}
+#logoutConfirmOverlay .modal-box .btn-no:hover {
+  background: #d1d1d1;
+  transform: translateY(-1px);
+}
+
+#logoutConfirmOverlay .modal-box .btn-yes {
+  background: #d9534f;
+  color: #fff;
+}
+#logoutConfirmOverlay .modal-box .btn-yes:hover {
+  background: #c9302c;
+  transform: translateY(-1px);
+}
+
+/* slightly darken the overlay */
+#logoutConfirmOverlay {
+  background: rgba(0,0,0,0.45);
+}
+
+
+/* ── HERO BANNER: “Discover Your Club” ── */
+.discover-hero {
+  background: linear-gradient(135deg, #1e3a8a, #3b4cca);
+  color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.discover-hero h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.discover-hero .lead {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 600px;
+}
+
+/* ── QUIZ WRAPPER ── */
+.quiz-wrapper {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ── TABS ── */
+.quiz-tabs {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+  margin-bottom: 1.5rem;
+}
+.quiz-tabs .tab {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  font-weight: 500;
+  color: #333;
+  transition: background 0.2s;
+}
+.quiz-tabs .tab.active {
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  color: #000;
+}
+
+/* ── FORM STYLING ── */
+.quiz-form label,
+.quiz-form legend {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+.quiz-form .note {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #666;
+}
+.quiz-form textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  resize: vertical;
+}
+.quiz-form fieldset {
+  border: none;
+  margin: 1rem 0;
+  padding: 0;
+}
+.quiz-form legend {
+  margin-bottom: 1rem;
+}
+.quiz-form label > input {
+  margin-right: 0.5rem;
+  transform: translateY(2px);
+}
+.quiz-form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* ── SUBMIT BUTTON ── */
+.recommend-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background: #1e3a8a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 1rem;
+}
+.recommend-btn:hover {
+  background: #162d6d;
+  transform: translateY(-1px);
+}
+
+/* ── RESULTS PANEL ── */
+.quiz-wrapper.panel { display: none; }
+.quiz-wrapper.panel.active { display: block; }
+
+/* info banner */
+.results-banner {
+  background: #d0e2ff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.results-banner h2 {
+  margin: 0 0 .5rem;
+  color: #1e3a8a;
+  font-size: 1.25rem;
+}
+.results-banner p {
+  margin: 0;
+  color: #333;
+  font-size: .95rem;
+}
+
+/* recommendation cards */
+.recommendation-card {
+  border: 2px solid #1e3a8a;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.recommendation-card.top h3 {
+  margin: 0 0 .75rem;
+  background: #1e3a8a;
+  color: #fff;
+  padding: .5rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* card content flex */
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.card-content img {
+  width: 60px; height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #1e3a8a;
+}
+.card-content .info {
+  flex: 1;
+}
+.card-content .info .badge {
+  display: inline-block;
+  background: #e0efff;
+  color: #1e3a8a;
+  border-radius: 12px;
+  padding: 2px 8px;
+  font-size: .75rem;
+  margin-bottom: .25rem;
+}
+.card-content .info h4 {
+  margin: .25rem 0 .5rem;
+  font-size: 1.1rem;
+  color: #1e3a8a;
+}
+.card-content .info p {
+  margin: 0;
+  font-size: .95rem;
+  color: #333;
+}
+
+/* percentage circle */
+.percent-circle {
+  position: relative;
+  width: 48px; height: 48px;
+}
+.percent-circle svg {
+  width: 48px; height: 48px;
+  transform: rotate(-90deg);
+}
+.percent-circle .bg { fill: none; stroke: #eee; stroke-width: 4; }
+.percent-circle .fg { fill: none; stroke: #1e3a8a; stroke-width: 4; stroke-linecap: round; }
+.percent-circle .percent {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: .8rem;
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+/* matched keywords */
+.matched {
+  margin: .75rem 0;
+  font-size: .9rem;
+  color: #333;
+}
+.matched span {
+  display: inline-block;
+  background: #dff5dc;
+  color: #256029;
+  border-radius: 12px;
+  padding: 2px 8px;
+  margin-right: .5rem;
+  font-size: .85rem;
+}
+
+/* “View Club Details” button */
+.action-btn {
+  background: #1e3a8a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: .5rem 1rem;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: background .2s;
+}
+.action-btn:hover {
+  background: #162d6d;
+}
+
+/* browse all */
+.browse-all {
+  text-align: right;
+  margin-top: 1rem;
+}
+.browse-all button {
+  background: #e0e0e0;
+  border: none;
+  border-radius: 6px;
+  padding: .5rem 1rem;
+  font-size: .95rem;
+  cursor: pointer;
+  transition: background .2s;
+}
+.browse-all button:hover {
+  background: #ccc;
+}
+
+
+
+/* ==== Shell-aligned page polish (Discover Your Club) ==== */
+
+/* Page max width & spacing under shell navbar */
+.content-wrapper {
+  margin-left: var(--sidebar-width);
+  padding: 0 1rem 1.5rem 1rem;
+  padding-top: var(--navbar-height);
+}
+
+/* Page container */
+.page {
+  width: min(96vw, 1200px);
+  margin: 0 auto;
+}
+
+/* Discover hero */
+.discover-hero {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 8px 20px rgba(10,42,139,.06);
+  margin: .5rem 0 1rem;
+}
+.discover-hero h1 {
+  font-size: 1.8rem;
+  line-height: 1.15;
+  margin-bottom: .35rem;
+  font-weight: 800;
+}
+.discover-hero .lead {
+  color: #475569;
+}
+
+/* Tabs (Questionnaire / Result) */
+.quiz-tabs {
+  display: flex;
+  gap: .5rem;
+  margin: 1rem 0 .75rem;
+}
+.quiz-tabs .tab {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 999px;
+  padding: .4rem .9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.quiz-tabs .tab.active {
+  background: #111; color: #fff; border-color: #111;
+}
+
+/* Questionnaire / Results cards */
+.quiz-wrapper.panel {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(10,42,139,.06);
+  padding: 1rem 1.25rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Questionnaire form harmonized spacing */
+.quiz-form .form-group,
+.quiz-form fieldset { margin-bottom: .85rem; }
+.quiz-form legend { font-weight: 800; margin-bottom: .35rem; }
+.quiz-form .note { color: #64748b; font-weight: 600; }
+
+/* Primary button style consistent with shell action buttons */
+.recommend-btn,
+.action-btn,
+#browseAll {
+  background: #111; color: #fff;
+  border: 1px solid #111;
+  border-radius: 10px;
+  padding: .55rem 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.recommend-btn:hover,
+.action-btn:hover,
+#browseAll:hover { filter: brightness(0.98); }
+
+/* Recommendation cards in Results */
+.recommendation-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: .9rem 1rem;
+  box-shadow: 0 6px 16px rgba(0,0,0,.05);
+  margin-bottom: .75rem;
+}
+.recommendation-card.top { border-color: #c7d2fe; box-shadow: 0 8px 20px rgba(10,42,139,.06); }
+.recommendation-card .card-content {
+  display: grid; grid-template-columns: 56px 1fr auto; gap: .75rem; align-items: center;
+}
+.recommendation-card img { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; }
+.recommendation-card .info h4 { margin: 0 0 .2rem 0; font-size: 1.1rem; }
+.recommendation-card .info .badge {
+  display: inline-block; font-size: .8rem; font-weight: 800; color: #111;
+  background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 999px; padding: .22rem .5rem; margin-bottom: .25rem;
+}
+.recommendation-card .percent-circle { width: 48px; height: 48px; }
+
+/* Browse all button area */
+.browse-all { display: flex; justify-content: center; margin-top: .5rem; }
+
+/* Ensure the shell’s dropdown behaves (no extra gap added by page CSS) */
+.pill-nav .dropdown-menu { margin-top: 0; }
+/* === Discover hero: blue + tidy spacing (wins over earlier rules) === */
+.discover-hero{
+  background: linear-gradient(135deg,#1e3a8a,#3b82f6) !important;
+  color:#fff !important;
+  border:0 !important;
+  border-radius:14px !important;
+  padding: 1.25rem 1.5rem !important;
+  box-shadow: 0 8px 20px rgba(10,42,139,.10) !important;
+}
+.discover-hero h1{
+  font-size:1.8rem !important;
+  line-height:1.15 !important;
+  margin:0 0 .35rem !important;
+  font-weight:800 !important;
+}
+.discover-hero .lead{
+  color:#eaf1ff !important;
+  max-width:720px !important;
+}
+
+/* === Tabs: blue active pill === */
+.quiz-tabs{
+  display:flex; gap:.5rem; margin:1rem 0 .75rem;
+  background: #eef2ff; border-radius:999px; padding:.25rem;
+}
+.quiz-tabs .tab{
+  flex:1; text-align:center; padding:.55rem .9rem;
+  border:1px solid #c7d2fe; border-radius:999px;
+  background:#fff; color:#1f2937; font-weight:700; cursor:pointer;
+  transition:transform .05s ease, box-shadow .15s ease;
+}
+.quiz-tabs .tab:hover{ box-shadow:0 1px 6px rgba(30,58,138,.15); }
+.quiz-tabs .tab.active{
+  background:#1e3a8a !important; color:#fff !important; border-color:#1e3a8a !important;
+}
+/* === Make .discover-hero look like ListOfClubs hero (no HTML changes) === */
+.discover-hero{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  /* same gradient vibe as ListOfClubs */
+  background: linear-gradient(135deg, #00008B, #1e3a8a 50%, #2563eb) !important;
+  color: #fff !important;
+
+  border: 0 !important;
+  border-radius: 12px !important;
+  padding: 20px 24px !important;
+  min-height: 160px !important;
+  margin: 1rem 0 1.5rem !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.12) !important;
+  overflow: hidden;
+}
+
+/* left “image strip” like ListOfClubs (pseudo-element so we don’t add HTML) */
+.discover-hero::before{
+  content: "";
+  display: block;
+  flex: 0 0 240px;          /* width of the left visual block */
+  align-self: stretch;      /* full height of the hero */
+  background: rgba(255,255,255,.08);
+  border-right: 1px solid rgba(255,255,255,.15);
+}
+
+/* text styling to match */
+.discover-hero h1{
+  margin: 0 0 6px 0 !important;
+  font-weight: 800 !important;
+  font-size: 1.6rem !important;
+  line-height: 1.15 !important;
+  color: #fff !important;
+}
+.discover-hero .lead{
+  margin: 0 !important;
+  color: #eaf1ff !important;
+  opacity: .95;
+  max-width: 720px;
+}
+
+/* responsive: collapse the left strip on small screens */
+@media (max-width: 768px){
+  .discover-hero{ flex-direction: column; min-height: auto; }
+  .discover-hero::before{ display: none; }
+  .discover-hero h1{ font-size: 1.4rem !important; }
+}
+/* === Fix Discover hero to match ListOfClubs (no left block) === */
+.discover-hero{
+  /* same blue gradient + rounded/shadow as ListOfClubs */
+  background: linear-gradient(135deg, #00008B, #1e3a8a 50%, #2563eb) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.12) !important;
+
+  /* full-width text – no side strip */
+  display: block !important;
+  padding: 20px 24px !important;
+  min-height: 160px !important;
+  margin: 1rem 0 1.5rem !important;
+}
+
+/* remove the left “square/strip” completely */
+.discover-hero::before{
+  content: none !important;
+  display: none !important;
+}
+
+/* tidy type to match ListOfClubs */
+.discover-hero h1{
+  margin: 0 0 6px !important;
+  font-weight: 800 !important;
+  font-size: 1.6rem !important;
+  line-height: 1.15 !important;
+  color: #fff !important;
+}
+.discover-hero .lead{
+  margin: 0 !important;
+  color: #eaf1ff !important;
+  opacity: .95;
+  max-width: 720px;
+}
+
+/* responsive: nothing special needed; keep it simple */
+@media (max-width: 768px){
+  .discover-hero{ padding: 16px 18px !important; min-height: auto !important; }
+  .discover-hero h1{ font-size: 1.4rem !important; }
+}
+/* Discover hero → mirror ListOfClubs hero */
+.discover-hero{
+  /* same gradient & polish */
+  background: linear-gradient(135deg, #00008B, #1e3a8a 50%, #2563eb) !important;
+  color:#fff !important;
+  border:0 !important;
+  border-radius:12px !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.12) !important;
+
+  /* put the text at the TOP (not vertically centered) */
+  display:block !important;
+  padding:24px 28px 22px !important;   /* top-heavy spacing like ListOfClubs */
+  min-height:160px !important;
+  margin:0 0 1.5rem !important;        /* no extra gap above */
+}
+
+/* remove any leftover left-block/pseudo */
+.discover-hero::before{ content:none !important; display:none !important; }
+
+/* Typography identical to ListOfClubs */
+.discover-hero h1{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  font-weight:800 !important;
+  letter-spacing:-.02em !important;
+  font-size:1.6rem !important;
+  line-height:1.15 !important;
+  margin:0 0 6px !important;
+  color:#fff !important;
+}
+.discover-hero .lead{
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif !important;
+  font-size:.98rem !important;
+  line-height:1.5 !important;
+  color:#eaf1ff !important;
+  opacity:.95;
+  margin:0 !important;
+  max-width:70ch;
+}
+
+/* remove any automatic top margin that a wrapper might add */
+.pill-nav + .content-wrapper > .discover-hero { margin-top:0 !important; }
+
+/* responsive tweak */
+@media (max-width: 768px){
+  .discover-hero{ padding:18px 18px 16px !important; min-height:auto !important; }
+  .discover-hero h1{ font-size:1.4rem !important; }
+}
+/* Small spacer between the shell navbar and the hero */
+.pill-nav + .content-wrapper > .discover-hero,
+.content-wrapper > .discover-hero {
+  margin-top: 10px !important;  /* tweak to 8–12px to taste */
+}
+/* 3-up responsive grid */
+.results-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+@media (max-width: 1100px){ .results-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 640px){  .results-grid{ grid-template-columns:1fr; } }
+
+/* Card */
+.result-card{
+  position:relative;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
+  padding:14px 16px 14px;
+  display:flex; flex-direction:column;
+}
+
+/* Header row */
+.result-card .rc-title{
+  display:flex; align-items:center; gap:12px; margin-bottom:8px;
+}
+.result-card .rc-logo{
+  width:48px; height:48px; border-radius:10px; object-fit:cover; background:#f3f4f6;
+}
+.result-card h3{
+  margin:0; font-size:1.05rem; line-height:1.2; font-weight:800;
+}
+.result-card .badge{
+  margin-left:auto;
+  font-size:.8rem; font-weight:800; color:#111;
+  background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; padding:.22rem .5rem;
+}
+
+/* Description (2 lines) */
+.result-card .rc-desc{
+  line-height:1.4; margin:6px 0 10px;
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;
+  overflow:hidden; text-overflow:ellipsis;
+  min-height:calc(1.4em * 2);
+}
+
+/* CTA pinned bottom */
+.result-card .btn-details{ margin-top:auto; }
+
+/* Match % at top-right */
+.result-card .match{
+  position:absolute; top:10px; right:10px;
+  width:48px; height:48px; border-radius:50%;
+  display:grid; place-items:center; font-weight:800; font-size:.8rem;
+  color:#111;
+  background:
+    conic-gradient(#2563eb calc(var(--p,0) * 1%), #e5e7eb 0);
+}
+.result-card .match span{
+  background:#fff; border-radius:50%;
+  width:36px; height:36px; display:grid; place-items:center;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+}
+/* ==== Discover → Result cards (3-up, polished) ==== */
+.results-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:12px;
+}
+@media (max-width:1100px){ .results-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){  .results-grid{ grid-template-columns:1fr; } }
+
+.result-card{
+  position:relative;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
+  padding:14px 16px;
+  display:flex; flex-direction:column;
+}
+
+/* header row */
+.result-card .rc-title{
+  display:flex; align-items:center; gap:12px; margin-bottom:8px;
+}
+.result-card .rc-logo{
+  width:48px; height:48px; border-radius:10px; object-fit:cover; background:#f3f4f6;
+}
+.result-card h3{
+  margin:0; font-size:1.05rem; line-height:1.2; font-weight:800;
+}
+.result-card .badge{
+  margin-left:auto;
+  font-size:.8rem; font-weight:800; color:#111;
+  background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; padding:.22rem .5rem;
+}
+
+/* description (2 lines, ellipsis) */
+.result-card .rc-desc{
+  color:#374151; line-height:1.45; margin:6px 0 12px;
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;
+  overflow:hidden; text-overflow:ellipsis;
+  min-height:calc(1.45em * 2);
+}
+
+/* CTA — override page-wide button styles */
+.result-card .btn-details{
+  appearance:none; -webkit-appearance:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#111 !important; color:#fff !important;
+  border:1px solid #111 !important;
+  border-radius:10px !important;
+  padding:.55rem .9rem !important;
+  font-weight:800 !important;
+  cursor:pointer;
+  transition:filter .15s ease;
+  width:auto !important;                 /* stop full-width bar */
+}
+.result-card .btn-details:hover{ filter:brightness(.96); }
+
+/* match % circle top-right */
+.result-card .match{
+  position:absolute; top:10px; right:10px;
+  width:48px; height:48px; border-radius:50%;
+  display:grid; place-items:center;
+  background: conic-gradient(#1e3a8a calc(var(--p,0) * 1%), #e5e7eb 0);
+}
+.result-card .match span{
+  background:#fff; border-radius:50%;
+  width:36px; height:36px; display:grid; place-items:center;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+  font-weight:800; font-size:.8rem; color:#111;
+}
+/* === FORCE WIDER/LONGER RESULT CARDS (2-up on desktop) === */
+#results #resultsGrid.results-grid,
+#results .results-grid,
+#resultsGrid.results-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;   /* two wide columns */
+  gap: 20px !important;
+}
+
+/* Ultra-wide screens can go 3-up again if you want */
+@media (min-width: 1600px){
+  #results #resultsGrid.results-grid,
+  #results .results-grid,
+  #resultsGrid.results-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Tablet / small screens: single column */
+@media (max-width: 1100px){
+  #results #resultsGrid.results-grid,
+  #results .results-grid,
+  #resultsGrid.results-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Make each card feel longer/taller */
+.result-card{
+  min-height: 180px !important;
+}
+.result-card .rc-desc{
+  -webkit-line-clamp: 3 !important;    /* show up to 3 lines */
+  min-height: calc(1.45em * 3) !important;
+}
+/* Results: grid layout */
+#resultsGrid.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Make them longer on desktop: 2-up wide cards */
+@media (min-width: 1100px){
+  #resultsGrid.results-grid {
+    grid-template-columns: 1fr 1fr;     /* ← 2 columns = longer cards */
+    gap: 20px;
+  }
+}
+/* Ultra-wide screens: optionally go back to 3-up */
+@media (min-width: 1600px){
+  #resultsGrid.results-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+/* Tablets/phone: single column */
+@media (max-width: 1099px){
+  #resultsGrid.results-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card visuals */
+.result-card{
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+}
+.result-card .rc-title{
+  display:flex; align-items:center; gap:12px; margin-bottom:8px;
+}
+.result-card .rc-logo{
+  width:48px; height:48px; border-radius:10px; background:#f3f4f6;
+}
+.result-card h3{ margin:0; font-size:1.05rem; line-height:1.2; font-weight:800; }
+.result-card .badge{
+  margin-left:auto; font-size:.8rem; font-weight:800; color:#111;
+  background:#f3f4f6; border:1px solid #e5e7eb; border-radius:999px; padding:.22rem .5rem;
+}
+.result-card .rc-desc{
+  color:#374151; line-height:1.45; margin:6px 0 12px;
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;
+  overflow:hidden; min-height: calc(1.45em * 3);
+}
+.result-card .btn-details{
+  appearance:none; -webkit-appearance:none;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:#111; color:#fff; border:1px solid #111;
+  border-radius:10px; padding:.55rem .9rem; font-weight:800; cursor:pointer;
+  width:auto;
+}
+.result-card .btn-details:hover{ filter:brightness(.96); }
+
+/* top-right % badge */
+.result-card .match{
+  position:absolute; top:10px; right:10px; width:48px; height:48px; border-radius:50%;
+  display:grid; place-items:center;
+  background: conic-gradient(#1e3a8a calc(var(--p,0) * 1%), #e5e7eb 0);
+}
+.result-card .match span{
+  background:#fff; border-radius:50%; width:36px; height:36px; display:grid; place-items:center;
+  box-shadow:0 1px 2px rgba(0,0,0,.06); font-weight:800; font-size:.8rem; color:#111;
+}
+/* === Discover / Results: longer cards + pretty ring + chips (final overrides) === */
+
+/* Make desktop cards longer/wider (2-up) */
+#resultsGrid.results-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important; /* two columns on desktop */
+  gap: 20px !important;
+  margin-top: 12px !important;
+}
+@media (min-width: 1600px){
+  #resultsGrid.results-grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
+@media (max-width: 1099px){
+  #resultsGrid.results-grid { grid-template-columns: 1fr !important; }
+}
+
+/* Card: a touch taller + room for chips */
+.result-card{
+  min-height: 220px !important;
+  padding: 16px 18px !important;
+}
+
+/* Slightly bigger logo for balance */
+.result-card .rc-logo{
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 12px !important;
+}
+
+/* 3 lines of description (more breathing room) */
+.result-card .rc-desc{
+  -webkit-line-clamp: 3 !important;
+  min-height: calc(1.45em * 3) !important;
+  margin: 8px 0 10px !important;
+  color: #374151 !important;
+}
+
+/* Matched words (chips) under the description */
+.result-card .matched{
+  margin: 2px 0 10px !important;
+  font-size: .9rem !important;
+}
+.result-card .matched .chip{
+  display: inline-block;
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin: 0 6px 6px 0;
+  font-size: .8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* “View Details” stays compact and pinned nicely */
+.result-card .btn-details{
+  appearance: none; -webkit-appearance: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #111 !important; color: #fff !important;
+  border: 1px solid #111 !important;
+  border-radius: 10px !important;
+  padding: .55rem .9rem !important;
+  font-weight: 800 !important;
+  cursor: pointer;
+  transition: filter .15s ease, transform .06s ease;
+  width: auto !important;
+}
+.result-card .btn-details:hover{ filter: brightness(.96); transform: translateY(-1px); }
+
+/* Prettier progress ring (animated conic + soft depth) */
+.result-card .match{
+  --p: 0; /* 0–100, set inline by JS */
+  position: absolute; top: 10px; right: 10px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  /* two-tone conic ring up to --p, then track */
+  background:
+    conic-gradient(from 270deg,
+      #2563eb 0%,
+      #3b82f6 calc(var(--p) * 1%),
+      #e5e7eb 0);
+  transition: background .35s ease;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));
+}
+.result-card .match::before{
+  content:"";
+  position: absolute; inset: 3px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(17,24,39,.06);
+}
+.result-card .match span{
+  position: relative;
+  z-index: 1;
+  font-weight: 800; font-size: .8rem; color: #111;
+}
+
+/* subtle focus/hover polish */
+.result-card:hover{ box-shadow: 0 10px 22px rgba(0,0,0,.07); }
+/* === Discover / Results — long-thin centered cards (final overrides) === */
+
+/* Center the grid block and limit its width */
+#resultsGrid.results-grid{
+  display: grid !important;
+  /* tall + slim columns; auto wraps to 2 or 1 on narrower screens */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 340px)) !important;
+  justify-content: center !important;     /* keep the columns in the middle */
+  gap: 16px !important;                    /* a little space, not too much */
+  max-width: 1160px;                       /* 3 cols @ 340 + gaps */
+  margin: 12px auto 32px !important;       /* center the whole grid block */
+}
+
+/* Make each card longer (taller) and use flex so the button sits at the bottom */
+.result-card{
+  min-height: 310px !important;            /* “longer” */
+  padding: 16px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Title row & logo scale nicely inside the thinner column */
+.result-card .rc-logo{
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 12px !important;
+}
+
+/* Give the description more lines (fits the taller card) */
+.result-card .rc-desc{
+  -webkit-line-clamp: 4 !important;        /* was 2–3; make it 4 for the tall layout */
+  min-height: calc(1.45em * 4) !important;
+  margin: 8px 0 10px !important;
+}
+
+/* Matching chips still fit nicely */
+.result-card .matched{ margin: 2px 0 12px !important; }
+
+/* Keep the CTA pinned near the bottom for consistent heights */
+.result-card .btn-details{
+  margin-top: auto !important;
+  align-self: start;                        /* avoids stretching full width */
+}
+
+/* Progress ring stays tidy in the corner on the taller card */
+.result-card .match{
+  top: 10px; right: 10px;
+  width: 52px; height: 52px;
+}
+
+/* Responsive tweaks (optional) */
+@media (min-width: 1600px){
+  #resultsGrid.results-grid{
+    max-width: 1500px;                      /* allow 4 columns on very wide screens */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 340px)) !important;
+  }
+}
+@media (max-width: 380px){
+  #resultsGrid.results-grid{
+    grid-template-columns: 1fr !important;  /* single column on very small phones */
+    max-width: 92%;
+  }
+}
+/* === Tag pills above the title === */
+.result-card .tag-pills{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 2px 0 8px;     /* sits just above the club name */
+}
+.result-card .tag-pills .pill{
+  display: inline-block;
+  background: #eef2ff;           /* soft blue */
+  border: 1px solid #dbeafe;
+  color: #00008B;                 /* brand blue */
+  font-weight: 800;
+  font-size: .75rem;
+  line-height: 1.6;
+  border-radius: 999px;
+  padding: 2px 10px;
+  white-space: nowrap;
+}
+
+/* Hide old right-side badge (kept for backwards compat) */
+.result-card .badge{ display: none !important; }
+
+/* Title row stays clean under the pills */
+.result-card .rc-title{
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+.result-card .rc-title h3{ margin: 0 !important; }
+/* === Meta rows under blurb === */
+.result-card .meta-block{
+  margin-top: 10px;
+}
+.result-card .meta-row{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 6px 0;
+  line-height: 1.4;
+}
+.result-card .meta-label{
+  flex: 0 0 140px;              /* label width */
+  font-weight: 800;
+  font-size: .85rem;
+  color: #111;
+}
+.result-card .meta-value{
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: .9rem;
+  color: #374151;
+}
+.result-card .meta-value .muted{ color:#9ca3af; }
+
+/* keep chips looking good inside the meta value */
+.result-card .matched{ margin: 0 !important; }
+/* === Tag pill above the club name (reuse existing .badge) === */
+.result-card .rc-title{
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;      /* lets the pill sit on its own row */
+}
+.result-card .rc-title .badge{
+  order: -1;                       /* move above logo+name */
+  width: 100%;
+  display: inline-flex !important; /* force visible even if earlier CSS hid it */
+  align-items: center;
+  justify-content: flex-start;
+  margin: 2px 0 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  border: 1px solid #dbeafe;
+  color: #00008B;
+  font-weight: 800;
+  font-size: .75rem;
+  line-height: 1.6;
+}
+
+/* === Meta rows under the blurb === */
+.result-card .meta-block{ margin-top: 10px; }
+.result-card .meta-row{
+  display: flex; align-items: flex-start; gap: 8px;
+  margin: 6px 0; line-height: 1.4;
+}
+.result-card .meta-label{
+  flex: 0 0 140px;                 /* label column width */
+  font-weight: 800; font-size: .85rem; color: #111;
+}
+.result-card .meta-value{ flex: 1 1 auto; font-size: .9rem; color: #374151; }
+.result-card .meta-value .muted{ color:#9ca3af; }
+
+/* chips look nice inside the meta area */
+.result-card .matched{ margin: 0 !important; }
+.result-card .matched .chip{
+  display: inline-block;
+  background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0;
+  border-radius: 999px; padding: 2px 8px; margin: 0 6px 6px 0;
+  font-size: .8rem; font-weight: 700; white-space: nowrap;
+}
+/* Category pill: auto width, sits above the name (no full-width strip) */
+.result-card .rc-title{ flex-wrap: wrap !important; }
+
+.result-card .rc-title .badge{
+  order: -1;                           /* put above logo+name */
+  display: inline-flex !important;     /* force visible */
+  align-self: flex-start;
+  width: auto !important;              /* ⬅️ stop stretching */
+  max-width: calc(100% - 24px);
+  white-space: nowrap;                 /* keep it pill-sized */
+  margin: 2px 0 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #eef2ff;
+  border: 1px solid #dbeafe;
+  color: #00008B;
+  font-weight: 800;
+  font-size: .75rem;
+  line-height: 1.6;
+}
+/* Pull the meta rows up by removing reserved space under the blurb */
+.result-card .rc-desc{
+  /* earlier styles gave it a fixed min-height; kill that */
+  min-height: 0 !important;
+  margin: 8px 0 4px !important;   /* a touch tighter below the blurb */
+}
+
+/* Bigger, clearer meta rows (no extra push-down) */
+.result-card .meta-block{ margin-top: 6px !important; }
+.result-card .meta-row{ margin: 6px 0 !important; }
+
+.result-card .meta-label{
+  flex: 0 0 150px;
+  font-weight: 800;
+  font-size: .95rem !important;
+  color: #111;
+}
+.result-card .meta-value{
+  font-size: .95rem !important;
+  color: #374151;
+}
+
+/* Keep the pill above the name (compact, auto width) */
+.result-card .rc-title{ display: grid !important; grid-template-columns: 52px 1fr; column-gap: 12px; align-items: center; }
+.result-card .rc-title .rc-logo{ grid-column:1; grid-row:1 / span 2; width:52px; height:52px; border-radius:12px; }
+.result-card .rc-title .badge{
+  grid-column:2; grid-row:1;
+  width:auto !important; white-space:nowrap; justify-self:start;
+  display:inline-flex !important; padding:2px 10px; margin:0 0 4px 0;
+  border-radius:999px; background:#eef2ff; border:1px solid #dbeafe; color:#00008B;
+  font-weight:800; font-size:.75rem; line-height:1.6;
+}
+.result-card .rc-title h3{ grid-column:2; grid-row:2; margin:0 !important; }
+/* Hide the old pill entirely */
+.result-card .rc-title .badge{ display:none !important; }
+
+/* Put the title row back to a simple logo + name row */
+.result-card .rc-title{
+  display:flex !important;
+  align-items:center !important;
+  gap:12px !important;
+  margin:0 !important;
+}
+.result-card .rc-title .rc-logo{
+  width:52px; height:52px; border-radius:12px;
+}
+.result-card .rc-title h3{ margin:0 !important; }
+
+/* Tighten space under blurb so meta sits right below it */
+.result-card .rc-desc{
+  min-height:0 !important;
+  margin:8px 0 6px !important;
+}
+
+/* Meta rows (bigger, clearer, single-line where possible) */
+.result-card .meta-block{ margin-top:6px !important; }
+.result-card .meta-row{
+  display:flex; align-items:center; gap:10px;
+  margin:6px 0 !important;
+  white-space:nowrap;                 /* keep each row to one line */
+}
+.result-card .meta-label{
+  flex:0 0 auto;
+  font-weight:800; font-size:.95rem !important; color:#111;
+}
+.result-card .meta-value{
+  flex:1 1 auto;
+  font-size:.95rem !important; color:#374151;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+
+/* Chips stay inline on one line */
+.result-card .matched{ display:inline; }
+.result-card .matched .chip{
+  display:inline-block; margin:0 6px 0 0; padding:3px 8px;
+  border-radius:999px; border:1px solid #a7f3d0;
+  background:#ecfdf5; color:#065f46; font-weight:700; font-size:.85rem;
+}
+/* === Result card % progress ring — brand yellow === */
+.result-card .match{
+  /* expects inline --p: 0–100 (already in your template) */
+  --ring: #FFFF00;         /* brand yellow */
+  --track: #e5e7eb;        /* light gray track */
+  position: absolute; top: 10px; right: 10px;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  /* conic fill up to --p, then track */
+  background: conic-gradient(from -90deg,
+              var(--ring) calc(var(--p) * 1%),
+              var(--track) 0);
+  transition: background .4s ease;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));
+}
+.result-card .match::before{
+  /* inner white disc to make it a ring */
+  content: "";
+  position: absolute; inset: 5px;         /* ring thickness = 5px */
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(17,24,39,.06);
+}
+.result-card .match span{
+  position: relative; z-index: 1;
+  font-weight: 800; font-size: .85rem; color: #111;
+}
+/* === Prettier % progress ring (brand blue, gradient, ticks, depth) === */
+.result-card .match{
+  /* inputs: --p = 0–100 (already set inline in your template) */
+  --p: var(--p, 0);
+  --ring: #00008B;        /* brand blue start */
+  --ring2:#3b82f6;        /* lighter blue end */
+  --track:#e5e7eb;        /* light gray track */
+  --thickness: 6px;       /* ring thickness */
+  --size: 56px;           /* overall size */
+
+  position: absolute; top: 10px; right: 10px;
+  width: var(--size); height: var(--size);
+  border-radius: 50%;
+  display: grid; place-items: center;
+
+  /* smooth blue gradient fill up to --p, then track */
+  background:
+    conic-gradient(from -90deg,
+      var(--ring) 0%,
+      var(--ring2) calc(var(--p) * 1%),
+      var(--track) 0);
+
+  transition: background .6s cubic-bezier(.22,.61,.36,1);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));
+  animation: match-pop .18s ease-out;
+}
+
+/* inner disc to create the donut + soft inner edge */
+.result-card .match::before{
+  content: "";
+  position: absolute; inset: calc(var(--thickness) + 2px);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    inset 0 0 0 1px rgba(17,24,39,.06),
+    0 0 0 2px rgba(0,0,0,.02);
+}
+
+/* subtle tick marks around the ring */
+.result-card .match::after{
+  content: "";
+  position: absolute; inset: 0; border-radius: 50%;
+  background:
+    repeating-conic-gradient(rgba(0,0,0,.06) 0 2deg, transparent 2deg 12deg);
+  -webkit-mask: radial-gradient(circle calc(50% - var(--thickness)), transparent 49%, #000 50%);
+          mask: radial-gradient(circle calc(50% - var(--thickness)), transparent 49%, #000 50%);
+  pointer-events: none;
+  opacity: .6;
+}
+
+/* number styling */
+.result-card .match span{
+  position: relative; z-index: 2;
+  font-weight: 800; font-size: .85rem; color: #111; letter-spacing: .01em;
+}
+
+/* gentle entrance (respects reduced motion) */
+@keyframes match-pop { from { transform: scale(.94); opacity: .95; } to { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce){
+  .result-card .match{ animation: none; transition: none; }
+}
+/* Slightly smaller % ring */
+.result-card .match{
+  --size: 48px;      /* was 56px */
+  --thickness: 5px;  /* was 6px */
+  top: 8px;
+  right: 8px;
+}
+.result-card .match span{
+  font-size: .8rem;  /* keep the number readable */
+}
+
+/* (optional) make it even smaller on narrow screens */
+@media (max-width: 480px){
+  .result-card .match{ --size: 44px; --thickness: 4px; top: 6px; right: 6px; }
+  .result-card .match span{ font-size: .78rem; }
+}
+
+/* === Result card CTA: brand blue === */
+.result-card .btn-details{
+  background: #00008B !important;   /* brand blue */
+  border-color: #00008B !important;
+  color: #fff !important;
+  box-shadow: 0 2px 0 rgba(0,0,0,.05);
+  transition: transform .06s ease, filter .15s ease, background-color .15s ease;
+}
+
+.result-card .btn-details:hover{
+  filter: brightness(1.05);
+}
+
+.result-card .btn-details:active{
+  transform: translateY(1px);
+  filter: brightness(.95);
+}
+
+.result-card .btn-details:focus-visible{
+  outline: 2px solid #00008B;
+  outline-offset: 2px;
+}
+/* === Get Personalized Recommendation button — brand blue === */
+/* Targets common submit buttons inside your quiz form */
+.quiz-form button[type="submit"],
+.quiz-form input[type="submit"],
+#getRecommendationsBtn,
+.get-recommendations-btn,
+.btn-get-recos {
+  background: #00008B !important;
+  border: 1px solid #00008B !important;
+  color: #fff !important;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: .65rem 1rem;
+  box-shadow: 0 2px 0 rgba(0,0,0,.05);
+  transition: transform .06s ease, filter .15s ease, background-color .15s ease;
+}
+
+.quiz-form button[type="submit"]:hover,
+.quiz-form input[type="submit"]:hover,
+#getRecommendationsBtn:hover,
+.get-recommendations-btn:hover,
+.btn-get-recos:hover {
+  filter: brightness(1.05);
+}
+
+.quiz-form button[type="submit"]:active,
+.quiz-form input[type="submit"]:active,
+#getRecommendationsBtn:active,
+.get-recommendations-btn:active,
+.btn-get-recos:active {
+  transform: translateY(1px);
+  filter: brightness(.95);
+}
+
+.quiz-form button[type="submit"]:focus-visible,
+.quiz-form input[type="submit"]:focus-visible,
+#getRecommendationsBtn:focus-visible,
+.get-recommendations-btn:focus-visible,
+.btn-get-recos:focus-visible {
+  outline: 2px solid #00008B;
+  outline-offset: 2px;
+}
+/* === Result cards: staggered fade-in on render === */
+@keyframes resultCardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#resultsGrid .result-card._in {
+  opacity: 0;                          /* start transparent */
+  animation: resultCardIn .45s ease-out both;
+  animation-delay: calc(var(--i, 0) * 110ms); /* stagger by index */
+  will-change: transform, opacity;      /* GPU-friendly */
+}
+
+@media (prefers-reduced-motion: reduce){
+  #resultsGrid .result-card._in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+/* Browse All Clubs CTA centered under the grid */
+#resultsGrid .results-cta{
+  grid-column: 1 / -1;              /* span all grid columns */
+  display: flex;
+  justify-content: center;
+  margin: 10px 0 0;                 /* snug gap under cards */
+}
+
+/* Blue button styling (matches your brand) */
+#resultsGrid .btn-browse-all{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #00008B;
+  border: 1px solid #00008B;
+  color: #fff;
+  font-weight: 800;
+  border-radius: 10px;
+  padding: .7rem 1.1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 0 rgba(0,0,0,.05);
+  transition: transform .06s ease, filter .15s ease, background-color .15s ease;
+}
+#resultsGrid .btn-browse-all:hover{ filter: brightness(1.05); }
+#resultsGrid .btn-browse-all:active{ transform: translateY(1px); filter: brightness(.95); }
+#resultsGrid .btn-browse-all:focus-visible{ outline: 2px solid #00008B; outline-offset: 2px; }
+/* CTA fades in last, reusing the card animation */
+#resultsGrid .results-cta._in{
+  opacity: 0;
+  animation: resultCardIn .45s ease-out both;
+  animation-delay: calc(var(--i, 0) * 110ms); /* uses --i from JS */
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce){
+  #resultsGrid .results-cta._in{ animation: none; opacity: 1; }
+}
+/* FINAL: pretty brand-blue progress ring (48px), cannot be overridden */
+#resultsGrid .result-card .match{
+  /* expects --p on the article (0–100) */
+  --ring:#00008B;        /* brand blue */
+  --ring2:#3b82f6;       /* lighter blue gradient end */
+  --track:#e5e7eb;       /* light gray track */
+  --size:48px;
+  --thickness:5px;
+
+  position:absolute; top:8px; right:8px;
+  width:var(--size); height:var(--size);
+  border-radius:50%;
+  display:grid; place-items:center;
+
+  background:
+    conic-gradient(from -90deg,
+      var(--ring) 0%,
+      var(--ring2) calc(var(--p,0) * 1%),
+      var(--track) 0) !important;
+
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));
+  transition: background .45s cubic-bezier(.22,.61,.36,1);
+}
+
+#resultsGrid .result-card .match::before{
+  content:"";
+  position:absolute; inset:calc(var(--thickness) + 2px);
+  border-radius:50%;
+  background:#fff;
+  box-shadow:
+    inset 0 0 0 1px rgba(17,24,39,.06),
+    0 0 0 2px rgba(0,0,0,.02);
+}
+
+#resultsGrid .result-card .match::after{
+  content:"";
+  position:absolute; inset:0; border-radius:50%;
+  background:repeating-conic-gradient(rgba(0,0,0,.06) 0 2deg, transparent 2deg 12deg);
+  -webkit-mask: radial-gradient(circle calc(50% - var(--thickness)), transparent 49%, #000 50%);
+          mask: radial-gradient(circle calc(50% - var(--thickness)), transparent 49%, #000 50%);
+  pointer-events:none;
+  opacity:.6;
+}
+
+#resultsGrid .result-card .match span{
+  position:relative; z-index:2;
+  font-weight:800; font-size:.8rem; color:#111; letter-spacing:.01em;
+}
+/* Fill from 0 → --p%, then gray track */
+#resultsGrid .result-card .match{
+  --ring:#00008B;     /* brand blue */
+  --track:#e5e7eb;    /* light gray */
+  background: conic-gradient(
+    from -90deg,
+    var(--ring) 0 calc(var(--p,0) * 1%),
+    var(--track) 0
+  ) !important;
+}
+/* Allow --p to animate smoothly */
+@property --p {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+/* Make the ring animate when --p changes */
+#resultsGrid .result-card .match{
+  transition: --p 900ms cubic-bezier(.22,.61,.36,1);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #resultsGrid .result-card .match{ transition: none; }
+}
+/* === Results cards: equal height & tidy truncation === */
+#resultsGrid .result-card{
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;                 /* keep all cards same visual height */
+  height: 320px;                     /* optional: lock it exactly */
+}
+
+/* Title area keeps its normal flow */
+
+/* Description: 3-line clamp with ellipsis */
+#resultsGrid .rc-desc{
+  margin-top: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;             /* number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta rows */
+#resultsGrid .meta-block{ margin-top: 8px; }
+
+/* Keep "Matched Keywords" one line with ellipsis */
+#resultsGrid .meta-row:nth-child(2) .meta-value{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Pin the button to the bottom so all cards align */
+#resultsGrid .btn-details{ margin-top: auto; }
+#resultsGrid .meta-row:nth-child(2) .meta-value{
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#resultsGrid .meta-row:nth-child(2) .meta-value .chip{
+  flex: 0 0 auto;
+}
+
+/* Center whatever count of cards we have (1–3) */
+#resultsGrid{
+  justify-content: center;        /* works with CSS grid */
+}
+#resultsGrid .results-cta{
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Tabs: normal + active (blue underline) */
+.quiz-tabs .tab{
+  border-bottom: 3px solid transparent;
+  color: #374151;
+  font-weight: 700;
+}
+.quiz-tabs .tab.active{
+  border-bottom-color: #00008B;  /* brand blue underline */
+  color: #00008B;
+}
+
+/* Locked Results tab until survey isn’t empty */
+.quiz-tabs .tab.is-locked{
+  opacity: .55;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Tiny shake when you try clicking Results while locked (if JS allows the click) */
+.quiz-tabs .tab.shake{ animation: hshake .26s ease; }
+@keyframes hshake{
+  0%{transform:translateX(0)}25%{transform:translateX(-2px)}
+  50%{transform:translateX(2px)}75%{transform:translateX(-1px)}100%{transform:translateX(0)}
+}
+
+/* Dim the submit when disabled */
+.quiz-form .recommend-btn:is(:disabled, .is-disabled),
+.quiz-form button[type="submit"]:disabled,
+.quiz-form input[type="submit"]:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+}
+/* Center result cards when there are 1–2 (and keep 3 nicely spaced) */
+#resultsGrid{
+  display: grid;
+  gap: 20px;                                   /* keep your existing gap */
+  grid-template-columns: repeat(auto-fit, minmax(340px, 420px));
+  justify-content: center;                     /* centers the whole grid area */
+}
+
+/* Make cards obey the track’s width, and keep height tidy */
+#resultsGrid .result-card{
+  width: 100%;                                 /* fill the track (<= 420px) */
+  max-width: 420px;                            /* ensures consistent card width */
+}
+
+/* CTA stays centered beneath the cards */
+#resultsGrid .results-cta{
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive: when screen is narrow, let it be 1 column full-width */
+@media (max-width: 760px){
+  #resultsGrid{
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
+  #resultsGrid .result-card{ max-width: none; }
+}
+/* Center result cards for 1–2 (and keep 3 nicely spaced) */
+#resultsGrid{
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 420px)) !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  max-width: 1320px;
+  margin: 12px auto 32px !important;
+}
+#resultsGrid .result-card{
+  width: 100%;
+  max-width: 420px;
+}
+#resultsGrid .results-cta{
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+
+/* Blue active indicator for tabs */
+.quiz-tabs .tab.active{
+  background: #1e3a8a !important;
+  color: #fff !important;
+  border-color: #1e3a8a !important;
+  box-shadow: 0 2px 8px rgba(30,58,138,.18);
+}
+
+/* (Optional) lock/dim Results tab until survey isn’t empty */
+.quiz-tabs .tab.is-locked{
+  opacity: .55;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+/* Ensure CTA centers under the cards even if external CSS re-applies */
+#resultsGrid .results-cta{
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+}
+/* Make matched keywords one line with ellipsis */
+#resultsGrid .meta-row:nth-child(2) .meta-value{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rc-logo{
+  width: 42px; height: 42px; border-radius: 50%;
+  object-fit: cover; background: #eef2ff;
+}
+.rc-logo--placeholder{
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800;
+}
+/* Title stays to two lines max; will break at <wbr> (e.g., after "&") */
+.rc-title h3{
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  /* make sure it doesn’t collide with the logo on the left */
+  max-width: calc(100% - 56px);
+  /* clamp to 2 lines so cards stay uniform */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+/* Keep the remainder on the second line */
+.rc-title h3 .nowrap{ white-space: nowrap; }
+
+/* (from earlier) clamp to 2 lines and allow the <wbr> to break */
+.rc-title h3{
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  max-width: calc(100% - 56px);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+/* Lay the avatar + title on a single row, never let the text jump under the avatar */
+.rc-title{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Keep the avatar fixed-size in the row */
+.rc-title .rc-logo{ flex: 0 0 42px; }
+
+/* Title uses remaining space; keep 2 lines max and reserve room for the % badge */
+.rc-title h3{
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  flex: 1 1 auto;
+
+  /* Reserve space so it never slides under the % ring in the top-right */
+  padding-right: 88px; /* tweak if your match circle is bigger/smaller */
+
+  /* Clean 2-line clamp with ellipsis */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+
+  /* Let long words break instead of stretching the card */
+  word-break: break-word;
+}
+
+/* Keep the remainder on the second line when we insert <span class="nowrap">… */
+.rc-title h3 .nowrap{ white-space: nowrap; }
+.result-card{ position: relative; }
+.result-card .match{ position: absolute; top: 12px; right: 16px; }
+
+/* Title row: avatar + name stay on one line of layout (text never drops under avatar) */
+.rc-title{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Avatar keeps a fixed width so the text can’t flow under it */
+.rc-title .rc-logo{
+  flex: 0 0 42px;         /* adjust to your avatar size */
+}
+
+/* Name sits to the right of the avatar, max 2 lines, leaves room for % ring */
+.rc-title h3{
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  flex: 1 1 auto;
+  padding-right: 88px;     /* reserve space so it never slides under the % ring */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;   /* 2-line clamp + ellipsis */
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* Make sure the % ring is pinned so the right padding above works */
+.result-card{ position: relative; }
+.result-card .match{ position: absolute; top: 12px; right: 16px; }
+/* Force a stable layout: avatar is absolutely positioned; text area is padded */
+.result-card .rc-title{
+  position: relative;
+  min-height: 48px;               /* = avatar height */
+  padding-left: 60px;             /* avatar (48) + gap (12) */
+}
+
+/* Avatar (image) */
+.result-card .rc-title .rc-logo{
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: translateY(-50%);
+}
+
+/* Avatar (placeholder circle) */
+.result-card .rc-title .rc-logo--placeholder{
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800;
+  transform: translateY(-50%);
+}
+
+/* Keep name beside the avatar, clamp to 2 lines, leave room for the % ring */
+.result-card .rc-title h3{
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  padding-right: 88px;            /* keeps clear of the % ring */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* If your match ring isn’t already absolute */
+.result-card{ position: relative; }
+.result-card .match{ position: absolute; top: 12px; right: 16px; }

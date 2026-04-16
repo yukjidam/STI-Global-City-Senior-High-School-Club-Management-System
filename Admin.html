@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="Admin.css" />
+  <script defer src="auth-guard.js"></script>
+  <script defer src="Admin.js"></script>
+  
+</head>
+<body>
+<header class="admin-header">
+  <div class="header-left">
+    <h1>Admin Control Center</h1>
+  </div>
+  <button id="btn-logout" class="btn btn-light" data-action="logout" type="button">Logout</button>
+
+</header>
+
+  <main class="admin-main">
+    <!-- CATEGORIES -->
+    <section class="admin-grid">
+      <!-- STUDENTS -->
+      <article class="admin-card students">
+        <h2>Students</h2>
+        <p class="muted">Create student accounts, reset passwords, or bulk import.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" data-open="modal-student-create">Create student</button>
+          <button class="btn" data-open="modal-student-reset">Reset password</button>
+          <button class="btn btn-outline" data-open="modal-bulk-upload" data-kind="student">Upload batch</button>
+          <button class="btn" data-open="modal-list-accounts" data-kind="student">List</button>
+          
+        </div>
+      </article>
+
+      
+
+      <!-- ADVISERS -->
+      <article class="admin-card advisers">
+        <h2>Advisers</h2>
+        <p class="muted">Create adviser accounts, reset passwords, or bulk import.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" data-open="modal-adviser-create">Create adviser</button>
+          <button class="btn" data-open="modal-adviser-reset">Reset password</button>
+          <button class="btn btn-outline" data-open="modal-bulk-upload" data-kind="adviser">Upload batch</button>
+          <button class="btn" data-open="modal-list-accounts" data-kind="adviser">List</button>
+          
+        </div>
+      </article>
+
+      <!-- CLUBS -->
+<!-- CLUBS -->
+<article class="admin-card clubs">
+  <h2>Clubs</h2>
+  <p class="muted">Create new clubs, edit existing clubs, or manage club status.</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" data-open="modal-club-create">Create club</button>
+    <button class="btn" data-open="modal-club-edit">Edit club</button>
+    <button class="btn btn-outline" data-open="modal-list-accounts" data-kind="club">List</button>
+  </div>
+</article>
+
+<!-- ORGANIZATIONS -->
+<article class="admin-card organizations">
+<h2>Organizations</h2>
+<p class="muted">Create and manage organizations. Assign clubs into them.</p>
+<div class="btn-row">
+<button class="btn btn-primary" data-open="modal-org-create">Create organization</button>
+<button class="btn" data-open="modal-org-edit">Edit organization</button>
+<button class="btn btn-outline" data-open="modal-list-accounts" data-kind="organization">List</button>
+</div>
+</article>
+
+<!-- ADMINS -->
+<article class="admin-card admins">
+  <h2>Admins</h2>
+  <p class="muted">Create admins, reset passwords, and manage status.</p>
+  <div class="btn-row">
+<!-- Admins card buttons -->
+<button class="btn" data-open="modal-admin-create">Create admin</button>
+<button class="btn" data-open="modal-admin-reset">Reset password</button>
+
+<button class="btn" data-open="modal-list-accounts" data-kind="admin">List</button>
+<button class="btn btn-outline" data-open="modal-admin-dashboard">Dashboard</button>
+
+
+  </div>
+</article>
+
+<!-- APPROVALS -->
+<article class="admin-card approvals">
+  <h2>Approvals</h2>
+  <p class="muted">Review pending profile media updates.</p>
+  <div class="btn-row">
+    <button class="btn" data-open="modal-approvals" data-kind="avatar">Profile Pictures</button>
+    <button class="btn btn-outline" data-open="modal-approvals" data-kind="cover">Cover Photos</button>
+  </div>
+</article>
+
+    </section>
+
+    <!-- ===== MODALS ===== -->
+
+    <!-- Approvals modal -->
+<div id="modal-approvals" class="modal" aria-hidden="true">
+  <div class="modal-box wide" role="dialog" aria-modal="true" aria-labelledby="ap-title">
+    <div class="modal-head">
+      <h3 id="ap-title">Pending media</h3>
+      <button class="modal-x" data-close>×</button>
+    </div>
+
+<div class="preview-tools">
+  <input id="ap-search" type="search" placeholder="Search name/email…" />
+  <div id="ap-count" class="muted small"></div>
+  <button id="ap-toggle-multi" type="button" class="btn btn-light">Select multiple</button>
+</div>
+
+    <div id="ap-table-wrap" class="preview-table-wrap"></div>
+
+
+<div class="modal-foot">
+  <button class="btn" data-close>Close</button>
+  <div class="foot-spacer"></div>
+  <div id="ap-bulk-actions" class="bulk-actions" hidden>
+    <button id="ap-bulk-decline" type="button" class="btn btn-outline">Decline selected</button>
+    <button id="ap-bulk-approve" type="button" class="btn btn-primary">Approve selected</button>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<!-- Fullscreen image viewer -->
+<div id="img-viewer" hidden>
+  <div class="img-view-box">
+    <button class="img-view-x" aria-label="Close">×</button>
+    <img id="img-viewer-img" alt="">
+  </div>
+</div>
+
+
+    <!-- Create Student -->
+    <div id="modal-student-create" class="modal" aria-hidden="true">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="msc-title">
+        <div class="modal-head">
+          <h3 id="msc-title">Create student account</h3>
+          <button class="modal-x" data-close>×</button>
+        </div>
+        <form id="form-student-create" class="form-grid">
+          <label>Student ID
+            <input name="student_id" type="text" required />
+          </label>
+          <label>First name
+            <input name="first_name" type="text" required />
+          </label>
+          <label>Middle name (optional)
+            <input name="middle_name" type="text" />
+          </label>
+          <label>Last name
+            <input name="last_name" type="text" required />
+          </label>
+          <label>STI Email
+            <input name="sti_email" type="email" placeholder="name@globalcity.sti.edu.ph" required />
+          </label>
+          <label>Temporary password
+  <span class="pw-wrap">
+    <input name="password" type="password" placeholder="Temporary Password" required>
+    <button type="button" class="pw-ico" aria-label="Show password" aria-pressed="false"></button>
+  </span>
+</label>
+
+          <div class="modal-actions">
+            <button type="button" class="btn" data-close>Cancel</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Reset Student Password -->
+    <div id="modal-student-reset" class="modal" aria-hidden="true">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="msr-title">
+        <div class="modal-head">
+          <h3 id="msr-title">Reset student password</h3>
+          <button class="modal-x" data-close>×</button>
+        </div>
+        <form id="form-student-reset" class="form-grid">
+          <label>Student ID or Email
+            <input name="identifier" type="text" required />
+          </label>
+          <label>New password
+            <input name="new_password" type="password" required minlength="6" />
+          </label>
+          <div class="modal-actions">
+            <button type="button" class="btn" data-close>Cancel</button>
+            <button type="submit" class="btn btn-primary">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Create Adviser -->
+    <div id="modal-adviser-create" class="modal" aria-hidden="true">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mac-title">
+        <div class="modal-head">
+          <h3 id="mac-title">Create adviser account</h3>
+          <button class="modal-x" data-close>×</button>
+        </div>
+        <form id="form-adviser-create" class="form-grid">
+            <label>Adviser ID
+  <input name="adviser_id" type="text" required />
+</label>
+
+          <label>First name
+            <input name="first_name" type="text" required />
+          </label>
+          <label>Middle name (optional)
+            <input name="middle_name" type="text" />
+          </label>
+          <label>Last name
+            <input name="last_name" type="text" required />
+          </label>
+          <label>STI Email
+            <input name="sti_email" type="email" required />
+          </label>
+ <label>Temporary password
+  <span class="pw-wrap">
+    <input name="password" type="password" placeholder="Temporary Password" required>
+    <button type="button" class="pw-ico" aria-label="Show password" aria-pressed="false"></button>
+  </span>
+</label>
+
+          <div class="modal-actions">
+            <button type="button" class="btn" data-close>Cancel</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Reset Adviser Password -->
+    <div id="modal-adviser-reset" class="modal" aria-hidden="true">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mar-title">
+        <div class="modal-head">
+          <h3 id="mar-title">Reset adviser password</h3>
+          <button class="modal-x" data-close>×</button>
+        </div>
+        <form id="form-adviser-reset" class="form-grid">
+  <label>Adviser ID
+    <input name="identifier" type="text" required />
+  </label>
+  <label>New password
+    <input name="new_password" type="password" required minlength="6" />
+  </label>
+  <div class="modal-actions">
+    <button type="button" class="btn" data-close>Cancel</button>
+    <button type="submit" class="btn btn-primary">Reset</button>
+  </div>
+</form>
+
+      </div>
+    </div>
+
+    <!-- Create Club -->
+    <div id="modal-club-create" class="modal" aria-hidden="true">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mcc-title">
+        <div class="modal-head">
+          <h3 id="mcc-title">Create club</h3>
+          <button class="modal-x" data-close>×</button>
+        </div>
+        <form id="form-club-create" class="form-grid">
+          <label>Club name
+            <input name="name" type="text" required />
+          </label>
+          <label>Category
+            <input name="category" type="text" placeholder="e.g., Arts, Sports, STEM" />
+          </label>
+          <label>Adviser email (optional)
+            <input name="adviser_email" type="email" />
+          </label>
+          <label>Description (optional)
+            <textarea name="description" rows="3"></textarea>
+          </label>
+          <label>Organization (optional)
+  <select name="organization_id" id="club-org-select-create">
+    <option value="">— None —</option>
+  </select>
+</label>
+
+<label>Adviser email (optional)
+  <input type="email" name="adviser_email" placeholder="adviser@school.edu.ph">
+</label>
+
+
+          <div class="modal-actions">
+            <button type="button" class="btn" data-close>Cancel</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit club modal -->
+<div id="modal-club-edit" class="modal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mcedit-title">
+    <div class="modal-head">
+      <h3 id="mcedit-title">Edit club</h3>
+      <button class="modal-x" data-close aria-label="Close">×</button>
+    </div>
+
+    <form id="form-club-edit" class="form-grid">
+      <label>Club Name
+        <input name="club_name" placeholder="e.g., Robotics Club" required>
+        <small id="club-edit-error" class="inline-error" hidden></small>
+      </label>
+
+      <label>New name
+        <input name="name" placeholder="(leave blank to keep current)">
+      </label>
+
+      <label>Categories
+        <input name="tags" placeholder="e.g., STEM, Robotics">
+      </label>
+
+      <label>Adviser email
+        <input name="adviser_email" placeholder="e.g., adviser@school.edu.ph">
+      </label>
+
+      <label>Organization
+<select name="organization_id" id="club-org-select">
+<option value="">— None —</option>
+</select>
+</label>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- Archive Club (renamed from modal-club-delete) -->
+<div id="modal-club-archive" class="modal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mca-title">
+    <div class="modal-head">
+      <h3 id="mca-title">Archive club</h3>
+      <button class="modal-x" data-close>×</button>
+    </div>
+
+    <!-- Keep the same form id if your JS expects it -->
+    <form id="form-club-delete" class="form-grid">
+      <label>Club name or ID
+        <input name="club_key" type="text" required />
+      </label>
+      <div class="callout warn">
+        This moves the club to Archive. Members won’t see it until you restore it.
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="submit" class="btn btn-danger">Archive</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+ <!-- Bulk Upload (auto-detected type; preview hidden until file chosen) -->
+<div id="modal-bulk-upload" class="modal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="mbu-title">
+    <div class="modal-head">
+      <h3 id="mbu-title">Upload batch accounts</h3>
+      <button class="modal-x" data-close>×</button>
+    </div>
+
+    <form id="form-bulk-upload" class="form-grid grid-1">
+      <!-- NEW: small note showing which kind is active (Students/Advisers) -->
+        <div id="bulk-type-note" class="muted small" hidden></div>
+      <!-- NEW: preview lives here (replaces the old account-type chooser) -->
+         <div id="bulk-preview" class="bulk-preview" hidden>
+            <div class="muted small" id="bulk-meta"></div>
+        <!-- NEW: search + row count for the preview -->
+<div class="preview-tools" id="bulk-tools" hidden>
+  <input type="search" id="bulk-search" placeholder="Search" aria-label="Search preview">
+  <span id="bulk-count" class="muted small"></span>
+</div>
+<div id="bulk-validate" class="callout err" hidden></div>
+        <div class="preview-table-wrap" id="bulk-table-wrap" hidden></div>
+      </div>
+
+      <div class="seg">
+        <div class="btn-row wrap" id="bulk-templates" style="justify-content:center">
+          <button id="dl-student-template" type="button">Download student CSV template</button>
+<button id="dl-adviser-template" type="button" hidden>Download adviser CSV template</button>
+
+        </div>
+        <p id="bulk-helper" class="muted small center">
+  Please upload a <strong>.csv</strong> or <strong>.xlsx</strong> file formatted like the templates.
+</p>
+
+      </div>
+
+      <!-- after -->
+<div class="file-field">
+  <div class="field-text">Choose file (.csv or .xlsx)</div>
+  <input id="bulk-file" name="file" type="file"
+         accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required />
+</div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="modal-list-accounts" class="modal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="list-title">Accounts</h3>
+      <button class="icon-btn" data-close aria-label="Close">✕</button>
+    </div>
+
+    <div id="list-tools" class="list-tools">
+      <input id="list-search" type="search" placeholder="Search name, email, ID…" />
+      <div id="list-count" class="muted small"></div>
+    </div>
+
+    <div id="list-table-wrap"></div>
+
+    <div class="modal-foot">
+      <!-- Status filter: place this right below the search input inside #modal-list-accounts -->
+      <button class="btn" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Archive -->
+<div id="modal-archive-confirm" class="modal" aria-hidden="true">
+  <div class="modal-box confirm-box">
+    <div class="modal-head">
+      <h3>Archive account?</h3>
+      <button class="icon-btn" data-close aria-label="Close">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <p id="arch-msg" style="margin-bottom:.25rem"></p>
+      <p class="muted small">This will disable the user’s login until restored.</p>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn" data-close>Cancel</button>
+      <button id="confirm-archive" class="btn btn-danger">Archive</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm delete (destructive) -->
+<div id="modal-delete-confirm" class="modal" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="confirm-box modal-box">
+    <div class="modal-head">
+      <h3>Delete permanently?</h3>
+      <button type="button" class="icon-btn" data-close>
+        <span class="x">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p class="js-delete-msg">Are you sure?</p>
+      <p class="muted small">This action cannot be undone.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" data-close>Cancel</button>
+      <button id="btn-delete-confirm" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create admin -->
+<div id="modal-admin-create" class="modal" aria-hidden="true">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Create admin</h3>
+      <button class="icon-btn" data-close aria-label="Close">✕</button>
+    </div>
+
+    <form id="form-admin-create" class="form-grid">
+      <label>First name
+        <input name="first_name" required />
+      </label>
+
+      <label>Middle name
+        <input name="middle_name" />
+      </label>
+
+      <label>Last name
+        <input name="last_name" required />
+      </label>
+
+      <label>Admin ID
+  <input name="admin_id" placeholder="e.g., 2000xxxxxx" inputmode="numeric" pattern="2000[0-9]{6}" required>
+</label>
+
+
+      <label>STI email
+        <input name="sti_email" type="email" required />
+      </label>
+
+      <label>Password
+        <div class="pw-wrap">
+          <input name="password" placeholder="auto: lastname_admin" />
+        </div>
+        <div class="hint small muted">Auto-fills as <code>lastname_admin</code> while you type the last name.</div>
+      </label>
+
+      <div class="modal-foot">
+        <button class="btn" data-close type="button">Cancel</button>
+        <button class="btn btn-primary" type="submit">Create</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!-- Reset Admin Password (match Adviser modal) -->
+<!-- Reset Admin Password (same look/feel as other reset modals) -->
+<div id="modal-admin-reset" class="modal" aria-hidden="true">
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="marA-title">
+    <div class="modal-head">
+      <h3 id="marA-title">Reset admin password</h3>
+      <button class="modal-x" data-close>×</button>
+    </div>
+
+    <form id="form-admin-reset" class="form-grid">
+      <!-- Full-width first row, ID only -->
+      <label>Admin ID
+        <input name="identifier" type="text"
+               inputmode="numeric" pattern="2000[0-9]{6}"
+               placeholder="e.g., 2000123456" required>
+        <small id="admin-reset-error" class="inline-error" hidden></small>
+      </label>
+
+      <!-- New password with eye toggle (matches others) -->
+      <label>New password
+        <span class="pw-wrap">
+          <input name="new_password" type="password"
+                 placeholder="Temporary Password" required minlength="6">
+          <button type="button" class="pw-ico" aria-label="Show password" aria-pressed="false"></button>
+        </span>
+      </label>
+
+      <div class="modal-actions" style="grid-column:1 / -1">
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="modal-admin-dashboard" class="modal" aria-hidden="true">
+  <div class="modal-box wide" role="dialog" aria-modal="true" aria-labelledby="admdb-title">
+    <div class="modal-head">
+      <h3 id="admdb-title">Dashboard</h3>
+      <button class="modal-x" data-close>×</button>
+    </div>
+
+    <!-- Export PDF trigger -->
+<button id="btn-open-report" class="btn btn-outline" data-open="modal-report-builder" title="Build & download analytics PDF">
+Export PDF
+</button>
+
+<div class="db-tabs">
+  <button class="db-tab is-active" data-pane="general">General</button>
+  <button class="db-tab" data-pane="students">Students</button>
+  <button class="db-tab" data-pane="advisers">Advisers</button>
+  <button class="db-tab" data-pane="clubs">Clubs</button>
+</div>
+
+<div class="db-panes">
+  <section class="db-pane is-active" data-pane="general"><div class="db-grid"></div></section>
+  <section class="db-pane" data-pane="students"><div class="db-grid"></div></section>
+  <section class="db-pane" data-pane="advisers"><div class="db-grid"></div></section>
+  <section class="db-pane" data-pane="clubs"><div class="db-grid"></div></section>
+</div>
+
+
+
+
+
+  </main>
+
+  <!-- Toasts -->
+  <div id="toastRegion" class="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <div id="modal-org-create" class="modal" aria-hidden="true">
+<div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="moc-title">
+<div class="modal-head">
+<h3 id="moc-title">Create organization</h3>
+<button class="modal-x" data-close>×</button>
+</div>
+<form id="form-org-create" class="form-grid">
+<label>Name
+<input name="name" type="text" required />
+</label>
+<label>Type (optional)
+<input name="org_type" type="text" placeholder="e.g., Academic, Sports, Arts" />
+</label>
+<label>Description (optional)
+<textarea name="description" rows="3"></textarea>
+</label>
+<div class="modal-actions">
+<button type="button" class="btn" data-close>Cancel</button>
+<button type="submit" class="btn btn-primary">Create</button>
+</div>
+</form>
+</div>
+</div>
+
+<div id="modal-org-edit" class="modal" aria-hidden="true">
+<div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="moe-title">
+<div class="modal-head">
+<h3 id="moe-title">Edit organization</h3>
+<button class="modal-x" data-close>×</button>
+</div>
+<form id="form-org-edit" class="form-grid">
+<label>Organization
+<input name="name_key" placeholder="Type the current name to load…" required />
+<small id="org-edit-error" class="inline-error" hidden></small>
+</label>
+<label>New name
+<input name="name" placeholder="(leave blank to keep)" />
+</label>
+<label id="org-edit-type">Type
+<input name="org_type" placeholder="(leave blank to keep)" />
+</label>
+<label>Description
+<textarea name="description" rows="3" placeholder="(leave blank to keep)"></textarea>
+</label>
+<label id="org-edit-status">Status
+  <select name="status">
+    <option value="">(no change)</option>
+    <option value="active">Active</option>
+    <option value="archived">Archived</option>
+  </select>
+</label>
+<label>Adviser email
+  <input type="email" name="adviser_email" placeholder="(leave blank to keep)">
+</label>
+<div class="modal-actions">
+  <button type="button" class="btn btn-danger" id="org-delete-btn">Delete</button>
+  <button type="button" class="btn" data-close>Cancel</button>
+  <button type="submit" class="btn btn-primary">Save</button>
+</div>
+
+</form>
+</div>
+</div>
+
+<!-- Report Builder -->
+<div id="modal-report-builder" class="modal" aria-hidden="true">
+<div class="modal-box wide" role="dialog" aria-modal="true" aria-labelledby="rpt-title">
+<div class="modal-head">
+<h3 id="rpt-title">Build Analytics Report</h3>
+<button class="modal-x" data-close>×</button>
+</div>
+
+
+<form id="form-report-builder" class="form-grid grid-2">
+<!-- Date range (optional) -->
+<label>From date
+<input type="date" name="from" />
+</label>
+<label>To date
+<input type="date" name="to" />
+</label>
+
+
+<!-- Sections -->
+<fieldset class="seg span-2">
+<legend>Include sections</legend>
+<label class="check"><input type="checkbox" name="sec_summary" checked /> Summary KPIs</label>
+<label class="check"><input type="checkbox" name="sec_breakdown" checked /> Students & Advisers breakdown</label>
+<label class="check"><input type="checkbox" name="sec_topclubs" checked /> Top clubs (by members)</label>
+<label class="check"><input type="checkbox" name="sec_table" /> Per‑club quick table</label>
+</fieldset>
+
+
+<!-- Charts selection -->
+<fieldset class="seg span-2">
+<legend>Charts</legend>
+<label class="check"><input type="checkbox" name="chart_students" checked /> Students: in‑club vs unaffiliated (doughnut)</label>
+<label class="check"><input type="checkbox" name="chart_advisers" checked /> Advisers: with club vs without (doughnut)</label>
+<label class="check"><input type="checkbox" name="chart_top5" checked /> Top 5 clubs by members (bar)</label>
+<label class="check"><input type="checkbox" name="chart_new_accounts" /> New accounts over time (line)</label>
+<label class="check"><input type="checkbox" name="chart_active7" /> Active last 7 days (doughnut)</label>
+<label class="check"><input type="checkbox" name="chart_club_size_hist" /> Club size distribution (histogram)</label>
+<label class="check"><input type="checkbox" name="chart_top10" /> Top 10 clubs by members (bar)</label>
+
+</fieldset>
+
+<!-- Appendices -->
+<fieldset class="seg span-2">
+  <legend>Appendices</legend>
+
+  <label class="check">
+    <input type="checkbox" name="app_students" />
+    List new students in the selected date range
+  </label>
+
+  <label class="check">
+    <input type="checkbox" name="app_advisers" />
+    List new advisers in the selected date range
+  </label>
+
+ <div class="app-grid rb-club-row">
+  <label class="check top">
+
+      <input type="checkbox" name="app_clubmembers" />
+      <span>List members of a club
+        <small style="display:block; color:#6b7280;">(optional: filters by the same date range)</small>
+      </span>
+    </label>
+
+    <label>
+      <select id="rb-club-select" name="app_club_id">
+        <option value="">— Select a club —</option>
+      </select>
+    </label>
+  </div>
+</fieldset>
+
+
+
+
+<!-- Layout & name -->
+<label>Orientation
+<select name="orientation">
+<option value="portrait" selected>Portrait</option>
+<option value="landscape">Landscape</option>
+</select>
+</label>
+<label>File name
+<input type="text" name="filename" placeholder="SHS-Analytics-Report" />
+</label>
+
+
+<div class="modal-actions span-2">
+<button type="button" class="btn" data-close>Cancel</button>
+<button type="submit" class="btn btn-primary">Generate PDF</button>
+</div>
+</form>
+
+
+<!-- Offscreen chart staging area (kept hidden) -->
+<div id="report-stage" aria-hidden="true" style="position:fixed;left:-9999px;top:-9999px;opacity:0;pointer-events:none;"></div>
+</div>
+</div>
+</body>
+</html>
+
+

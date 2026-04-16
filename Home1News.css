@@ -1,0 +1,280 @@
+/* ───────────────── RESET & BASE ───────────────── */
+html, body { margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root{
+  --sidebar-width: 80px;            /* collapsed width */
+  --sidebar-width-expanded: 220px;  /* expanded width */
+  --navbar-height: 60px;
+  --toggle-size: 28px;              /* small circle size */
+}
+
+/* ───────────────── LEFT SIDEBAR ───────────────── */
+.side-nav{
+  position: fixed;
+  top: 0; bottom: 0; left: 0;
+  width: var(--sidebar-width);
+  background: #00008B;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 1rem 0; gap: 2rem;
+  z-index: 1000;
+  transition: width .25s ease;
+}
+.side-nav__logo{
+  width: 48px; height: 48px; object-fit: contain;
+  border-radius: 6px; background: #FF0;
+  box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  transition: transform .2s ease;
+}
+.side-nav__logo:hover{ transform: translateY(-2px) rotate(-1deg); }
+.side-nav__btn{
+  width: 48px; height: 48px; background: #FF0; border: 0; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  transition: transform .12s ease, box-shadow .18s ease;
+}
+.side-nav__btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 16px rgba(0,0,0,.18); }
+/* Hide old hamburger if still in DOM */
+.side-nav .side-nav__btn[aria-label="Menu"]{ display: none !important; }
+
+/* ───────────────── SIDEBAR TOGGLE (small circle overlapping edge) ───────────────── */
+.sidebar-toggle-btn{
+  position: fixed;
+  top: 60px; /* sits between logo and first icon */
+  left: calc(var(--sidebar-width) - (var(--toggle-size) / 2)); /* overlap edge */
+  width: var(--toggle-size); height: var(--toggle-size);
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #00008B;
+  color: #00008B;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 1200;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  transition: background .2s ease, color .2s ease, left .25s ease;
+}
+.sidebar-toggle-btn:hover{ background:#00008B; color:#fff; }
+.sidebar-toggle-btn .chev{ width:14px; height:14px; transition: transform .25s ease; }
+/* Rotate arrow when expanded */
+body.sidebar-expanded .sidebar-toggle-btn .chev{ transform: rotate(180deg); }
+/* Keep button aligned when expanded */
+body.sidebar-expanded .sidebar-toggle-btn{
+  left: calc(var(--sidebar-width-expanded) - (var(--toggle-size) / 2));
+}
+
+/* ───────────────── NAVBAR (L-shape, after sidebar) ───────────────── */
+.pill-nav{
+  position: fixed;
+  top: 0; left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  height: var(--navbar-height);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem;
+  margin: 0; border-radius: 0; border: none;
+  background: #fff; color: #000; border-bottom: 1px solid #ddd;
+  z-index: 1100;
+  transition: left .25s ease, width .25s ease;
+}
+.pill-nav__links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 2rem;
+  margin-left: auto;         /* push all the way to the right */
+  margin-right: 2rem;        /* "1 room" before the icons */
+  justify-content: flex-end;
+}
+.pill-nav__item a {
+  text-decoration: none;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .25rem 0;
+  line-height: 1.5; /* consistent across all pages */
+}
+
+.pill-nav__arrow {
+  color: #000;
+  display: inline-block;
+  vertical-align: middle; /* keeps it level with the text */
+}
+.pill-nav__item a:hover{ color:#00008B; }
+.pill-nav__arrow{ color:#000; }
+.pill-nav__icons{ display: flex; align-items: center; gap: 1.5rem; }
+.pill-nav__icon-btn{ background: none; border: 0; padding: .25rem; cursor: pointer; color:#000; display: inline-flex; align-items:center; justify-content:center; }
+.pill-nav__icon-btn:hover{ opacity:.8; }
+
+/* Dropdowns */
+.pill-nav .dropdown{ position: relative; }
+.pill-nav .dropdown-menu{
+  display: none; position: absolute; top: 100%; left: 0;
+  background: #fff; border: 1px solid #ccc; border-radius: 6px;
+  padding: .5rem 0; list-style: none; min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.1); z-index: 1200;
+}
+.pill-nav .dropdown-menu li a{ display:block; padding:.5rem 1rem; text-decoration:none; color:#000; font-size:.95rem; }
+.pill-nav .dropdown-menu li a:hover{ background:#f4f4f4; }
+.pill-nav .dropdown:hover .dropdown-menu,
+.pill-nav .dropdown .dropdown-menu:hover{ display:block; }
+
+/* ───────────────── CONTENT WRAPPER ───────────────── */
+.content-wrapper{
+  margin-left: var(--sidebar-width);
+  padding: 0 1rem 1rem 1rem;
+  padding-top: var(--navbar-height);
+  transition: margin-left .25s ease;
+}
+
+/* ───────────────── EXPANDED STATE (driven by body class) ───────────────── */
+body.sidebar-expanded { --sidebar-width: var(--sidebar-width-expanded); }
+body.sidebar-expanded .side-nav{ box-shadow: 8px 0 20px rgba(0,0,0,.12); filter: saturate(1.05); }
+body.sidebar-expanded .pill-nav{
+  left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+}
+body.sidebar-expanded .content-wrapper{
+  margin-left: var(--sidebar-width);
+}
+
+/* ───────────────── TOGGLE TABS ───────────────── */
+.toggle-btn{
+  padding: .75rem 1.5rem; font-size: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: 0; border-radius: 12px; background:#f4f4f4;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1); cursor: pointer;
+  transition: background .2s, color .2s;
+}
+.toggle-btn.active{ background:#ff0; color:#000; font-weight:600; }
+
+/* ───────────────── NEWS SECTION / CARDS ───────────────── */
+.news-section{ padding: 1rem 0; }
+.news-section__title{ font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
+.news-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+
+.news-card{
+  background:#fff; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,.1);
+  display:flex; flex-direction:column; overflow:hidden;
+  border: 1px solid #eee; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, opacity .35s ease;
+  will-change: transform; opacity:0; transform: translateY(8px);
+}
+.news-card.is-revealed{ opacity:1; transform: translateY(0); }
+.news-card:hover{ transform: translateY(-4px); box-shadow:0 16px 30px rgba(0,0,0,.10); border-color:#e6e6e6; }
+
+.news-card__photo{ background:#1E90FF; padding-top:56.25%; position:relative; overflow:hidden; }
+.news-card__photo::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,.25) 30%, transparent 45%);
+  transform: translateX(-120%); transition: transform .7s ease;
+}
+.news-card:hover .news-card__photo::after{ transform: translateX(120%); }
+
+.news-card__meta{ display:flex; align-items:center; gap:.5rem; padding:.75rem 1rem 0; color:#555; font-size:.9rem; }
+.news-card__meta .icon-calendar{ width:1.2rem; height:1.2rem; fill:none; stroke:#555; stroke-width:2; }
+
+.news-card__headline{ font-size:1.1rem; font-weight:600; margin:.5rem 1rem; line-height:1.3; color:#222; }
+.news-card__summary{ flex:1; font-size:.95rem; color:#444; margin:0 1rem 1rem; line-height:1.4; }
+
+.news-card__footer{ display:flex; align-items:center; justify-content:space-between; padding:.75rem 1rem; border-top:1px solid #eee; }
+.news-card__readmore{ text-decoration:none; color:#2146C7; font-weight:600; font-size:.95rem; position:relative; display:inline-flex; align-items:center; gap:.35rem; }
+.news-card__readmore::after{ content:"→"; transform: translateX(-2px); transition: transform .18s ease; }
+.news-card__readmore:hover::after{ transform: translateX(2px); }
+
+.news-card__fave{ background:none; border:0; cursor:pointer; padding:0; }
+.news-card__fave svg{ width:1.5rem; height:1.5rem; fill:none; stroke:#222; stroke-width:2; transition: transform .12s ease, fill .18s ease, stroke .18s ease; }
+.news-card__fave.is-on svg{ fill:#ff4d6d; stroke:#ff4d6d; transform: scale(1.08); }
+
+/* ───────────────── LOGOUT CONFIRM MODAL ───────────────── */
+#logoutConfirmOverlay{
+  display:none; position:fixed; inset:0; background: rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  justify-content:center; align-items:center; z-index:2000;
+}
+#logoutConfirmOverlay.active{ display:flex; }
+#logoutConfirmOverlay .modal-box{
+  background:#fff; padding:1.5rem 2rem; border-radius:12px; box-shadow:0 8px 16px rgba(0,0,0,.2);
+  max-width:360px; width:90%; text-align:center;
+  transform: translateY(-10px); transition: transform .2s ease, opacity .22s ease; opacity:1;
+}
+#logoutConfirmOverlay.active .modal-box{ transform: translateY(0); opacity:1; }
+#logoutConfirmOverlay .modal-box h4{ margin:0 0 1rem; font-size:1.3rem; font-weight:600; color:#222; }
+#logoutConfirmOverlay .modal-box .btns{ display:flex; justify-content:center; gap:1rem; margin-top:1.25rem; }
+#logoutConfirmOverlay .modal-box button{
+  min-width:80px; padding:.6rem 1rem; border:0; border-radius:6px; font-size:.95rem; font-weight:500; cursor:pointer; transition: background .2s, transform .1s;
+}
+#logoutConfirmOverlay .btn-no{ background:#e0e0e0; color:#333; }
+#logoutConfirmOverlay .btn-no:hover{ background:#d1d1d1; transform: translateY(-1px); }
+#logoutConfirmOverlay .btn-yes{ background:#d9534f; color:#fff; }
+#logoutConfirmOverlay .btn-yes:hover{ background:#c9302c; transform: translateY(-1px); }
+
+/* ───────────────── PAGE BACKGROUND / FONT ───────────────── */
+body{
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(255,255,0,.07), transparent 60%),
+    radial-gradient(900px 500px at 120% 10%, rgba(30,144,255,.06), transparent 55%),
+    #f9fafb;
+  color:#111;
+}
+
+/* ───────────────── ACCESSIBILITY ───────────────── */
+@media (prefers-reduced-motion: reduce){
+  *{ transition:none !important; animation:none !important; }
+}
+
+/* === Fix 1: keep nav tabs on the RIGHT === */
+.pill-nav__links {
+  margin-left: auto !important;     /* push links cluster to the right */
+  justify-content: flex-end !important;
+  gap: 2rem !important;             /* keep comfy spacing */
+}
+
+/* === Fix 2: lock the arrow circle size + position === */
+:root {
+  --toggle-size: 28px;              /* small circle */
+}
+.sidebar-toggle-btn {
+  width: var(--toggle-size) !important;
+  height: var(--toggle-size) !important;
+  left: calc(var(--sidebar-width) - (var(--toggle-size) / 2)) !important;
+  top: 60px !important;             /* adjust if you want it higher/lower */
+  transform: none !important;       /* prevent any prior translate from moving it */
+  border: 2px solid #00008B !important;
+  background: #fff !important;
+  color: #00008B !important;
+}
+.sidebar-toggle-btn:hover {
+  background: #00008B !important;   /* blue hover */
+  color: #fff !important;
+}
+.sidebar-toggle-btn .chev {
+  width: 14px !important;
+  height: 14px !important;
+}
+body.sidebar-expanded .sidebar-toggle-btn {
+  left: calc(var(--sidebar-width-expanded) - (var(--toggle-size) / 2)) !important;
+}
+
+/* === Position arrow toggle between sidebar top and navbar === */
+.sidebar-toggle-btn {
+  top: calc(var(--navbar-height) / 2 - var(--toggle-size) / 2) !important;
+}
+.toggle-tabs {
+  position: relative;
+  display: flex;
+  gap: .5rem;
+  margin: 1.5rem 0 1.25rem; /* increased top margin from ~0.75rem to 1.5rem */
+}
+
+.modal-box .modal-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+.modal-box .modal-icon svg {
+  width: 48px;
+  height: 48px;
+}
+

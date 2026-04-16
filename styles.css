@@ -1,0 +1,805 @@
+/* ── RESET & BASE ── */
+* { 
+  box-sizing: border-box; 
+  margin:0; 
+  padding:0; 
+  font-family:'Segoe UI',Tahoma,Verdana,sans-serif; 
+}
+
+html,body { 
+  height:100%; 
+  display:flex; 
+  flex-direction:column; 
+}
+
+body { 
+  background:url('https://www.sti.edu/cms/images/school/all/global.jpg') 
+  no-repeat center/cover fixed; }
+
+/* ── LAYOUT ── */
+.wrapper { 
+  flex:1; 
+  display:flex; 
+  flex-direction:column; 
+}
+
+main { 
+  flex:1; 
+  position:relative; 
+}
+
+.top-gap { 
+  height:10px; 
+  background:#00008B; }
+
+/* ── HEADER ── */
+.main-header { 
+  background:#fff; 
+  padding:10px 20px; 
+  box-shadow:0 2px 5px rgba(0,0,0,0.1); 
+}
+
+.header-content { 
+  display:flex; 
+  align-items:center; 
+  gap:5px; 
+}
+  
+.main-header h1 { 
+  font-size:24px; 
+  color:#00008B; 
+}
+
+.stiLogo { 
+  height:30px; 
+}
+
+
+
+/* ── LOGIN BOX ── */
+.login-box { 
+  position:absolute; 
+  top:100px; 
+  right:40px; 
+  width:200px; 
+  background:#fff; 
+  padding:20px; 
+  border-radius:10px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.15); 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  gap:15px; 
+}
+
+.login-logo { 
+  width:100px; 
+  border-radius:5px; 
+}
+
+.login-btn { 
+  width:100%; 
+  padding:10px 15px; 
+  background:#00008B; 
+  color:#fff; border:none; 
+  border-radius:5px; 
+  font-weight:bold; 
+  cursor:pointer; 
+}
+
+.login-btn:hover { 
+  background:#000066; 
+}
+
+/* ── POPUP OVERLAY ── */
+.login-popup { 
+  display:none; 
+  position:fixed; 
+  inset:0; background:rgba(0,0,0,0.4); 
+  backdrop-filter:blur(2px);
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  z-index:999; 
+}
+
+/* ── POPUP CONTENT ── */
+.login-popup-content { 
+  width:90%; 
+  max-width:420px; 
+  padding:20px; 
+  background:#fff; 
+  border-radius:12px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2); 
+  overflow-y:auto; max-height:80vh; 
+  position:relative; 
+  text-align:left; 
+  overflow-x: hidden;
+}
+
+/* ── POPUP TABS ── */
+.popup-tabs { 
+  display:flex; 
+  background:#E6E6E6; 
+  border-radius:12px; 
+  overflow:hidden; 
+  margin-bottom:1rem; 
+}
+
+.popup-tabs .tab { 
+  flex:1; 
+  padding:0.75rem; 
+  text-align:center; 
+  font-weight:600; color:#A4A4A4; 
+  background:transparent; 
+  border:none; 
+  cursor:pointer; 
+}
+
+.popup-tabs .tab.active { 
+  background:#fff; 
+  color:#27286C; 
+  box-shadow:inset 0 -2px 0 #27286C; 
+}
+
+/* ── SUBTABS ── */
+.popup-subtabs { 
+  display:flex; 
+  gap:0.5rem; 
+  margin-bottom:1rem; 
+}
+
+.popup-subtabs .subtab { 
+  flex:1; 
+  padding:0.5rem; 
+  border:none; 
+  border-radius:12px; 
+  font-weight:600; 
+  background:#E6E6E6; 
+  color:#A4A4A4; 
+  cursor:pointer; 
+  text-align:center; 
+}
+
+.popup-subtabs .subtab.active { 
+  background:#2146C7; 
+  color:#fff; 
+}
+
+/* ── ROLE & VIEW SWITCHING ── */
+.role-view { 
+  display:none; 
+}
+.role-view.active { 
+  display:block; 
+}
+.views .view { 
+  display:none; 
+}
+.views .view.active { 
+  display:block; 
+}
+
+/* ── FORM STYLES ── */
+.popup-title { 
+  font-size:1.1rem; 
+  color:#27286C; 
+  text-transform:uppercase; 
+  letter-spacing:0.5px; 
+  margin-bottom:0.75rem; 
+}
+
+.popup-form label { 
+  display:block; 
+  margin-bottom:0.25rem; 
+  font-size:0.85rem; 
+  color:#27286C; 
+}
+
+.popup-form input { 
+  width:100%; 
+  padding:0.5rem 0.75rem; 
+  margin-bottom:0.75rem; 
+  font-size:0.9rem; 
+  border:2px solid #27286C; 
+  border-radius:12px; 
+}
+
+.name-row { 
+  display:flex; 
+  gap:0.25rem; 
+  margin-bottom:0.75rem; 
+}
+
+.name-row > div { 
+  flex:1; 
+}
+
+/* ── TERMS ── */
+/* ── TERMS ROW ── */
+.terms {
+  display: flex;           /* put checkbox + text on one line */
+  align-items: center;     /* vertical‐center them */
+  gap: 0.5rem;             /* space between box and text */
+  margin: 1rem 0;          /* breathing room above & below */
+}
+
+.terms input[type="checkbox"] {
+  margin: 0;               /* kill any default shift */
+  width: auto;
+  height: auto;
+  flex-shrink: 0;          /* don’t let the box shrink */
+}
+
+.terms label {
+  margin: 0;               /* no extra margins */
+  font-size: 0.85rem;      /* match your other labels */
+  color: #27286C;
+  line-height: 1.2;        /* vertical align with the box */
+}
+.terms a { 
+  color:#2146C7; 
+  text-decoration:none; 
+
+}
+
+/* ── PASSWORD TOGGLE ── */
+.password-wrapper { 
+  position:relative; 
+}
+
+.password-wrapper input { 
+  padding-right:3rem; 
+}
+
+.toggle-pw { 
+  position:absolute; 
+  top:35%; right:1rem; 
+  transform:translateY(-50%); 
+  background:none; 
+  border:none; 
+  font-size:1.2rem; 
+  cursor:pointer; 
+}
+
+/* ── LINKS & BUTTONS ── */
+.forgot-link { 
+  display:block; 
+  text-align:right; 
+  margin-bottom:1rem; 
+  font-size:0.85rem; 
+  color:#A4A4A4; 
+  text-decoration:none; 
+}
+
+.btn-login { 
+  width:100%; 
+  padding:0.6rem 0; 
+  background:#2146C7; 
+  color:#fff; border:none; 
+  border-radius:12px; 
+  font-size:0.95rem; 
+  cursor:pointer; 
+}
+
+.btn-login:hover { 
+  background:#27286C; 
+}
+
+/* ── FOOTER ── */
+.main-footer { 
+  background:#00008B; 
+  color:#fff; 
+  text-align:center; 
+  padding:15px 10px; 
+  font-size:14px; 
+  font-family:'Montserrat',sans-serif; 
+  border-top:3px solid #fff; 
+}
+
+/* 1) Make the popup a flex‐column container */
+.login-popup-content {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;      /* never taller than the screen */
+  box-sizing: border-box;
+}
+
+/* 2) Let everything _below_ the subtabs scroll */
+.popup-tabs,
+.popup-subtabs {
+  flex: 0 0 auto;        /* fixed height */
+}
+
+.views {
+  flex: 1 1 auto;        /* fill remaining space */
+  overflow-y: auto;      /* scroll internally */
+  /* remove any previous overflow-x rules if present */
+}
+
+/* 3) Pin the primary button to the bottom of that scroll container */
+.views .btn-login {
+  position: sticky;
+  bottom: 0;
+  margin: 0.75rem 0;     /* give it breathing room */
+  z-index: 10;           /* sit on top of the scrolling form */
+}
+
+/* 5) Optional: ensure the card itself never overflows horizontally */
+.login-popup-content {
+  overflow-x: hidden;
+}
+/* ───── REMOVE SCROLLBARS & AUTO-SIZE THE CARD ───── */
+.login-popup-content {
+  /* undo any height limits */
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+
+  /* revert back to content-sized block layout */
+  display: block !important;
+}
+
+/* Undo the flex/scroll behaviour in the form */
+.popup-form {
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+}
+
+/* Ensure the form-body doesn’t clip */
+.form-body {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* Remove any scroll on the views container */
+.views {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* ── AUTH MODALS ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.modal-box h3 {
+  margin-bottom: 0.5rem;
+  color: #27286C;
+}
+.modal-box p {
+  margin-bottom: 1rem;
+  color: #555;
+}
+.modal-box input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+.modal-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2146C7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.modal-btn:hover {
+  background: #27286C;
+}
+
+/* ── CODE VERIFICATION STYLES ── */
+.modal-overlay#codeModal {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  justify-content: center; align-items: center;
+  z-index: 1000;
+}
+.modal-overlay#codeModal .modal-box {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* close “X” */
+.modal-overlay#codeModal .close-btn {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: none; border: none;
+  font-size: 1.5rem; line-height: 1;
+  cursor: pointer; color: #555;
+}
+
+/* header */
+.verify-header {
+  display: flex; align-items: center;
+  gap: 0.75rem; margin-bottom: 1rem;
+}
+.verify-header .icon-mail {
+  width: 24px; height: 24px;
+  fill: #27286C;
+}
+.verify-header h3 {
+  margin: 0; font-size: 1.25rem;
+  color: #27286C;
+}
+
+/* subtext */
+.verify-subtext {
+  margin-bottom: 1.5rem;
+  color: #333; line-height: 1.4;
+  font-size: 0.95rem;
+}
+.verify-subtext .verify-email {
+  color: #2146C7;
+  font-weight: 500;
+}
+
+/* code input */
+.verify-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: #27286C;
+}
+.verify-input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.25rem;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+/* verify button */
+.verify-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #232C7E;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+}
+.verify-btn:hover {
+  background: #1B225E;
+}
+
+/* expiration info */
+.verify-info {
+  display: flex; align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+.verify-info .icon-clock {
+  width: 16px; height: 16px;
+  fill: #555;
+}
+
+/* footer resend link */
+.verify-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #555;
+}
+.verify-footer a {
+  color: #2146C7;
+  text-decoration: none;
+  margin-left: 0.25rem;
+}
+
+/* ── SUCCESS MODAL ── */
+.modal-overlay#successModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay#successModal .modal-box {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.modal-overlay#successModal .close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #555;
+}
+
+.modal-overlay#successModal svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+}
+
+.modal-overlay#successModal h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: #27286C;
+}
+
+.modal-overlay#successModal p {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.modal-overlay#successModal .modal-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2146C7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-overlay#successModal .modal-btn:hover {
+  background: #27286C;
+}
+
+/* Subtabs layout + animation (final) */
+.popup-subtabs {
+  display: flex;
+  width: 100%;
+  gap: .5rem;
+  align-items: center;
+}
+
+/* Keep default student behavior: both tabs share space equally */
+.popup-subtabs .subtab {
+  flex: 1 1 0%;
+  min-width: 0;
+  transition:
+    flex .25s ease,
+    max-width .25s ease,
+    opacity .25s ease,
+    transform .25s ease,
+    padding .25s ease,
+    margin .25s ease,
+    border-width .25s ease;
+}
+
+/* Admin → Login fills smoothly */
+.popup-subtabs .subtab.full {
+  flex: 1 1 100% !important;
+  max-width: 100% !important;
+}
+
+/* Admin → Register collapses smoothly */
+.popup-subtabs .subtab.collapse {
+  flex: 0 0 0 !important;
+  max-width: 0 !important;
+  opacity: 0;
+  transform: scale(0.98);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  border-width: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Smooth width animation for subtabs */
+.popup-subtabs {
+  display: flex;
+  width: 100%;
+  gap: .5rem;
+  align-items: center;
+}
+
+.popup-subtabs .subtab {
+  transition: width .25s ease, opacity .25s ease, transform .25s ease;
+  white-space: nowrap;
+}
+
+/* when collapsed, also fade/scale slightly (JS handles width) */
+.popup-subtabs .subtab.is-collapsing {
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+}
+
+/* --- Smooth subtab animation (CSS-only) --- */
+.popup-subtabs {
+  display: flex;              /* required for the stretch */
+  width: 100%;
+  gap: .5rem;
+  align-items: center;
+}
+
+.popup-subtabs .subtab {
+  flex: 1 1 0%;
+  max-width: 50%;             /* default: each gets half */
+  min-width: 0;
+  transition:
+    max-width .28s ease,
+    opacity .28s ease,
+    transform .28s ease,
+    padding .28s ease,
+    margin .28s ease,
+    border-width .28s ease;
+}
+
+/* Admin → collapse Register; Login automatically takes the rest */
+.popup-subtabs .subtab.subtab--collapse {
+  max-width: 0;
+  opacity: 0;
+  transform: scale(0.98);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  border-width: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.popup-subtabs .subtab { overflow: hidden; }
+
+/* === Subtabs: single source of truth === */
+.popup-subtabs {
+  display: flex;
+  width: 100%;
+  gap: .5rem;
+  align-items: center;
+}
+
+/* Default: Student → both tabs share evenly */
+.popup-subtabs .subtab {
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 50%;
+  transition:
+    max-width .30s ease,
+    opacity .30s ease,
+    transform .30s ease,
+    padding .30s ease,
+    margin .30s ease,
+    border-width .30s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Admin: make Login fill the row */
+.popup-subtabs .subtab.subtab--full {
+  max-width: 100%;
+}
+
+/* Admin: collapse Register smoothly */
+.popup-subtabs .subtab.subtab--collapse {
+  max-width: 0;
+  opacity: 0;
+  transform: scale(0.98);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  border-width: 0 !important;
+  pointer-events: none;
+}
+
+/* --- Smooth panel enter animation for login/register views --- */
+.views {
+  position: relative;
+}
+
+.views .view {
+  display: none;                 /* your current show/hide logic stays */
+}
+
+.views .view.active {
+  display: block;
+  animation: panelIn .28s ease;  /* run on every activation */
+  transform-origin: top;         /* expansion feels like it grows downward */
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scaleY(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.views { position: relative; }
+.views .view { display: none; }
+.views .view.active {
+  display: block;
+  animation: panelIn .28s ease;
+  transform-origin: top;
+}
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(6px) scaleY(0.98); }
+  to   { opacity: 1; transform: translateY(0)  scaleY(1); }
+}
+
+
+/* ===== Forgot Password (matches your theme) ===== */
+.forgot-box h3 { color:#27286C; margin-bottom:.25rem; }
+.fp-sub { color:#555; margin:.25rem 0 1rem; }
+
+.fp-steps { display:flex; gap:12px; margin:4px 0 16px; }
+.fp-step { display:flex; align-items:center; gap:8px; color:#9aa0a6; }
+.fp-step span{
+  display:inline-grid; place-items:center;
+  width:28px; height:28px; border-radius:999px;
+  border:2px solid #cfd4dc; font-weight:700; color:#6b7280; background:#fff;
+}
+.fp-step.is-active span{ border-color:#2146C7; color:#2146C7; }
+.fp-step label{ font-size:12px; }
+
+.fp-form { margin:8px 0 12px; }
+.fp-label { display:block; margin:8px 0 6px; font-size:.9rem; color:#27286C; font-weight:600; }
+.fp-input {
+  width:100%; padding:.6rem .75rem; font-size:1rem;
+  border:2px solid #27286C; border-radius:12px;
+}
+.fp-input:focus { outline:none; box-shadow:0 0 0 3px rgba(33,70,199,.12); }
+
+.fp-hint { font-size:.85rem; color:#666; margin-top:.25rem; }
+.fp-hint-list { margin:.25rem 0 0 1rem; color:#666; font-size:.85rem; }
+
+.fp-actions { display:flex; gap:.5rem; justify-content:flex-end; margin-top:.75rem; }
+.modal-btn.fp-secondary { background:#f3f4f6; color:#111; }
+.modal-btn.fp-secondary:hover { background:#e5e7eb; }
+
+.fp-help { margin:12px 0 4px; padding:12px; border:1px dashed #e5e7eb; border-radius:10px; }
+.fp-help h4 { margin:0 0 .25rem; color:#27286C; }
+.fp-contact { display:grid; gap:4px; font-size:.95rem; }
+.fp-contact a { color:#2146C7; text-decoration:underline; text-underline-offset:2px; }
+
+.is-hidden { display:none !important; }
